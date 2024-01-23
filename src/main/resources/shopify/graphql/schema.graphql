@@ -1,0 +1,25 @@
+input CustomerCreateInput {
+    firstName: String!
+
+    lastName: String!
+
+    email: String!
+
+    password: String!
+}
+
+type CustomerCreatePayload {
+    customer: Customer!
+}
+
+type Customer {
+    id: ID!
+}
+
+type Mutation {
+    customerCreate(input: CustomerCreateInput!): CustomerCreatePayload!
+}
+
+schema {
+    mutation: Mutation
+}

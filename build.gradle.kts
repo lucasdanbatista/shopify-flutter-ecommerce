@@ -7,7 +7,7 @@ plugins {
     kotlin("plugin.spring") version "1.9.22"
     kotlin("plugin.jpa") version "1.9.22"
     kotlin("plugin.noarg") version "1.9.22"
-    kotlin("plugin.allopen") version "1.9.22"
+    id("com.expediagroup.graphql") version "7.0.2"
 }
 
 group = "me.lucasbatista"
@@ -28,8 +28,8 @@ repositories {
 }
 
 dependencies {
+    implementation("com.expediagroup:graphql-kotlin-spring-client:7.0.2")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -37,7 +37,6 @@ dependencies {
     runtimeOnly("com.h2database:h2")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.security:spring-security-test")
 }
 
 tasks.withType<KotlinCompile> {
@@ -57,4 +56,11 @@ allOpen {
 
 noArg {
     annotation("jakarta.persistence.Entity")
+}
+
+graphql {
+    client {
+        packageName = "me.lucasbatista.vienna.shopify.graphql"
+        schemaFile = File("src/main/resources/shopify/graphql/schema.graphql")
+    }
 }

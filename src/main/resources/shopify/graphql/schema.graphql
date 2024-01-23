@@ -14,9 +14,19 @@ type Mutation {
 
 type Query {
     productTags(first: Int!): StringConnection!
+
+    products(query: String!, first: Int!): ProductCollection!
 }
 
 ### Models ###
+
+type Product {
+    id: String!
+}
+
+type ProductCollection {
+    nodes: [Product!]!
+}
 
 type Customer {
     id: ID!

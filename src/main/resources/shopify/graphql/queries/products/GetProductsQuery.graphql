@@ -1,0 +1,7 @@
+query GetProductsQuery($query: String!) {
+    products(query: $query, first: 250) {
+        nodes {
+            id
+        }
+    }
+}

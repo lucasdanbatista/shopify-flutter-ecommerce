@@ -8,8 +8,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class ShopifyCategoryRepository(private val client: ShopifyGraphQLClient) : CategoryRepository {
-    override fun getCategories() =
-        client.executeAsAdmin(GetCategoriesQuery()).data!!.productTags.edges.map {
-            Category(it.node)
-        }
+    override fun findAll() = client.executeAsAdmin(GetCategoriesQuery())
+        .data!!.productTags.edges.map { Category(it.node) }
 }

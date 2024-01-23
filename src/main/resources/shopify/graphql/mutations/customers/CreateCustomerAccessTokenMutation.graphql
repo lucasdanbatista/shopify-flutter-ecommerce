@@ -1,0 +1,7 @@
+mutation CreateCustomerAccessTokenMutation($input: CustomerAccessTokenCreateInput!){
+    customerAccessTokenCreate(input: $input){
+        customerAccessToken{
+            accessToken
+        }
+    }
+}

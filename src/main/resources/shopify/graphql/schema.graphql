@@ -1,3 +1,27 @@
+### Schema ###
+
+schema {
+    mutation: Mutation
+}
+
+type Mutation {
+    customerCreate(input: CustomerCreateInput!): CustomerCreatePayload!
+
+    customerAccessTokenCreate(input: CustomerAccessTokenCreateInput!): CustomerAccessTokenCreatePayload!
+}
+
+### Models ###
+
+type Customer {
+    id: ID!
+}
+
+type CustomerAccessToken {
+    accessToken: String!
+}
+
+### Inputs ###
+
 input CustomerCreateInput {
     firstName: String!
 
@@ -8,18 +32,18 @@ input CustomerCreateInput {
     password: String!
 }
 
+input CustomerAccessTokenCreateInput {
+    email: String!
+
+    password: String!
+}
+
+### Payloads ###
+
 type CustomerCreatePayload {
     customer: Customer!
 }
 
-type Customer {
-    id: ID!
-}
-
-type Mutation {
-    customerCreate(input: CustomerCreateInput!): CustomerCreatePayload!
-}
-
-schema {
-    mutation: Mutation
+type CustomerAccessTokenCreatePayload {
+    customerAccessToken: CustomerAccessToken!
 }

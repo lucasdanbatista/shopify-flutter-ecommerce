@@ -6,8 +6,6 @@ plugins {
     id("com.expediagroup.graphql") version "7.0.2"
     kotlin("jvm") version "1.9.22"
     kotlin("plugin.spring") version "1.9.22"
-    kotlin("plugin.jpa") version "1.9.22"
-    kotlin("plugin.noarg") version "1.9.22"
 }
 
 group = "me.lucasbatista"
@@ -29,12 +27,10 @@ repositories {
 
 dependencies {
     implementation("com.expediagroup:graphql-kotlin-spring-client:7.0.2")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
-    runtimeOnly("com.h2database:h2")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
@@ -48,14 +44,6 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
-}
-
-allOpen {
-    annotation("jakarta.persistence.Entity")
-}
-
-noArg {
-    annotation("jakarta.persistence.Entity")
 }
 
 graphql {

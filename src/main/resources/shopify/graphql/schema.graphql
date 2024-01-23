@@ -1,6 +1,8 @@
 ### Schema ###
 
 schema {
+    query: Query
+
     mutation: Mutation
 }
 
@@ -8,6 +10,10 @@ type Mutation {
     customerCreate(input: CustomerCreateInput!): CustomerCreatePayload!
 
     customerAccessTokenCreate(input: CustomerAccessTokenCreateInput!): CustomerAccessTokenCreatePayload!
+}
+
+type Query {
+    productTags(first: Int!): StringConnection!
 }
 
 ### Models ###
@@ -18,6 +24,14 @@ type Customer {
 
 type CustomerAccessToken {
     accessToken: String!
+}
+
+type StringEdge {
+    node: String!
+}
+
+type StringConnection {
+    edges: [StringEdge!]!
 }
 
 ### Inputs ###

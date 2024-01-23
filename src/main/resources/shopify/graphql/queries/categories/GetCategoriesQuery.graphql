@@ -1,0 +1,7 @@
+query GetCategoriesQuery {
+    productTags(first: 250) {
+        edges {
+            node
+        }
+    }
+}

@@ -18,13 +18,11 @@ class CustomerController(
         @RequestPart email: String,
         @RequestPart password: String,
     ): AuthenticationTokenDTO {
-        val authenticationToken = authenticationTokenRepository.issue(
+        val result = authenticationTokenRepository.issue(
             email = email,
             password = password,
         )
-        return AuthenticationTokenDTO.Builder()
-            .withAccessToken(authenticationToken.accessToken)
-            .build()
+        return AuthenticationTokenDTO(result.accessToken)
     }
 
     @PostMapping("/sign-up")
@@ -35,8 +33,6 @@ class CustomerController(
             email = body.email,
             password = body.password,
         )
-        return CustomerDTO.Builder()
-            .withId(result.id)
-            .build()
+        return CustomerDTO(result.id)
     }
 }

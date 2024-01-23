@@ -8,7 +8,7 @@ import me.lucasbatista.vienna.shopify.graphql.inputs.CustomerAccessTokenCreateIn
 import org.springframework.stereotype.Repository
 
 @Repository
-class ShopifyAuthenticationRepository(private val client: ShopifyGraphQLClient) :
+class ShopifyAuthenticationTokenRepository(private val client: ShopifyGraphQLClient) :
     AuthenticationTokenRepository {
     override fun issue(email: String, password: String): AuthenticationToken {
         val result = client.executeAsAdmin(

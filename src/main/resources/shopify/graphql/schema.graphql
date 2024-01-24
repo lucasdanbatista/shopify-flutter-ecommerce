@@ -15,16 +15,44 @@ type Mutation {
 type Query {
     productTags(first: Int!): StringConnection!
 
-    products(query: String!, first: Int!): ProductCollection!
+    products(query: String!, first: Int!): ProductConnection!
+
+    product(id: ID!): Product!
 }
 
 ### Models ###
 
 type Product {
     id: String!
+
+    title: String!
+
+    description: String!
+
+    images(first: Int!): ImageConnection!
+
+    variants(first: Int!): ProductVariantConnection!
 }
 
-type ProductCollection {
+scalar Decimal
+
+type MoneyV2 {
+    amount: Decimal!
+}
+
+type ProductVariant {
+    id: ID!
+
+    compareAtPrice: MoneyV2!
+
+    price: MoneyV2!
+}
+
+type ProductVariantConnection {
+    nodes: [ProductVariant!]!
+}
+
+type ProductConnection {
     nodes: [Product!]!
 }
 
@@ -42,6 +70,14 @@ type StringEdge {
 
 type StringConnection {
     edges: [StringEdge!]!
+}
+
+type Image {
+    url: String!
+}
+
+type ImageConnection {
+    nodes: [Image!]!
 }
 
 ### Inputs ###

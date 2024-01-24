@@ -1,0 +1,23 @@
+query GetProductByIdQuery($id: ID!) {
+    product(id: $id) {
+        id
+        title
+        description
+        images(first: 10) {
+            nodes {
+                url
+            }
+        }
+        variants(first: 10) {
+            nodes {
+                id
+                compareAtPrice {
+                    amount
+                }
+                price {
+                    amount
+                }
+            }
+        }
+    }
+}

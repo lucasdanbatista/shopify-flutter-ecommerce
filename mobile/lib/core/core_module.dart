@@ -9,7 +9,7 @@ class CoreModule implements Module {
   void init(GetIt i) {
     i.registerLazySingleton<Environment>(() => DebugEnvironment());
     i.registerLazySingleton<ProductRepository>(
-      () => DefaultProductRepository(i.get(), i.get()),
+      () => DefaultProductRepository(i.get(), i.get(), i.get()),
     );
   }
 }

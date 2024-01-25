@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../util/route.dart';
+import '../category_details/category_details_page.dart';
+import '../category_details/category_details_route.dart';
 import '../product_details/product_details_page.dart';
 import '../product_details/product_details_route.dart';
 
@@ -15,6 +17,16 @@ class SamplePage extends StatelessWidget {
       ),
       body: ListView(
         children: [
+          ListTile(
+            leading: const Icon(Icons.category_outlined),
+            title: const Text('Detalhes da categoria'),
+            onTap: () => context.pushRoute(
+              CategoryDetailsRoute(),
+              args: CategoryDetailsArguments(
+                categoryId: 'moda feminina',
+              ),
+            ),
+          ),
           ListTile(
             leading: const Icon(Icons.shopping_bag_outlined),
             title: const Text('Detalhes do produto'),

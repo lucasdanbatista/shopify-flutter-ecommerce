@@ -1,6 +1,5 @@
 package me.lucasbatista.vienna.api.dto
 
-import ProductVariantDTO
 import java.net.URL
 
 data class ProductDTO(

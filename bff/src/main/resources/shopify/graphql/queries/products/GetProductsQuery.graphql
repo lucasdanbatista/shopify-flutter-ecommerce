@@ -2,6 +2,22 @@ query GetProductsQuery($query: String!) {
     products(query: $query, first: 250) {
         nodes {
             id
+            title
+            variants(first: 1){
+                nodes {
+                    compareAtPrice {
+                        amount
+                    }
+                    price {
+                        amount
+                    }
+                }
+            }
+            images(first: 1){
+                nodes {
+                    url
+                }
+            }
         }
     }
 }

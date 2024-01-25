@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 
 import 'core/core_module.dart';
 import 'core/module.dart';
+import 'features/category_details/category_details_module.dart';
+import 'features/category_details/category_details_route.dart';
 import 'features/product_details/product_details_module.dart';
 import 'features/product_details/product_details_route.dart';
 import 'features/sample/sample_route.dart';
@@ -16,12 +18,14 @@ void main() {
     CoreModule(),
     MappersModule(),
     WebServicesModule(),
+    CategoryDetailsModule(),
     ProductDetailsModule(),
   ]);
   runApp(
     MainApp(
       routes: [
         SampleRoute(),
+        CategoryDetailsRoute(),
         ProductDetailsRoute(),
       ],
     ),

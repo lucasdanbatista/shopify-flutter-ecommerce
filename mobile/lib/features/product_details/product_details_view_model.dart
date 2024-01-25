@@ -13,7 +13,6 @@ class ProductDetailsViewModel {
     ObservedData.empty(),
   );
 
-  void fetch(String id) async {
-    product.value = ObservedData.found(await _repository.findById(id));
-  }
+  void fetch(String id) async =>
+      product.value = ObservedData.found(await _repository.findById(id));
 }

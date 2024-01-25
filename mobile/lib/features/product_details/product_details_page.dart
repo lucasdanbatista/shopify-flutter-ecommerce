@@ -130,11 +130,8 @@ class ProductDetailsPage extends StatelessWidget with InitStateMixin {
                 ),
               ),
             );
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
           }
+          return const Center(child: CircularProgressIndicator());
         },
       ),
     );

@@ -7,7 +7,14 @@ import me.lucasbatista.vienna.shopify.graphql.ShopifyGraphQLClient
 import org.springframework.stereotype.Repository
 
 @Repository
-class ShopifyCategoryRepository(private val client: ShopifyGraphQLClient) : CategoryRepository {
-    override fun findAll() = client.executeAsAdmin(GetCategoriesQuery())
-        .data!!.productTags.edges.map { Category(it.node) }
+class ShopifyCategoryRepository(private val client: ShopifyGraphQLClient) :
+    CategoryRepository {
+    override fun findAll() = client
+        .executeAsAdmin(GetCategoriesQuery())
+        .data!!.productTags.edges.map {
+            Category(
+                id = it.node,
+                title = it.node,
+            )
+        }
 }

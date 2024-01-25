@@ -8,6 +8,7 @@ import me.lucasbatista.vienna.shopify.graphql.GetProductsQuery
 import me.lucasbatista.vienna.shopify.graphql.ShopifyGraphQLClient
 import org.springframework.stereotype.Repository
 import java.net.URI
+import java.net.URL
 
 @Repository
 class ShopifyProductRepository(private val client: ShopifyGraphQLClient) : ProductRepository {
@@ -17,9 +18,17 @@ class ShopifyProductRepository(private val client: ShopifyGraphQLClient) : Produ
                 GetProductsQuery.Variables("tag:$id"),
             ),
         ).data!!.products.nodes
-        return result.map {
+        return result.map { it ->
             Product(
                 id = it.id.split("/").last(),
+                images = it.images.nodes.map { URL(it.url) },
+                title = it.title,
+                variants = it.variants.nodes.map {
+                    ProductVariant(
+                        originalPrice = it.compareAtPrice.amount.toDouble(),
+                        sellingPrice = it.price.amount.toDouble(),
+                    )
+                },
             )
         }
     }

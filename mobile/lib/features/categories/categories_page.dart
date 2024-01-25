@@ -38,7 +38,19 @@ class CategoriesPage extends StatelessWidget with InitStateMixin {
               itemBuilder: (context, index) {
                 final category = data.value[index];
                 return ListTile(
-                  title: Text(category.title),
+                  minVerticalPadding: 20,
+                  leading: CircleAvatar(
+                    radius: 24,
+                    backgroundColor: Colors.grey.shade200,
+                    child: Icon(
+                      Icons.category_outlined,
+                      color: Colors.grey.shade600,
+                    ),
+                  ),
+                  title: Text(
+                    category.title,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
                   onTap: () => context.pushRoute(
                     CategoryDetailsRoute(),
                     args: CategoryDetailsArguments(

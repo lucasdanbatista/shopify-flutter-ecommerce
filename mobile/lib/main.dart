@@ -47,6 +47,11 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+          centerTitle: true,
+        ),
+      ),
       initialRoute: routes.first.path,
       routes: routes.asMap().map((k, v) => MapEntry(v.path, v.pageBuilder)),
     );

@@ -9,7 +9,7 @@ class CategoryDetailsViewModel {
 
   CategoryDetailsViewModel(this._repository);
 
-  ValueNotifier<ObservedData<List<Product>>> products = ValueNotifier(
+  final ValueNotifier<ObservedData<List<Product>>> products = ValueNotifier(
     EmptyData(),
   );
 

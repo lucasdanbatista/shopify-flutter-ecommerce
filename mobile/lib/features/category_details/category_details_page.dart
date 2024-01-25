@@ -6,6 +6,8 @@ import '../../rx/observed_data.dart';
 import '../../util/formatters/currency_formatter.dart';
 import '../../util/init_state_mixin.dart';
 import '../../util/route.dart';
+import '../product_details/product_details_page.dart';
+import '../product_details/product_details_route.dart';
 import 'category_details_view_model.dart';
 
 class CategoryDetailsArguments implements RouteArguments {
@@ -51,70 +53,80 @@ class CategoryDetailsPage extends StatelessWidget with InitStateMixin {
                 mainAxisSpacing: 8,
                 children: data.value
                     .map(
-                      (e) => Container(
-                        clipBehavior: Clip.antiAlias,
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(12),
-                          ),
-                          border: Border.all(
-                            color: Colors.grey.shade200,
+                      (product) => GestureDetector(
+                        onTap: () => context.pushRoute(
+                          ProductDetailsRoute(),
+                          args: ProductDetailsArguments(
+                            productId: product.id,
                           ),
                         ),
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: Image.network(
-                                e.images.first.toString(),
-                                fit: BoxFit.cover,
-                                height: MediaQuery.of(context).size.width,
-                                width: MediaQuery.of(context).size.width,
-                              ),
+                        child: Container(
+                          clipBehavior: Clip.antiAlias,
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(12),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: Wrap(
-                                crossAxisAlignment: WrapCrossAlignment.start,
-                                children: [
-                                  Text(
-                                    e.title,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.only(top: 4),
-                                  ),
-                                  Text.rich(
-                                    TextSpan(
-                                      text: CurrencyFormatter().format(
-                                        e.variants.first.originalPrice,
-                                      ),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelSmall
-                                          ?.copyWith(
-                                            decoration:
-                                                TextDecoration.lineThrough,
-                                          ),
-                                      children: [
-                                        TextSpan(
-                                          text: '\n${CurrencyFormatter().format(
-                                            e.variants.first.sellingPrice,
-                                          )}',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleMedium
-                                              ?.copyWith(
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                        ),
-                                      ],
+                            border: Border.all(
+                              color: Colors.grey.shade200,
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: Image.network(
+                                  product.images.first.toString(),
+                                  fit: BoxFit.cover,
+                                  height: MediaQuery.of(context).size.width,
+                                  width: MediaQuery.of(context).size.width,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Wrap(
+                                  crossAxisAlignment: WrapCrossAlignment.start,
+                                  children: [
+                                    Text(
+                                      product.title,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                  ),
-                                ],
+                                    const Padding(
+                                      padding: EdgeInsets.only(top: 4),
+                                    ),
+                                    Text.rich(
+                                      TextSpan(
+                                        text: CurrencyFormatter().format(
+                                          product.variants.first.originalPrice,
+                                        ),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelSmall
+                                            ?.copyWith(
+                                              decoration:
+                                                  TextDecoration.lineThrough,
+                                            ),
+                                        children: [
+                                          TextSpan(
+                                            text:
+                                                '\n${CurrencyFormatter().format(
+                                              product
+                                                  .variants.first.sellingPrice,
+                                            )}',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium
+                                                ?.copyWith(
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     )

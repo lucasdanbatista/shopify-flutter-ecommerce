@@ -1,0 +1,44 @@
+mutation AddCartLineMutation($cartId: ID!, $merchadiseId: ID!) {
+    cartLinesAdd(
+        cartId: $cartId
+        lines: [
+            {
+                merchandiseId: $merchadiseId
+                quantity: 1
+            }
+        ]
+    ) {
+        cart {
+            id
+            lines(first: 250) {
+                nodes {
+                    id
+                    quantity
+                    merchandise {
+                        __typename
+                        ... on ProductVariant {
+                            id
+                            image {
+                                url
+                            }
+                            compareAtPrice {
+                                amount
+                            }
+                            price {
+                                amount
+                            }
+                        }
+                    }
+                }
+            }
+            cost {
+                totalAmount {
+                    amount
+                }
+                subtotalAmount {
+                    amount
+                }
+            }
+        }
+    }
+}

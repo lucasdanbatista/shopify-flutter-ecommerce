@@ -10,6 +10,12 @@ type Mutation {
     customerCreate(input: CustomerCreateInput!): CustomerCreatePayload!
 
     customerAccessTokenCreate(input: CustomerAccessTokenCreateInput!): CustomerAccessTokenCreatePayload!
+
+    cartCreate(input: CartCreateInput!): CartCreatePayload!
+
+    cartLinesAdd(cartId: ID!, lines: [CartLineInput!]!): CartLinesPayload!
+
+    cartLinesUpdate(cartId: ID!, lines: [CartLineInput!]!): CartLinesPayload!
 }
 
 type Query {
@@ -18,6 +24,8 @@ type Query {
     products(query: String!, first: Int!): ProductConnection!
 
     product(id: ID!): Product!
+
+    cart(id: ID!): Cart!
 }
 
 ### Models ###
@@ -46,6 +54,8 @@ type ProductVariant {
     compareAtPrice: MoneyV2!
 
     price: MoneyV2!
+
+    image: Image!
 }
 
 type ProductVariantConnection {
@@ -54,6 +64,26 @@ type ProductVariantConnection {
 
 type ProductConnection {
     nodes: [Product!]!
+}
+
+type CartLineCost {
+    subtotalAmount: MoneyV2!
+
+    totalAmount: MoneyV2!
+}
+
+union Merchandise = ProductVariant
+
+type BaseCartLine {
+    id: ID!
+
+    quantity: Int!
+
+    merchandise: Merchandise!
+}
+
+type BaseCartLineConnection {
+    nodes: [BaseCartLine!]!
 }
 
 type Customer {
@@ -80,7 +110,29 @@ type ImageConnection {
     nodes: [Image!]!
 }
 
+type Cart {
+    id: ID!
+    lines(first: Int!): BaseCartLineConnection!
+    cost: CartLineCost!
+}
+
 ### Inputs ###
+
+input BuyerIdentityInput {
+    customerAccessToken: String!
+}
+
+input CartCreateInput {
+    buyerIdentity: BuyerIdentityInput!
+}
+
+input CartLineInput {
+    id: ID
+
+    merchandiseId: ID
+
+    quantity: Int!
+}
 
 input CustomerCreateInput {
     firstName: String!
@@ -100,10 +152,18 @@ input CustomerAccessTokenCreateInput {
 
 ### Payloads ###
 
+type CartCreatePayload {
+    cart: Cart!
+}
+
 type CustomerCreatePayload {
     customer: Customer!
 }
 
 type CustomerAccessTokenCreatePayload {
     customerAccessToken: CustomerAccessToken!
+}
+
+type CartLinesPayload {
+    cart: Cart!
 }

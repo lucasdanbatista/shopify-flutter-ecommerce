@@ -8,7 +8,7 @@ interface CartRepository {
 
     fun create(customerAuthenticationToken: AuthenticationToken): Cart
 
-    fun addLine(cartId: String, cartLineId: String): Cart
+    fun addLine(cartId: String, productVariantId: String): Cart
 
     fun updateLine(cartId: String, cartLineId: String, quantity: Int): Cart
 }

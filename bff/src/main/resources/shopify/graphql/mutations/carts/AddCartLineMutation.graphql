@@ -14,10 +14,18 @@ mutation AddCartLineMutation($cartId: ID!, $merchadiseId: ID!) {
                 nodes {
                     id
                     quantity
+                    cost {
+                        totalAmount {
+                            amount
+                        }
+                    }
                     merchandise {
                         __typename
                         ... on ProductVariant {
                             id
+                            product {
+                                title
+                            }
                             image {
                                 url
                             }

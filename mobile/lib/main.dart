@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import 'core/core_module.dart';
 import 'core/module.dart';
+import 'features/cart/cart_module.dart';
 import 'features/categories/categories_module.dart';
 import 'features/category_details/category_details_module.dart';
 import 'features/product_details/product_details_module.dart';
@@ -19,6 +20,7 @@ void main() {
     CategoriesModule(),
     CategoryDetailsModule(),
     ProductDetailsModule(),
+    CartModule(),
   ]);
   runApp(MainApp(router: AppRouter()));
 }

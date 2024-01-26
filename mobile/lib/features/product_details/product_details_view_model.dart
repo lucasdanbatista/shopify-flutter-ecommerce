@@ -16,7 +16,13 @@ abstract class ProductDetailsViewModelBase with Store {
   @observable
   Product? product;
 
+  @observable
+  bool addedToCart = false;
+
   @action
   Future<void> fetch(String id) async =>
       product = await _repository.findById(id);
+
+  @action
+  void setAddedToCart(bool value) => addedToCart = value;
 }

@@ -4,12 +4,18 @@ part 'product_variant_dto.g.dart';
 
 @JsonSerializable()
 class ProductVariantDTO {
+  String? id;
   double? originalPrice;
   double? sellingPrice;
+  String? title;
+  Uri? image;
 
   ProductVariantDTO({
+    this.id,
     this.originalPrice,
     this.sellingPrice,
+    this.title,
+    this.image,
   });
 
   factory ProductVariantDTO.fromJson(Map<String, dynamic> json) =>

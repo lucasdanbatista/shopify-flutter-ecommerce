@@ -5,12 +5,15 @@ import 'package:get_it/get_it.dart';
 
 import '../../util/formatters/currency_formatter.dart';
 import '../../util/init_state_mixin.dart';
+import '../../util/router.gr.dart';
+import '../cart/cart_view_model.dart';
 import 'product_details_view_model.dart';
 
 @RoutePage()
 class ProductDetailsPage extends StatelessWidget with InitStateMixin {
   final String productId;
-  final viewModel = GetIt.I<ProductDetailsViewModel>();
+  final productViewModel = GetIt.I<ProductDetailsViewModel>();
+  final cartViewModel = GetIt.I<CartViewModel>();
 
   ProductDetailsPage({
     super.key,
@@ -19,7 +22,8 @@ class ProductDetailsPage extends StatelessWidget with InitStateMixin {
 
   @override
   void initState() {
-    viewModel.fetch(productId);
+    cartViewModel.fetch();
+    productViewModel.fetch(productId);
   }
 
   @override
@@ -27,8 +31,9 @@ class ProductDetailsPage extends StatelessWidget with InitStateMixin {
     super.build(context);
     return Observer(
       builder: (context) {
-        final product = viewModel.product;
-        if (product == null) {
+        final product = productViewModel.product;
+        final cart = cartViewModel.cart;
+        if (product == null || cart == null) {
           return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
@@ -38,16 +43,24 @@ class ProductDetailsPage extends StatelessWidget with InitStateMixin {
         return Scaffold(
           appBar: AppBar(
             title: const Text('Detalhes do produto'),
+            actions: [
+              IconButton(
+                onPressed: () => context.pushRoute(CartRoute()),
+                icon: Badge.count(
+                  isLabelVisible: cart.lines.isNotEmpty,
+                  count: cart.lines.length,
+                  child: const Icon(Icons.shopping_cart_outlined),
+                ),
+              ),
+            ],
           ),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
-            clipBehavior: Clip.none,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.width,
-                  width: MediaQuery.of(context).size.width,
+                AspectRatio(
+                  aspectRatio: 1,
                   child: PageView(
                     clipBehavior: Clip.none,
                     controller: PageController(
@@ -122,6 +135,43 @@ class ProductDetailsPage extends StatelessWidget with InitStateMixin {
               ],
             ),
           ),
+          persistentFooterAlignment: AlignmentDirectional.center,
+          persistentFooterButtons: [
+            Observer(
+              builder: (context) {
+                final canContinueToPayment = productViewModel.addedToCart &&
+                    cartViewModel.cart?.lines.isNotEmpty == true;
+                return TextButton.icon(
+                  onPressed: canContinueToPayment
+                      ? () => context.pushRoute(CartRoute())
+                      : () async {
+                          await GetIt.I<CartViewModel>().addCartLine(
+                            product.variants.first.id,
+                          );
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                backgroundColor: Colors.green,
+                                content: Text('Adicionado ao carrinho'),
+                              ),
+                            );
+                            productViewModel.setAddedToCart(true);
+                          }
+                        },
+                  icon: Icon(
+                    canContinueToPayment
+                        ? Icons.check_outlined
+                        : Icons.add_shopping_cart_outlined,
+                  ),
+                  label: Text(
+                    canContinueToPayment
+                        ? 'FECHAR PEDIDO'
+                        : 'ADICIONAR AO CARRINHO',
+                  ),
+                );
+              },
+            ),
+          ],
         );
       },
     );

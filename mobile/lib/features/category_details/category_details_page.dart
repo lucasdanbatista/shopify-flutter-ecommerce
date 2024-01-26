@@ -61,8 +61,8 @@ class CategoryDetailsPage extends StatelessWidget with InitStateMixin {
                           child: Image.network(
                             product.images.first.toString(),
                             fit: BoxFit.cover,
-                            height: MediaQuery.of(context).size.width,
-                            width: MediaQuery.of(context).size.width,
+                            height: double.infinity,
+                            width: double.infinity,
                           ),
                         ),
                         Padding(

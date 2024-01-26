@@ -22,10 +22,12 @@ class CartMapper(private val objectMapper: ObjectMapper) {
                 CartLine(
                     id = it.id.split("/").last(),
                     quantity = it.quantity,
+                    total = it.cost.totalAmount.amount.toDouble(),
                     productVariant = ProductVariant(
                         id = it.merchandise.id.split("/").last(),
                         originalPrice = it.merchandise.compareAtPrice.amount.toDouble(),
                         sellingPrice = it.merchandise.price.amount.toDouble(),
+                        title = it.merchandise.product.title,
                         image = URL(it.merchandise.image.url),
                     ),
                 )

@@ -7,8 +7,11 @@ class ProductVariantMapper
   @override
   ProductVariant toEntity(ProductVariantDTO it) {
     return ProductVariant.lazy(
+      id: it.id,
       originalPrice: it.originalPrice,
       sellingPrice: it.sellingPrice,
+      title: it.title,
+      image: it.image,
     );
   }
 }

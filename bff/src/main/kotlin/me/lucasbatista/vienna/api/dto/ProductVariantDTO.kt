@@ -6,5 +6,6 @@ data class ProductVariantDTO(
     val id: String? = null,
     val originalPrice: Double? = null,
     val sellingPrice: Double? = null,
+    val title: String? = null,
     val image: URL? = null,
 )

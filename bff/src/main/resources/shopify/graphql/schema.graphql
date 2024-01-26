@@ -56,6 +56,8 @@ type ProductVariant {
     price: MoneyV2!
 
     image: Image!
+
+    product: Product!
 }
 
 type ProductVariantConnection {
@@ -66,7 +68,7 @@ type ProductConnection {
     nodes: [Product!]!
 }
 
-type CartLineCost {
+type Cost {
     subtotalAmount: MoneyV2!
 
     totalAmount: MoneyV2!
@@ -78,6 +80,8 @@ type BaseCartLine {
     id: ID!
 
     quantity: Int!
+
+    cost: Cost!
 
     merchandise: Merchandise!
 }
@@ -113,7 +117,7 @@ type ImageConnection {
 type Cart {
     id: ID!
     lines(first: Int!): BaseCartLineConnection!
-    cost: CartLineCost!
+    cost: Cost!
 }
 
 ### Inputs ###

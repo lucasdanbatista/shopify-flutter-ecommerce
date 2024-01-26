@@ -31,28 +31,27 @@ class CartController(private val repository: CartRepository) {
         )
     }
 
-    @PostMapping("/{cartId}")
+    @PostMapping("/{cartId}/lines")
     fun addCartLine(
         @PathVariable cartId: String,
-        @RequestParam cartLineId: String,
+        @RequestParam productVariantId: String,
     ): CartDTO {
         val result = repository.addLine(
             cartId = cartId,
-            cartLineId = cartLineId,
+            productVariantId = productVariantId,
         )
         return mapResult(result)
     }
 
-    @PatchMapping("/{cartId}")
+    @PatchMapping("/{cartId}/lines")
     fun updateCartLine(
         @PathVariable cartId: String,
-        @RequestParam cartLineId: String,
-        @RequestParam quantity: Int,
+        @RequestBody cartLine: CartLineDTO,
     ): CartDTO {
         val result = repository.updateLine(
             cartId = cartId,
-            cartLineId = cartLineId,
-            quantity = quantity,
+            cartLineId = cartLine.id!!,
+            quantity = cartLine.quantity!!,
         )
         return mapResult(result)
     }
@@ -64,10 +63,12 @@ class CartController(private val repository: CartRepository) {
                 CartLineDTO(
                     id = it.id,
                     quantity = it.quantity,
+                    total = it.total,
                     productVariant = ProductVariantDTO(
                         id = it.productVariant.id,
                         originalPrice = it.productVariant.originalPrice,
                         sellingPrice = it.productVariant.sellingPrice,
+                        title = it.productVariant.title,
                         image = it.productVariant.image,
                     ),
                 )

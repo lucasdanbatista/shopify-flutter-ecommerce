@@ -34,12 +34,12 @@ class ShopifyCartRepository(
         )
     }
 
-    override fun addLine(cartId: String, cartLineId: String): Cart {
+    override fun addLine(cartId: String, productVariantId: String): Cart {
         val result = client.executeAsAdmin(
             AddCartLineMutation(
                 AddCartLineMutation.Variables(
                     cartId = "gid://shopify/Cart/$cartId",
-                    merchadiseId = "gid://shopify/ProductVariant/$cartLineId",
+                    merchadiseId = "gid://shopify/ProductVariant/$productVariantId",
                 ),
             ),
         ).data!!.cartLinesAdd.cart

@@ -1,17 +1,21 @@
-import 'package:flutter/widgets.dart';
+import 'package:mobx/mobx.dart';
 
 import '../../core/entities/product_category.dart';
 import '../../core/repositories/product_category_repository.dart';
-import '../../rx/observed_data.dart';
 
-class CategoriesViewModel {
+part 'categories_view_model.g.dart';
+
+class CategoriesViewModel = CategoriesViewModelBase with _$CategoriesViewModel;
+
+abstract class CategoriesViewModelBase with Store {
   final ProductCategoryRepository _repository;
 
-  CategoriesViewModel(this._repository);
+  CategoriesViewModelBase(this._repository);
 
-  final ValueNotifier<ObservedData<List<ProductCategory>>> categories =
-      ValueNotifier(EmptyData());
+  @observable
+  List<ProductCategory> categories = ObservableList();
 
-  void fetch() async =>
-      categories.value = FoundData(await _repository.findAll());
+  @action
+  Future<void> fetch() async =>
+      categories = ObservableList.of(await _repository.findAll());
 }

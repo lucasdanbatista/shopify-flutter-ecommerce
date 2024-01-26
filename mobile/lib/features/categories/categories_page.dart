@@ -1,10 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../core/entities/product_category.dart';
-import '../../rx/observable_widget.dart';
-import '../../rx/observed_data.dart';
 import '../../util/init_state_mixin.dart';
 import '../../util/router.gr.dart';
 import 'categories_view_model.dart';
@@ -27,39 +25,33 @@ class CategoriesPage extends StatelessWidget with InitStateMixin {
       appBar: AppBar(
         title: const Text('Categorias'),
       ),
-      body: ObservableWidget(
-        observable: viewModel.categories,
-        builder: (context, data) {
-          if (data is FoundData<List<ProductCategory>>) {
-            return ListView.builder(
-              itemCount: data.value.length,
-              itemBuilder: (context, index) {
-                final category = data.value[index];
-                return ListTile(
-                  minVerticalPadding: 20,
-                  leading: CircleAvatar(
-                    radius: 24,
-                    backgroundColor: Colors.grey.shade200,
-                    child: Icon(
-                      Icons.category_outlined,
-                      color: Colors.grey.shade600,
-                    ),
-                  ),
-                  title: Text(
-                    category.title,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  onTap: () => context.pushRoute(
-                    CategoryDetailsRoute(
-                      categoryId: category.id,
-                    ),
-                  ),
-                );
-              },
+      body: Observer(
+        builder: (context) => ListView.builder(
+          itemCount: viewModel.categories.length,
+          itemBuilder: (context, index) {
+            final category = viewModel.categories[index];
+            return ListTile(
+              minVerticalPadding: 20,
+              leading: CircleAvatar(
+                radius: 24,
+                backgroundColor: Colors.grey.shade200,
+                child: Icon(
+                  Icons.category_outlined,
+                  color: Colors.grey.shade600,
+                ),
+              ),
+              title: Text(
+                category.title,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              onTap: () => context.pushRoute(
+                CategoryDetailsRoute(
+                  categoryId: category.id,
+                ),
+              ),
             );
-          }
-          return const Center(child: CircularProgressIndicator());
-        },
+          },
+        ),
       ),
     );
   }

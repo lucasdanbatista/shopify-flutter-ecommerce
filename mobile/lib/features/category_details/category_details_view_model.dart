@@ -1,18 +1,22 @@
-import 'package:flutter/cupertino.dart';
+import 'package:mobx/mobx.dart';
 
 import '../../core/entities/product.dart';
 import '../../core/repositories/product_repository.dart';
-import '../../rx/observed_data.dart';
 
-class CategoryDetailsViewModel {
+part 'category_details_view_model.g.dart';
+
+class CategoryDetailsViewModel = CategoryDetailsViewModelBase
+    with _$CategoryDetailsViewModel;
+
+abstract class CategoryDetailsViewModelBase with Store {
   final ProductRepository _repository;
 
-  CategoryDetailsViewModel(this._repository);
+  CategoryDetailsViewModelBase(this._repository);
 
-  final ValueNotifier<ObservedData<List<Product>>> products = ValueNotifier(
-    EmptyData(),
-  );
+  @observable
+  List<Product> products = ObservableList();
 
-  void fetch(String id) async =>
-      products.value = FoundData(await _repository.findAllByCategoryId(id));
+  @action
+  Future<void> fetch(String id) async =>
+      products = ObservableList.of(await _repository.findAllByCategoryId(id));
 }

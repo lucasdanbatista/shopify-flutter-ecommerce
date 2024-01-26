@@ -8,6 +8,7 @@ class ProductVariantMapper
   ProductVariant toEntity(ProductVariantDTO it) {
     return ProductVariant.lazy(
       id: it.id,
+      productId: it.productId,
       originalPrice: it.originalPrice,
       sellingPrice: it.sellingPrice,
       title: it.title,

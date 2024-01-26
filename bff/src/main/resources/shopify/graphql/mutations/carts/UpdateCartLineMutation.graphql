@@ -26,6 +26,7 @@ mutation UpdateCartLineMutation(
                         ... on ProductVariant {
                             id
                             product {
+                                id
                                 title
                             }
                             image {

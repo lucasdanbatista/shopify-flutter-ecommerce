@@ -25,6 +25,7 @@ class CartMapper(private val objectMapper: ObjectMapper) {
                     total = it.cost.totalAmount.amount.toDouble(),
                     productVariant = ProductVariant(
                         id = it.merchandise.id.split("/").last(),
+                        productId = it.merchandise.product.id.split("/").last(),
                         originalPrice = it.merchandise.compareAtPrice.amount.toDouble(),
                         sellingPrice = it.merchandise.price.amount.toDouble(),
                         title = it.merchandise.product.title,

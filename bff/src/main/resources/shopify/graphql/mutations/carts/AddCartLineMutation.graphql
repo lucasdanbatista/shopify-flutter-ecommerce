@@ -24,6 +24,7 @@ mutation AddCartLineMutation($cartId: ID!, $merchadiseId: ID!) {
                         ... on ProductVariant {
                             id
                             product {
+                                id
                                 title
                             }
                             image {

@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import '../../util/assets.dart';
 import '../../util/formatters/currency_formatter.dart';
 import '../../util/init_state_mixin.dart';
+import '../../util/router.gr.dart';
 import 'cart_view_model.dart';
 
 @RoutePage()
@@ -55,9 +56,17 @@ class CartPage extends StatelessWidget with InitStateMixin {
             itemBuilder: (context, index) {
               final cartLine = cart.lines[index];
               return ListTile(
-                title: Text(cartLine.productVariant.title),
+                title: Text(
+                  cartLine.productVariant.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 subtitle: Text(CurrencyFormatter().format(cartLine.total)),
-                onTap: () {},
+                onTap: () => context.pushRoute(
+                  ProductDetailsRoute(
+                    productId: cartLine.productVariant.productId,
+                  ),
+                ),
                 minVerticalPadding: 24,
                 contentPadding: const EdgeInsets.only(left: 16, right: 8),
                 trailing: Row(

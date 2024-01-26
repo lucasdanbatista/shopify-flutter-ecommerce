@@ -5,6 +5,7 @@ part 'product_variant_dto.g.dart';
 @JsonSerializable()
 class ProductVariantDTO {
   String? id;
+  String? productId;
   double? originalPrice;
   double? sellingPrice;
   String? title;
@@ -12,6 +13,7 @@ class ProductVariantDTO {
 
   ProductVariantDTO({
     this.id,
+    this.productId,
     this.originalPrice,
     this.sellingPrice,
     this.title,

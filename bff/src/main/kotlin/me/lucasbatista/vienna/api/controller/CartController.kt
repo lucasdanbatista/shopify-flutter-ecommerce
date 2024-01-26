@@ -66,6 +66,7 @@ class CartController(private val repository: CartRepository) {
                     total = it.total,
                     productVariant = ProductVariantDTO(
                         id = it.productVariant.id,
+                        productId = it.productVariant.productId,
                         originalPrice = it.productVariant.originalPrice,
                         sellingPrice = it.productVariant.sellingPrice,
                         title = it.productVariant.title,

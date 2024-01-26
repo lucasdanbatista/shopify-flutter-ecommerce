@@ -9,6 +9,7 @@ part of 'product_variant_dto.dart';
 ProductVariantDTO _$ProductVariantDTOFromJson(Map<String, dynamic> json) =>
     ProductVariantDTO(
       id: json['id'] as String?,
+      productId: json['productId'] as String?,
       originalPrice: (json['originalPrice'] as num?)?.toDouble(),
       sellingPrice: (json['sellingPrice'] as num?)?.toDouble(),
       title: json['title'] as String?,
@@ -18,6 +19,7 @@ ProductVariantDTO _$ProductVariantDTOFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$ProductVariantDTOToJson(ProductVariantDTO instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'productId': instance.productId,
       'originalPrice': instance.originalPrice,
       'sellingPrice': instance.sellingPrice,
       'title': instance.title,

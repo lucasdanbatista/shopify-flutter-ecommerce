@@ -1,36 +1,28 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../core/entities/product.dart';
 import '../../rx/observable_widget.dart';
 import '../../rx/observed_data.dart';
 import '../../util/formatters/currency_formatter.dart';
 import '../../util/init_state_mixin.dart';
-import '../../util/route.dart';
-import '../product_details/product_details_page.dart';
-import '../product_details/product_details_route.dart';
+import '../../util/router.gr.dart';
 import 'category_details_view_model.dart';
 
-class CategoryDetailsArguments implements RouteArguments {
-  final String categoryId;
-
-  CategoryDetailsArguments({
-    required this.categoryId,
-  });
-}
-
+@RoutePage()
 class CategoryDetailsPage extends StatelessWidget with InitStateMixin {
-  final CategoryDetailsArguments args;
-  final CategoryDetailsViewModel viewModel;
+  final String categoryId;
+  final viewModel = GetIt.I<CategoryDetailsViewModel>();
 
-  const CategoryDetailsPage({
+  CategoryDetailsPage({
     super.key,
-    required this.args,
-    required this.viewModel,
+    required this.categoryId,
   });
 
   @override
   void initState() {
-    viewModel.fetch(args.categoryId);
+    viewModel.fetch(categoryId);
   }
 
   @override
@@ -43,7 +35,7 @@ class CategoryDetailsPage extends StatelessWidget with InitStateMixin {
           if (data is FoundData<List<Product>>) {
             return Scaffold(
               appBar: AppBar(
-                title: Text(args.categoryId),
+                title: Text(categoryId),
               ),
               body: GridView.count(
                 padding: const EdgeInsets.all(16),
@@ -55,8 +47,7 @@ class CategoryDetailsPage extends StatelessWidget with InitStateMixin {
                     .map(
                       (product) => GestureDetector(
                         onTap: () => context.pushRoute(
-                          ProductDetailsRoute(),
-                          args: ProductDetailsArguments(
+                          ProductDetailsRoute(
                             productId: product.id,
                           ),
                         ),

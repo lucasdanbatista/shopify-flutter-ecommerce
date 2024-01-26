@@ -1,21 +1,19 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../core/entities/product_category.dart';
 import '../../rx/observable_widget.dart';
 import '../../rx/observed_data.dart';
 import '../../util/init_state_mixin.dart';
-import '../../util/route.dart';
-import '../category_details/category_details_page.dart';
-import '../category_details/category_details_route.dart';
+import '../../util/router.gr.dart';
 import 'categories_view_model.dart';
 
+@RoutePage()
 class CategoriesPage extends StatelessWidget with InitStateMixin {
-  final CategoriesViewModel viewModel;
+  final viewModel = GetIt.I<CategoriesViewModel>();
 
-  const CategoriesPage({
-    super.key,
-    required this.viewModel,
-  });
+  CategoriesPage({super.key});
 
   @override
   void initState() {
@@ -52,8 +50,7 @@ class CategoriesPage extends StatelessWidget with InitStateMixin {
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   onTap: () => context.pushRoute(
-                    CategoryDetailsRoute(),
-                    args: CategoryDetailsArguments(
+                    CategoryDetailsRoute(
                       categoryId: category.id,
                     ),
                   ),

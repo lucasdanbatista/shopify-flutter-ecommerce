@@ -1,34 +1,27 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../core/entities/product.dart';
 import '../../rx/observable_widget.dart';
 import '../../rx/observed_data.dart';
 import '../../util/formatters/currency_formatter.dart';
 import '../../util/init_state_mixin.dart';
-import '../../util/route.dart';
 import 'product_details_view_model.dart';
 
-class ProductDetailsArguments implements RouteArguments {
-  final String productId;
-
-  ProductDetailsArguments({
-    required this.productId,
-  });
-}
-
+@RoutePage()
 class ProductDetailsPage extends StatelessWidget with InitStateMixin {
-  final ProductDetailsArguments args;
-  final ProductDetailsViewModel viewModel;
+  final String productId;
+  final viewModel = GetIt.I<ProductDetailsViewModel>();
 
-  const ProductDetailsPage({
+  ProductDetailsPage({
     super.key,
-    required this.args,
-    required this.viewModel,
+    required this.productId,
   });
 
   @override
   void initState() {
-    viewModel.fetch(args.productId);
+    viewModel.fetch(productId);
   }
 
   @override

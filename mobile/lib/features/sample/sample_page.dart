@@ -1,8 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../util/route.dart';
-import '../categories/categories_route.dart';
+import '../../util/router.gr.dart';
 
+@RoutePage()
 class SamplePage extends StatelessWidget {
   const SamplePage({super.key});
 

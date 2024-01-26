@@ -4,15 +4,11 @@ import 'package:intl/intl.dart';
 import 'core/core_module.dart';
 import 'core/module.dart';
 import 'features/categories/categories_module.dart';
-import 'features/categories/categories_route.dart';
 import 'features/category_details/category_details_module.dart';
-import 'features/category_details/category_details_route.dart';
 import 'features/product_details/product_details_module.dart';
-import 'features/product_details/product_details_route.dart';
-import 'features/sample/sample_route.dart';
 import 'mappers/mappers_module.dart';
 import 'network/web_services/web_services_module.dart';
-import 'util/route.dart';
+import 'util/router.dart';
 
 void main() {
   Intl.defaultLocale = 'pt_BR';
@@ -24,36 +20,26 @@ void main() {
     CategoryDetailsModule(),
     ProductDetailsModule(),
   ]);
-  runApp(
-    MainApp(
-      routes: [
-        SampleRoute(),
-        CategoriesRoute(),
-        CategoryDetailsRoute(),
-        ProductDetailsRoute(),
-      ],
-    ),
-  );
+  runApp(MainApp(router: AppRouter()));
 }
 
 class MainApp extends StatelessWidget {
-  final List<AppRoute> routes;
+  final AppRouter router;
 
   const MainApp({
     super.key,
-    required this.routes,
+    required this.router,
   });
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
           centerTitle: true,
         ),
       ),
-      initialRoute: routes.first.path,
-      routes: routes.asMap().map((k, v) => MapEntry(v.path, v.pageBuilder)),
+      routerConfig: router.config(),
     );
   }
 }

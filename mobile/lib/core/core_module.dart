@@ -1,3 +1,4 @@
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 
 import 'auth_manager.dart';
@@ -11,7 +12,10 @@ class CoreModule implements Module {
   @override
   void init(GetIt i) {
     i.registerLazySingleton<Environment>(() => DebugEnvironment());
-    i.registerLazySingleton<AuthManager>(() => DefaultAuthManager(i.get()));
+    i.registerLazySingleton(() => const FlutterSecureStorage());
+    i.registerLazySingleton<AuthManager>(
+      () => DefaultAuthManager(i.get(), i.get(), i.get()),
+    );
     i.registerLazySingleton<ProductRepository>(
       () => DefaultProductRepository(i.get(), i.get(), i.get()),
     );

@@ -12,6 +12,8 @@ import 'mappers/mappers_module.dart';
 import 'network/web_services/web_services_module.dart';
 import 'util/router.dart';
 
+final router = AppRouter();
+
 void main() {
   Intl.defaultLocale = 'pt_BR';
   Module.initAll([
@@ -24,16 +26,11 @@ void main() {
     ProductDetailsModule(),
     CartModule(),
   ]);
-  runApp(MainApp(router: AppRouter()));
+  runApp(const MainApp());
 }
 
 class MainApp extends StatelessWidget {
-  final AppRouter router;
-
-  const MainApp({
-    super.key,
-    required this.router,
-  });
+  const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {

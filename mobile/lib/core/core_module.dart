@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 
+import 'auth_manager.dart';
 import 'environment.dart';
 import 'module.dart';
 import 'repositories/cart_repository.dart';
@@ -10,6 +11,7 @@ class CoreModule implements Module {
   @override
   void init(GetIt i) {
     i.registerLazySingleton<Environment>(() => DebugEnvironment());
+    i.registerLazySingleton<AuthManager>(() => DefaultAuthManager(i.get()));
     i.registerLazySingleton<ProductRepository>(
       () => DefaultProductRepository(i.get(), i.get(), i.get()),
     );

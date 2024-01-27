@@ -43,7 +43,7 @@ class CartPage extends StatelessWidget with InitStateMixin {
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
                   Image.asset(
-                    PngAssets.emptyCartIllustration,
+                    ImageAssets.emptyCartIllustration,
                     height: 156,
                   ),
                   const Text('Seu carrinho está vazio'),

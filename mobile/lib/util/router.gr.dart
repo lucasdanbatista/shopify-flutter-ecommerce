@@ -16,7 +16,7 @@ import 'package:vienna/features/category_details/category_details_page.dart'
     as _i3;
 import 'package:vienna/features/product_details/product_details_page.dart'
     as _i4;
-import 'package:vienna/features/sample/sample_page.dart' as _i5;
+import 'package:vienna/features/sign_in/sign_in_page.dart' as _i5;
 
 abstract class $AppRouter extends _i6.RootStackRouter {
   $AppRouter({super.navigatorKey});
@@ -59,10 +59,12 @@ abstract class $AppRouter extends _i6.RootStackRouter {
         ),
       );
     },
-    SampleRoute.name: (routeData) {
+    SignInRoute.name: (routeData) {
+      final args = routeData.argsAs<SignInRouteArgs>(
+          orElse: () => const SignInRouteArgs());
       return _i6.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i5.SamplePage(),
+        child: _i5.SignInPage(key: args.key),
       );
     },
   };
@@ -203,15 +205,30 @@ class ProductDetailsRouteArgs {
 }
 
 /// generated route for
-/// [_i5.SamplePage]
-class SampleRoute extends _i6.PageRouteInfo<void> {
-  const SampleRoute({List<_i6.PageRouteInfo>? children})
-      : super(
-          SampleRoute.name,
+/// [_i5.SignInPage]
+class SignInRoute extends _i6.PageRouteInfo<SignInRouteArgs> {
+  SignInRoute({
+    _i7.Key? key,
+    List<_i6.PageRouteInfo>? children,
+  }) : super(
+          SignInRoute.name,
+          args: SignInRouteArgs(key: key),
           initialChildren: children,
         );
 
-  static const String name = 'SampleRoute';
+  static const String name = 'SignInRoute';
 
-  static const _i6.PageInfo<void> page = _i6.PageInfo<void>(name);
+  static const _i6.PageInfo<SignInRouteArgs> page =
+      _i6.PageInfo<SignInRouteArgs>(name);
+}
+
+class SignInRouteArgs {
+  const SignInRouteArgs({this.key});
+
+  final _i7.Key? key;
+
+  @override
+  String toString() {
+    return 'SignInRouteArgs{key: $key}';
+  }
 }

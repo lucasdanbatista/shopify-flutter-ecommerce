@@ -7,11 +7,13 @@ import '../../util/assets.dart';
 import '../../util/formatters/currency_formatter.dart';
 import '../../util/init_state_mixin.dart';
 import '../../util/router.gr.dart';
+import '../checkout/checkout_view_model.dart';
 import 'cart_view_model.dart';
 
 @RoutePage()
 class CartPage extends StatelessWidget with InitStateMixin {
   final viewModel = GetIt.I<CartViewModel>();
+  final checkoutViewModel = GetIt.I<CheckoutViewModel>();
 
   CartPage({super.key});
 
@@ -156,7 +158,11 @@ class CartPage extends StatelessWidget with InitStateMixin {
                 visible: viewModel.cart?.lines.isNotEmpty == true,
                 child: Center(
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      await checkoutViewModel.createPaymentIntent(
+                        viewModel.cart!.id,
+                      );
+                    },
                     child: const Text('FECHAR PEDIDO'),
                   ),
                 ),

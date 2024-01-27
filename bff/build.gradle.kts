@@ -26,6 +26,7 @@ repositories {
 }
 
 dependencies {
+    implementation("com.stripe:stripe-java:24.13.0")
     implementation("com.expediagroup:graphql-kotlin-spring-client:7.0.2")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")

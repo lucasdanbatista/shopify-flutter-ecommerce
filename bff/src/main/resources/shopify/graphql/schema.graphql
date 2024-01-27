@@ -16,6 +16,8 @@ type Mutation {
     cartLinesAdd(cartId: ID!, lines: [CartLineInput!]!): CartLinesPayload!
 
     cartLinesUpdate(cartId: ID!, lines: [CartLineInput!]!): CartLinesPayload!
+
+    checkoutCreate(input: CreateCheckoutInput!): CheckoutCreatePayload!
 }
 
 type Query {
@@ -122,6 +124,29 @@ type Cart {
 
 ### Inputs ###
 
+input CheckoutLineItemInput {
+    variantId: ID!
+
+    quantity: Int!
+}
+
+input CreateCheckoutInput {
+    shippingAddress: MailingAddressInput!
+
+    lineItems: [CheckoutLineItemInput!]!
+}
+
+input MailingAddressInput {
+    firstName: String!
+    lastName: String!
+    address1: String!
+    address2: String!
+    city: String!
+    province: String!
+    zip: String!
+    country: String!
+}
+
 input BuyerIdentityInput {
     customerAccessToken: String!
 }
@@ -154,7 +179,17 @@ input CustomerAccessTokenCreateInput {
     password: String!
 }
 
+type Checkout {
+    id: ID!
+
+    totalPrice: MoneyV2!
+}
+
 ### Payloads ###
+
+type CheckoutCreatePayload {
+    checkout: Checkout!
+}
 
 type CartCreatePayload {
     cart: Cart!

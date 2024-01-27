@@ -1,0 +1,18 @@
+mutation CreateCheckoutMutation(
+    $shippingAddress: MailingAddressInput!
+    $cartLines: [CheckoutLineItemInput!]!
+) {
+    checkoutCreate(
+        input: {
+            shippingAddress: $shippingAddress
+            lineItems: $cartLines
+        }
+    ){
+        checkout {
+            id
+            totalPrice {
+                amount
+            }
+        }
+    }
+}

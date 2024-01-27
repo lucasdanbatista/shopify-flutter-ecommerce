@@ -6,6 +6,7 @@ import 'core/module.dart';
 import 'features/cart/cart_module.dart';
 import 'features/categories/categories_module.dart';
 import 'features/category_details/category_details_module.dart';
+import 'features/checkout/checkout_module.dart';
 import 'features/product_details/product_details_module.dart';
 import 'features/sign_in/sign_in_module.dart';
 import 'mappers/mappers_module.dart';
@@ -25,6 +26,7 @@ void main() {
     CategoryDetailsModule(),
     ProductDetailsModule(),
     CartModule(),
+    CheckoutModule(),
   ]);
   runApp(const MainApp());
 }

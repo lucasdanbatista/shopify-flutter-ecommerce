@@ -1,23 +1,7 @@
-### Schema ###
-
 schema {
     query: Query
 
     mutation: Mutation
-}
-
-type Mutation {
-    customerCreate(input: CustomerCreateInput!): CustomerCreatePayload!
-
-    customerAccessTokenCreate(input: CustomerAccessTokenCreateInput!): CustomerAccessTokenCreatePayload!
-
-    cartCreate(input: CartCreateInput!): CartCreatePayload!
-
-    cartLinesAdd(cartId: ID!, lines: [CartLineInput!]!): CartLinesPayload!
-
-    cartLinesUpdate(cartId: ID!, lines: [CartLineInput!]!): CartLinesPayload!
-
-    checkoutCreate(input: CreateCheckoutInput!): CheckoutCreatePayload!
 }
 
 type Query {
@@ -32,7 +16,66 @@ type Query {
     customer(customerAccessToken: String!): Customer!
 }
 
-### Models ###
+type Mutation {
+    customerCreate(input: CustomerCreateInput!): CustomerCreatePayload!
+
+    customerAccessTokenCreate(input: CustomerAccessTokenCreateInput!): CustomerAccessTokenCreatePayload!
+
+    cartCreate(input: CartCreateInput!): CartCreatePayload!
+
+    cartLinesAdd(cartId: ID!, lines: [CartLineInput!]!): CartLinesPayload!
+
+    cartLinesUpdate(cartId: ID!, lines: [CartLineInput!]!): CartLinesPayload!
+
+    checkoutCreate(input: CreateCheckoutInput!): CheckoutCreatePayload!
+
+    checkoutCompleteWithTokenizedPaymentV3(
+        checkoutId: ID!
+        payment: TokenizedPaymentInputV3!
+    ): CheckoutCompleteWithTokenizedPaymentV3Payload!
+}
+
+enum CurrencyCode {
+    BRL
+}
+
+input MoneyInput {
+    amount: Decimal!
+
+    currencyCode: CurrencyCode!
+}
+
+type Payment {
+    errorMessage: String
+}
+
+type CheckoutUserErrors {
+    message: String!
+}
+
+input TokenizedPaymentInputV3 {
+    idempotencyKey: String!
+
+    billingAddress: MailingAddressInput!
+
+    paymentAmount: MoneyInput!
+
+    type: PaymentTokenType!
+
+    paymentData: String!
+}
+
+enum PaymentTokenType {
+    STRIPE_VAULT_TOKEN
+}
+
+type CheckoutCompleteWithTokenizedPaymentV3Payload {
+    checkout: Checkout!
+
+    payment: Payment!
+
+    checkoutUserErrors: [CheckoutUserErrors!]!
+}
 
 type Product {
     id: String!
@@ -126,8 +169,6 @@ type Cart {
     cost: Cost!
 }
 
-### Inputs ###
-
 input CheckoutLineItemInput {
     variantId: ID!
 
@@ -190,8 +231,6 @@ type Checkout {
 
     totalPrice: MoneyV2!
 }
-
-### Payloads ###
 
 type CheckoutCreatePayload {
     checkout: Checkout!

@@ -8,6 +8,7 @@ import com.stripe.param.PaymentIntentCreateParams
 import com.stripe.param.PaymentIntentCreateParams.AutomaticPaymentMethods
 import com.stripe.param.PaymentIntentCreateParams.AutomaticPaymentMethods.AllowRedirects.NEVER
 import com.stripe.param.PaymentIntentCreateParams.SetupFutureUsage.OFF_SESSION
+import me.lucasbatista.vienna.sdk.entity.ProcessedPayment
 import me.lucasbatista.vienna.sdk.repository.PaymentRepository
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Repository
@@ -26,14 +27,18 @@ class StripePaymentRepository(
         Stripe.apiKey = apiKey
     }
 
-    override fun processPayment(customerEmail: String, paymentMethodId: String, amount: Double) {
+    override fun processPayment(
+        customerEmail: String,
+        paymentMethodId: String,
+        amount: Double,
+    ): ProcessedPayment {
         val customer = Customer.search(
             CustomerSearchParams.builder()
                 .setQuery("email:\"$customerEmail\"")
                 .setLimit(1)
                 .build(),
         ).data!!.first()
-        PaymentIntent.create(
+        val payment = PaymentIntent.create(
             PaymentIntentCreateParams
                 .builder()
                 .setCustomer(customer.id)
@@ -50,6 +55,10 @@ class StripePaymentRepository(
                 .setCurrency("BRL")
                 .setConfirm(true)
                 .build()
+        )
+        return ProcessedPayment(
+            completionToken = payment.id,
+            totalPaid = payment.amount.toDouble() / 100,
         )
     }
 }

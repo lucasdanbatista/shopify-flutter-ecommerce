@@ -72,16 +72,18 @@ class CartController(
         val customer = customerRepository.findByAccessToken(
             accessToken = AuthorizationHeaderUtil.extractToken(authorization),
         )
+        val shippingAddress = addressRepository.findById(shippingAddressId)
         val checkout = checkoutRepository.create(
             customerEmail = customer.email,
             cart = cartRepository.findById(cartId),
-            shippingAddress = addressRepository.findById(shippingAddressId),
+            shippingAddress = shippingAddress,
         )
-        paymentRepository.processPayment(
+        val payment = paymentRepository.processPayment(
             customerEmail = customer.email,
             paymentMethodId = paymentMethodId,
             amount = checkout.total,
         )
+        checkoutRepository.complete(checkout.id, payment, shippingAddress)
     }
 
     private fun mapResult(result: Cart): CartDTO {

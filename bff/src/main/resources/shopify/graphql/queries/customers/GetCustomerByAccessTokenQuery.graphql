@@ -1,0 +1,6 @@
+query GetCustomerByAccessTokenQuery($accessToken: String!) {
+    customer(customerAccessToken: $accessToken) {
+        id
+        email
+    }
+}

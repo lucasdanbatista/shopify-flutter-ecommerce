@@ -9,4 +9,6 @@ interface CustomerRepository {
         email: String,
         password: String,
     ): Customer
+
+    fun findByAccessToken(accessToken: String): Customer
 }

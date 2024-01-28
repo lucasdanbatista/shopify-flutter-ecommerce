@@ -16,6 +16,12 @@ abstract interface class CartRepository {
     required String cartLineId,
     required int quantity,
   });
+
+  Future<void> checkout({
+    required String cartId,
+    required String shippingAddressId,
+    required String paymentMethodId,
+  });
 }
 
 class DefaultCartRepository implements CartRepository {
@@ -57,4 +63,16 @@ class DefaultCartRepository implements CartRepository {
     );
     return _mapper.toEntity(response);
   }
+
+  @override
+  Future<void> checkout({
+    required String cartId,
+    required String shippingAddressId,
+    required String paymentMethodId,
+  }) =>
+      _service.checkout(
+        cartId: cartId,
+        shippingAddressId: shippingAddressId,
+        paymentMethodId: paymentMethodId,
+      );
 }

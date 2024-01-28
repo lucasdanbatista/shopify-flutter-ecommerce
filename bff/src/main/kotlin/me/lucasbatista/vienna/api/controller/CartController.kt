@@ -6,21 +6,27 @@ import me.lucasbatista.vienna.api.dto.ProductVariantDTO
 import me.lucasbatista.vienna.api.util.AuthorizationHeaderUtil
 import me.lucasbatista.vienna.sdk.entity.AuthenticationToken
 import me.lucasbatista.vienna.sdk.entity.Cart
-import me.lucasbatista.vienna.sdk.repository.CartRepository
+import me.lucasbatista.vienna.sdk.repository.*
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/v1/carts")
-class CartController(private val repository: CartRepository) {
+class CartController(
+    private val cartRepository: CartRepository,
+    private val checkoutRepository: CheckoutRepository,
+    private val paymentRepository: PaymentRepository,
+    private val addressRepository: AddressRepository,
+    private val customerRepository: CustomerRepository,
+) {
     @GetMapping("/{id}")
     fun getCartById(@PathVariable id: String): CartDTO {
-        val result = repository.findById(id)
+        val result = cartRepository.findById(id)
         return mapResult(result)
     }
 
     @PostMapping
     fun createCart(@RequestHeader authorization: String): CartDTO {
-        val result = repository.create(
+        val result = cartRepository.create(
             customerAuthenticationToken = AuthenticationToken(
                 accessToken = AuthorizationHeaderUtil.extractToken(authorization),
             ),
@@ -36,7 +42,7 @@ class CartController(private val repository: CartRepository) {
         @PathVariable cartId: String,
         @RequestParam productVariantId: String,
     ): CartDTO {
-        val result = repository.addLine(
+        val result = cartRepository.addLine(
             cartId = cartId,
             productVariantId = productVariantId,
         )
@@ -48,12 +54,34 @@ class CartController(private val repository: CartRepository) {
         @PathVariable cartId: String,
         @RequestBody cartLine: CartLineDTO,
     ): CartDTO {
-        val result = repository.updateLine(
+        val result = cartRepository.updateLine(
             cartId = cartId,
             cartLineId = cartLine.id!!,
             quantity = cartLine.quantity!!,
         )
         return mapResult(result)
+    }
+
+    @PostMapping("/{cartId}/checkout")
+    fun checkout(
+        @RequestHeader("Authorization") authorization: String,
+        @PathVariable cartId: String,
+        @RequestParam shippingAddressId: String,
+        @RequestParam paymentMethodId: String,
+    ) {
+        val customer = customerRepository.findByAccessToken(
+            accessToken = AuthorizationHeaderUtil.extractToken(authorization),
+        )
+        val checkout = checkoutRepository.create(
+            customerEmail = customer.email,
+            cart = cartRepository.findById(cartId),
+            shippingAddress = addressRepository.findById(shippingAddressId),
+        )
+        paymentRepository.processPayment(
+            customerEmail = customer.email,
+            paymentMethodId = paymentMethodId,
+            amount = checkout.total,
+        )
     }
 
     private fun mapResult(result: Cart): CartDTO {

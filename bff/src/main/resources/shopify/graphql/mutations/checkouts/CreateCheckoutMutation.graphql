@@ -1,9 +1,11 @@
 mutation CreateCheckoutMutation(
+    $customerEmail: String!
     $shippingAddress: MailingAddressInput!
     $cartLines: [CheckoutLineItemInput!]!
 ) {
     checkoutCreate(
         input: {
+            email: $customerEmail
             shippingAddress: $shippingAddress
             lineItems: $cartLines
         }

@@ -28,6 +28,8 @@ type Query {
     product(id: ID!): Product!
 
     cart(id: ID!): Cart!
+
+    customer(customerAccessToken: String!): Customer!
 }
 
 ### Models ###
@@ -94,6 +96,8 @@ type BaseCartLineConnection {
 
 type Customer {
     id: ID!
+
+    email: String!
 }
 
 type CustomerAccessToken {
@@ -131,6 +135,8 @@ input CheckoutLineItemInput {
 }
 
 input CreateCheckoutInput {
+    email: String!
+
     shippingAddress: MailingAddressInput!
 
     lineItems: [CheckoutLineItemInput!]!

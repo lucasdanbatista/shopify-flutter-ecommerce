@@ -1,12 +1,17 @@
 package me.lucasbatista.vienna.stripe
 
 import com.stripe.Stripe
+import com.stripe.model.Customer
 import com.stripe.model.PaymentIntent
+import com.stripe.param.CustomerSearchParams
 import com.stripe.param.PaymentIntentCreateParams
-import me.lucasbatista.vienna.sdk.entity.PaymentIntentCredentials
+import com.stripe.param.PaymentIntentCreateParams.AutomaticPaymentMethods
+import com.stripe.param.PaymentIntentCreateParams.AutomaticPaymentMethods.AllowRedirects.NEVER
+import com.stripe.param.PaymentIntentCreateParams.SetupFutureUsage.OFF_SESSION
 import me.lucasbatista.vienna.sdk.repository.PaymentRepository
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Repository
+import kotlin.math.roundToLong
 
 @Repository
 class StripePaymentRepository(
@@ -21,18 +26,30 @@ class StripePaymentRepository(
         Stripe.apiKey = apiKey
     }
 
-    override fun createPaymentIntent(amount: Long): PaymentIntentCredentials {
-        val secret = PaymentIntent.create(
+    override fun processPayment(customerEmail: String, paymentMethodId: String, amount: Double) {
+        val customer = Customer.search(
+            CustomerSearchParams.builder()
+                .setQuery("email:\"$customerEmail\"")
+                .setLimit(1)
+                .build(),
+        ).data!!.first()
+        PaymentIntent.create(
             PaymentIntentCreateParams
                 .builder()
-                .setSetupFutureUsage(PaymentIntentCreateParams.SetupFutureUsage.OFF_SESSION)
-                .setAmount(amount)
-                .setCurrency("brl")
+                .setCustomer(customer.id)
+                .setPaymentMethod(paymentMethodId)
+                .setSetupFutureUsage(OFF_SESSION)
+                .setAutomaticPaymentMethods(
+                    AutomaticPaymentMethods
+                        .builder()
+                        .setEnabled(true)
+                        .setAllowRedirects(NEVER)
+                        .build(),
+                )
+                .setAmount(amount.roundToLong() * 100)
+                .setCurrency("BRL")
+                .setConfirm(true)
                 .build()
-        ).clientSecret!!
-        return PaymentIntentCredentials(
-            clientKey = Stripe.clientId,
-            clientSecret = secret,
         )
     }
 }

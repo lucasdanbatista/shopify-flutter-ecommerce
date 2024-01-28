@@ -10,9 +10,10 @@ class CartViewModel = CartViewModelBase with _$CartViewModel;
 abstract class CartViewModelBase with Store {
   final CartRepository _repository;
 
-  //TODO: remove hardcoded cart id
-  static const _hardCodedCartId =
-      'Z2NwLXVzLWVhc3QxOjAxSE4yWkoyMzZFVkQ2MjlUUzVUNEEzNEVK';
+  //TODO: remove hardcoded ids
+  static const _hardCodedCartId = 'Z2NwLXVzLWVhc3QxOjAxSE4yWkoyMzZFVkQ2MjlUUzVUNEEzNEVK';
+  static const _hardcodedPaymentMethodId = 'pm_1OdZzDJemeNreHwaBMAkAaGo';
+  static const _hardcodedShippingAddressId = '';
 
   CartViewModelBase(this._repository);
 
@@ -20,12 +21,10 @@ abstract class CartViewModelBase with Store {
   Cart? cart;
 
   @action
-  Future<void> fetch() async =>
-      cart = await _repository.getCartById(_hardCodedCartId);
+  Future<void> fetch() async => cart = await _repository.getCartById(_hardCodedCartId);
 
   @action
-  Future<void> addCartLine(String productVariantId) async =>
-      cart = await _repository.addCartLine(
+  Future<void> addCartLine(String productVariantId) async => cart = await _repository.addCartLine(
         cartId: _hardCodedCartId,
         productVariantId: productVariantId,
       );
@@ -39,5 +38,11 @@ abstract class CartViewModelBase with Store {
         cartId: cart!.id,
         cartLineId: cartLineId,
         quantity: quantity,
+      );
+
+  Future<void> processPayment() => _repository.checkout(
+        cartId: cart!.id,
+        shippingAddressId: _hardcodedShippingAddressId,
+        paymentMethodId: _hardcodedPaymentMethodId,
       );
 }

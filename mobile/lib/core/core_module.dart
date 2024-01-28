@@ -5,7 +5,6 @@ import 'auth_manager.dart';
 import 'environment.dart';
 import 'module.dart';
 import 'repositories/cart_repository.dart';
-import 'repositories/checkout_repository.dart';
 import 'repositories/product_category_repository.dart';
 import 'repositories/product_repository.dart';
 
@@ -22,6 +21,5 @@ class CoreModule implements Module {
       () => DefaultProductCategoryRepository(i.get(), i.get()),
     );
     i.registerLazySingleton<CartRepository>(() => DefaultCartRepository(i.get(), i.get()));
-    i.registerLazySingleton<CheckoutRepository>(() => DefaultCheckoutRepository(i.get()));
   }
 }

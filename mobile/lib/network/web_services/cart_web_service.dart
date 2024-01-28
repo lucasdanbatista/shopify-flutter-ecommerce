@@ -29,4 +29,11 @@ abstract class CartWebService {
     @Path('id') required String cartId,
     @Body() required CartLineDTO cartLine,
   });
+
+  @POST('/{id}/checkout')
+  Future<void> checkout({
+    @Path('id') required String cartId,
+    @Query('shippingAddressId') required String shippingAddressId,
+    @Query('paymentMethodId') required String paymentMethodId,
+  });
 }

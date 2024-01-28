@@ -25,7 +25,7 @@ class ShopifyProductRepository(private val client: ShopifyGraphQLClient) : Produ
                 title = it.title,
                 variants = it.variants.nodes.map {
                     ProductVariant(
-                        originalPrice = it.compareAtPrice.amount.toDouble(),
+                        originalPrice = it.compareAtPrice!!.amount.toDouble(),
                         sellingPrice = it.price.amount.toDouble(),
                     )
                 },
@@ -38,7 +38,7 @@ class ShopifyProductRepository(private val client: ShopifyGraphQLClient) : Produ
             GetProductByIdQuery(
                 GetProductByIdQuery.Variables("gid://shopify/Product/$id"),
             ),
-        ).data!!.product
+        ).data!!.product!!
         return Product(
             id = result.id.split("/").last(),
             title = result.title,
@@ -47,7 +47,7 @@ class ShopifyProductRepository(private val client: ShopifyGraphQLClient) : Produ
             variants = result.variants.nodes.map {
                 ProductVariant(
                     id = it.id.split("/").last(),
-                    originalPrice = it.compareAtPrice.amount.toDouble(),
+                    originalPrice = it.compareAtPrice!!.amount.toDouble(),
                     sellingPrice = it.price.amount.toDouble(),
                 )
             },

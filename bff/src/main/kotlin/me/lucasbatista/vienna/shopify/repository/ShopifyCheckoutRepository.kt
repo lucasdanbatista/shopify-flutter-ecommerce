@@ -42,7 +42,7 @@ class ShopifyCheckoutRepository(private val client: ShopifyGraphQLClient) : Chec
                     ),
                 )
             ),
-        ).data!!.checkoutCreate.checkout
+        ).data!!.checkoutCreate!!.checkout!!
         return Checkout(
             id = result.id,
             total = result.totalPrice.amount.toDouble(),

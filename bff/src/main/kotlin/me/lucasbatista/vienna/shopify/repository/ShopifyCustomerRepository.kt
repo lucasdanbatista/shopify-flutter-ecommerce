@@ -27,7 +27,7 @@ class ShopifyCustomerRepository(private val client: ShopifyGraphQLClient) : Cust
                     ),
                 ),
             ),
-        ).data!!.customerCreate.customer
+        ).data!!.customerCreate!!.customer!!
         return Customer(result.id)
     }
 
@@ -36,7 +36,7 @@ class ShopifyCustomerRepository(private val client: ShopifyGraphQLClient) : Cust
             GetCustomerByAccessTokenQuery(
                 GetCustomerByAccessTokenQuery.Variables(accessToken),
             )
-        ).data!!.customer
+        ).data!!.customer!!
         return Customer(
             id = result.id,
             email = result.email,

@@ -18,18 +18,19 @@ class CartMapper(private val objectMapper: ObjectMapper) {
         return Cart(
             id = result.id.split("/").last(),
             lines = result.lines.nodes.map {
-                it.merchandise as me.lucasbatista.vienna.shopify.graphql.addcartlinemutation.ProductVariant
+                val merchandise =
+                    it.merchandise as me.lucasbatista.vienna.shopify.graphql.addcartlinemutation.ProductVariant
                 CartLine(
                     id = it.id.split("/").last(),
                     quantity = it.quantity,
                     total = it.cost.totalAmount.amount.toDouble(),
                     productVariant = ProductVariant(
-                        id = it.merchandise.id.split("/").last(),
-                        productId = it.merchandise.product.id.split("/").last(),
-                        originalPrice = it.merchandise.compareAtPrice.amount.toDouble(),
-                        sellingPrice = it.merchandise.price.amount.toDouble(),
-                        title = it.merchandise.product.title,
-                        image = URL(it.merchandise.image.url),
+                        id = merchandise.id.split("/").last(),
+                        productId = merchandise.product.id.split("/").last(),
+                        originalPrice = merchandise.compareAtPrice!!.amount.toDouble(),
+                        sellingPrice = merchandise.price.amount.toDouble(),
+                        title = merchandise.product.title,
+                        image = URL(merchandise.image!!.url),
                     ),
                 )
             },

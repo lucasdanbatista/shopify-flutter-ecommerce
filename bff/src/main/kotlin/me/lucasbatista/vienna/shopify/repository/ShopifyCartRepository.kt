@@ -17,7 +17,7 @@ class ShopifyCartRepository(
             GetCartByIdQuery(
                 GetCartByIdQuery.Variables("gid://shopify/Cart/$id"),
             ),
-        ).data!!.cart
+        ).data!!.cart!!
         return mapper.fromGraphQLResult(result)
     }
 
@@ -28,7 +28,7 @@ class ShopifyCartRepository(
                     customerAccessToken = customerAuthenticationToken.accessToken,
                 ),
             ),
-        ).data!!.cartCreate.cart
+        ).data!!.cartCreate!!.cart!!
         return Cart(
             id = result.id.split("/").last(),
         )
@@ -42,7 +42,7 @@ class ShopifyCartRepository(
                     merchadiseId = "gid://shopify/ProductVariant/$productVariantId",
                 ),
             ),
-        ).data!!.cartLinesAdd.cart
+        ).data!!.cartLinesAdd!!.cart!!
         return mapper.fromGraphQLResult(result)
     }
 
@@ -55,7 +55,7 @@ class ShopifyCartRepository(
                     quantity = quantity,
                 ),
             ),
-        ).data!!.cartLinesUpdate.cart
+        ).data!!.cartLinesUpdate!!.cart!!
         return mapper.fromGraphQLResult(result)
     }
 }

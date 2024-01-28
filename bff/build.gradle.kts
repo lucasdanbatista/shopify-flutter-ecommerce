@@ -50,6 +50,6 @@ tasks.withType<Test> {
 graphql {
     client {
         packageName = "me.lucasbatista.vienna.shopify.graphql"
-        schemaFile = File("src/main/resources/shopify/graphql/schema.graphql")
+        endpoint = "https://run.mocky.io/v3/ed6e33af-2e9c-4ab5-b65a-bbaf49e1a43b"
     }
 }

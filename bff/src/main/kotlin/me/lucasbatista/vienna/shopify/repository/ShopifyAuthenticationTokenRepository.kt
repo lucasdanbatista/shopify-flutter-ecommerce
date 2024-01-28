@@ -20,7 +20,7 @@ class ShopifyAuthenticationTokenRepository(private val client: ShopifyGraphQLCli
                     ),
                 ),
             ),
-        ).data!!.customerAccessTokenCreate.customerAccessToken
+        ).data!!.customerAccessTokenCreate!!.customerAccessToken!!
         return AuthenticationToken(result.accessToken)
     }
 }

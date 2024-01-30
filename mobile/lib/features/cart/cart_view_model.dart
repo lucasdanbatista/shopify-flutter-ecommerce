@@ -1,48 +1,43 @@
 import 'package:mobx/mobx.dart';
 
+import '../../core/cart_manager.dart';
 import '../../core/entities/cart.dart';
-import '../../core/repositories/cart_repository.dart';
 
 part 'cart_view_model.g.dart';
 
 class CartViewModel = CartViewModelBase with _$CartViewModel;
 
 abstract class CartViewModelBase with Store {
-  final CartRepository _repository;
+  final CartManager _cartManager;
 
-  //TODO: remove hardcoded ids
-  static const _hardCodedCartId = 'Z2NwLXVzLWVhc3QxOjAxSE4yWkoyMzZFVkQ2MjlUUzVUNEEzNEVK';
-  static const _hardcodedPaymentMethodId = 'pm_1OdZzDJemeNreHwaBMAkAaGo';
-  static const _hardcodedShippingAddressId = '';
-
-  CartViewModelBase(this._repository);
+  CartViewModelBase(this._cartManager);
 
   @observable
-  Cart? cart;
+  late Cart cart = _cartManager.currentCart;
 
   @action
-  Future<void> fetch() async => cart = await _repository.getCartById(_hardCodedCartId);
+  void refreshCart() => cart = _cartManager.currentCart;
 
   @action
-  Future<void> addCartLine(String productVariantId) async => cart = await _repository.addCartLine(
-        cartId: _hardCodedCartId,
-        productVariantId: productVariantId,
-      );
+  Future<void> addCartLine(String productVariantId) async {
+    await _cartManager.addCartLine(productVariantId);
+    refreshCart();
+  }
 
   @action
-  Future<void> updateCartLine({
-    required String cartLineId,
-    required int quantity,
-  }) async =>
-      cart = await _repository.updateCartLine(
-        cartId: cart!.id,
-        cartLineId: cartLineId,
-        quantity: quantity,
-      );
+  Future<void> updateCartLine(String cartLineId, int quantity) async {
+    await _cartManager.updateCartLine(cartLineId, quantity);
+    refreshCart();
+  }
 
-  Future<void> processPayment() => _repository.checkout(
-        cartId: cart!.id,
-        shippingAddressId: _hardcodedShippingAddressId,
-        paymentMethodId: _hardcodedPaymentMethodId,
-      );
+  @action
+  Future<void> checkout() async {
+    await _cartManager.checkout(
+      //TODO remove mocked ids
+      shippingAddressId: '',
+      paymentMethodId: 'pm_1OeJEjJemeNreHwauCw53bgx',
+    );
+    await _cartManager.initializeNewCart();
+    refreshCart();
+  }
 }

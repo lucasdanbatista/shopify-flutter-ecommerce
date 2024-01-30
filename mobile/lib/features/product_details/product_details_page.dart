@@ -22,7 +22,7 @@ class ProductDetailsPage extends StatelessWidget with InitStateMixin {
 
   @override
   void initState() {
-    cartViewModel.fetch();
+    cartViewModel.refreshCart();
     productViewModel.fetch(productId);
   }
 
@@ -32,8 +32,7 @@ class ProductDetailsPage extends StatelessWidget with InitStateMixin {
     return Observer(
       builder: (context) {
         final product = productViewModel.product;
-        final cart = cartViewModel.cart;
-        if (product == null || cart == null) {
+        if (product == null) {
           return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
@@ -47,8 +46,8 @@ class ProductDetailsPage extends StatelessWidget with InitStateMixin {
               IconButton(
                 onPressed: () => context.pushRoute(CartRoute()),
                 icon: Badge.count(
-                  isLabelVisible: cart.lines.isNotEmpty,
-                  count: cart.lines.length,
+                  isLabelVisible: cartViewModel.cart.lines.isNotEmpty,
+                  count: cartViewModel.cart.lines.length,
                   child: const Icon(Icons.shopping_cart_outlined),
                 ),
               ),
@@ -113,10 +112,9 @@ class ProductDetailsPage extends StatelessWidget with InitStateMixin {
                         text: CurrencyFormatter().format(
                           product.variants.first.sellingPrice,
                         ),
-                        style:
-                            Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                ),
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                              fontWeight: FontWeight.w500,
+                            ),
                       ),
                     ],
                   ),
@@ -139,15 +137,13 @@ class ProductDetailsPage extends StatelessWidget with InitStateMixin {
           persistentFooterButtons: [
             Observer(
               builder: (context) {
-                final canContinueToPayment = productViewModel.addedToCart &&
-                    cartViewModel.cart?.lines.isNotEmpty == true;
+                final canContinueToPayment =
+                    productViewModel.addedToCart && cartViewModel.cart.lines.isNotEmpty;
                 return TextButton.icon(
                   onPressed: canContinueToPayment
                       ? () => context.pushRoute(CartRoute())
                       : () async {
-                          await GetIt.I<CartViewModel>().addCartLine(
-                            product.variants.first.id,
-                          );
+                          await cartViewModel.addCartLine(product.variants.first.id);
                           if (context.mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
@@ -159,14 +155,10 @@ class ProductDetailsPage extends StatelessWidget with InitStateMixin {
                           }
                         },
                   icon: Icon(
-                    canContinueToPayment
-                        ? Icons.check_outlined
-                        : Icons.add_shopping_cart_outlined,
+                    canContinueToPayment ? Icons.check_outlined : Icons.add_shopping_cart_outlined,
                   ),
                   label: Text(
-                    canContinueToPayment
-                        ? 'FECHAR PEDIDO'
-                        : 'ADICIONAR AO CARRINHO',
+                    canContinueToPayment ? 'FECHAR PEDIDO' : 'ADICIONAR AO CARRINHO',
                   ),
                 );
               },

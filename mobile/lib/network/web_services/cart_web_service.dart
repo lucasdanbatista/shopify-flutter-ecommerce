@@ -14,9 +14,7 @@ abstract class CartWebService {
   Future<CartDTO> getCartById(@Path('id') String id);
 
   @POST('')
-  Future<CartDTO> createCart({
-    @Header('Authorization') required String authorization,
-  });
+  Future<CartDTO> createCart();
 
   @POST('/{id}/lines')
   Future<CartDTO> addCartLine({

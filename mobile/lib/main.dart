@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 
+import 'core/auth_manager.dart';
+import 'core/cart_manager.dart';
 import 'core/core_module.dart';
 import 'core/module.dart';
 import 'features/cart/cart_module.dart';
@@ -14,7 +17,8 @@ import 'util/router.dart';
 
 final router = AppRouter();
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   Intl.defaultLocale = 'pt_BR';
   Module.initAll([
     CoreModule(),
@@ -26,6 +30,8 @@ void main() {
     ProductDetailsModule(),
     CartModule(),
   ]);
+  await GetIt.I<AuthManager>().loadCredentials();
+  await GetIt.I<CartManager>().loadCurrentCart();
   runApp(const MainApp());
 }
 

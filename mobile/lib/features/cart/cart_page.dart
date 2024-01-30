@@ -5,37 +5,24 @@ import 'package:get_it/get_it.dart';
 
 import '../../util/assets.dart';
 import '../../util/formatters/currency_formatter.dart';
-import '../../util/init_state_mixin.dart';
 import '../../util/router.gr.dart';
 import 'cart_view_model.dart';
 
 @RoutePage()
-class CartPage extends StatelessWidget with InitStateMixin {
+class CartPage extends StatelessWidget {
   final viewModel = GetIt.I<CartViewModel>();
 
   CartPage({super.key});
 
   @override
-  void initState() {
-    viewModel.fetch();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Carrinho'),
       ),
       body: Observer(
         builder: (context) {
-          final cart = viewModel.cart;
-          if (cart == null) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (cart.lines.isEmpty) {
+          if (viewModel.cart.lines.isEmpty) {
             return Center(
               child: Wrap(
                 spacing: 32,
@@ -52,9 +39,9 @@ class CartPage extends StatelessWidget with InitStateMixin {
             );
           }
           return ListView.builder(
-            itemCount: cart.lines.length,
+            itemCount: viewModel.cart.lines.length,
             itemBuilder: (context, index) {
-              final cartLine = cart.lines[index];
+              final cartLine = viewModel.cart.lines[index];
               return ListTile(
                 title: Text(
                   cartLine.productVariant.title,
@@ -74,8 +61,8 @@ class CartPage extends StatelessWidget with InitStateMixin {
                   children: [
                     IconButton(
                       onPressed: () => viewModel.updateCartLine(
-                        cartLineId: cartLine.id,
-                        quantity: cartLine.quantity - 1,
+                        cartLine.id,
+                        cartLine.quantity - 1,
                       ),
                       icon: const Icon(Icons.remove),
                     ),
@@ -85,8 +72,8 @@ class CartPage extends StatelessWidget with InitStateMixin {
                     ),
                     IconButton(
                       onPressed: () => viewModel.updateCartLine(
-                        cartLineId: cartLine.id,
-                        quantity: cartLine.quantity + 1,
+                        cartLine.id,
+                        cartLine.quantity + 1,
                       ),
                       icon: const Icon(Icons.add),
                     ),
@@ -131,9 +118,7 @@ class CartPage extends StatelessWidget with InitStateMixin {
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                     trailing: Text(
-                      CurrencyFormatter().format(
-                        viewModel.cart?.subtotal ?? 0,
-                      ),
+                      CurrencyFormatter().format(viewModel.cart.subtotal),
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
@@ -144,20 +129,18 @@ class CartPage extends StatelessWidget with InitStateMixin {
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                     trailing: Text(
-                      CurrencyFormatter().format(
-                        viewModel.cart?.total ?? 0,
-                      ),
+                      CurrencyFormatter().format(viewModel.cart.total),
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
                 ],
               ),
               Visibility(
-                visible: viewModel.cart?.lines.isNotEmpty == true,
+                visible: viewModel.cart.lines.isNotEmpty,
                 child: Center(
                   child: TextButton(
                     onPressed: () async {
-                      await viewModel.processPayment();
+                      await viewModel.checkout();
                       if (context.mounted) {
                         Navigator.of(context).pop();
                       }

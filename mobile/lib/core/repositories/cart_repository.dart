@@ -4,6 +4,8 @@ import '../../network/web_services/cart_web_service.dart';
 import '../entities/cart.dart';
 
 abstract interface class CartRepository {
+  Future<Cart> create();
+
   Future<Cart> getCartById(String id);
 
   Future<Cart> addCartLine({
@@ -29,6 +31,12 @@ class DefaultCartRepository implements CartRepository {
   final CartMapper _mapper;
 
   DefaultCartRepository(this._service, this._mapper);
+
+  @override
+  Future<Cart> create() async {
+    final response = await _service.createCart();
+    return _mapper.toEntity(response);
+  }
 
   @override
   Future<Cart> getCartById(String id) async {

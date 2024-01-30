@@ -18,7 +18,6 @@ class SplashPage extends StatelessWidget with InitStateMixin {
   @override
   void initState() async {
     await Future.delayed(1.seconds);
-    await authManager.loadCredentials();
     final route = authManager.isAuthenticated ? CategoriesRoute() : SignInRoute();
     router.replace(route as PageRouteInfo);
   }

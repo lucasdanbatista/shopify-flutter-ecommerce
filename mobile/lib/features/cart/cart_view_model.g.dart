@@ -13,24 +13,19 @@ mixin _$CartViewModel on CartViewModelBase, Store {
       Atom(name: 'CartViewModelBase.cart', context: context);
 
   @override
-  Cart? get cart {
+  Cart get cart {
     _$cartAtom.reportRead();
     return super.cart;
   }
 
+  bool _cartIsInitialized = false;
+
   @override
-  set cart(Cart? value) {
-    _$cartAtom.reportWrite(value, super.cart, () {
+  set cart(Cart value) {
+    _$cartAtom.reportWrite(value, _cartIsInitialized ? super.cart : null, () {
       super.cart = value;
+      _cartIsInitialized = true;
     });
-  }
-
-  late final _$fetchAsyncAction =
-      AsyncAction('CartViewModelBase.fetch', context: context);
-
-  @override
-  Future<void> fetch() {
-    return _$fetchAsyncAction.run(() => super.fetch());
   }
 
   late final _$addCartLineAsyncAction =
@@ -46,10 +41,31 @@ mixin _$CartViewModel on CartViewModelBase, Store {
       AsyncAction('CartViewModelBase.updateCartLine', context: context);
 
   @override
-  Future<void> updateCartLine(
-      {required String cartLineId, required int quantity}) {
-    return _$updateCartLineAsyncAction.run(
-        () => super.updateCartLine(cartLineId: cartLineId, quantity: quantity));
+  Future<void> updateCartLine(String cartLineId, int quantity) {
+    return _$updateCartLineAsyncAction
+        .run(() => super.updateCartLine(cartLineId, quantity));
+  }
+
+  late final _$checkoutAsyncAction =
+      AsyncAction('CartViewModelBase.checkout', context: context);
+
+  @override
+  Future<void> checkout() {
+    return _$checkoutAsyncAction.run(() => super.checkout());
+  }
+
+  late final _$CartViewModelBaseActionController =
+      ActionController(name: 'CartViewModelBase', context: context);
+
+  @override
+  void refreshCart() {
+    final _$actionInfo = _$CartViewModelBaseActionController.startAction(
+        name: 'CartViewModelBase.refreshCart');
+    try {
+      return super.refreshCart();
+    } finally {
+      _$CartViewModelBaseActionController.endAction(_$actionInfo);
+    }
   }
 
   @override

@@ -2,6 +2,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 
 import 'auth_manager.dart';
+import 'cart_manager.dart';
 import 'environment.dart';
 import 'module.dart';
 import 'repositories/cart_repository.dart';
@@ -14,6 +15,7 @@ class CoreModule implements Module {
     i.registerLazySingleton<Environment>(() => DebugEnvironment());
     i.registerLazySingleton(() => const FlutterSecureStorage());
     i.registerLazySingleton<AuthManager>(() => DefaultAuthManager(i.get(), i.get(), i.get()));
+    i.registerLazySingleton<CartManager>(() => DefaultCartManager(i.get(), i.get()));
     i.registerLazySingleton<ProductRepository>(
       () => DefaultProductRepository(i.get(), i.get(), i.get()),
     );

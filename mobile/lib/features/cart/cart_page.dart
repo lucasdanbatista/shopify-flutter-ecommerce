@@ -140,7 +140,7 @@ class CartPage extends StatelessWidget {
                 child: Center(
                   child: TextButton(
                     onPressed: () async {
-                      await viewModel.checkout();
+                      await viewModel.createPaymentIntent();
                       if (context.mounted) {
                         Navigator.of(context).pop();
                       }

@@ -1,11 +1,7 @@
 package me.lucasbatista.vienna.sdk.repository
 
-import me.lucasbatista.vienna.sdk.entity.ProcessedPayment
+import me.lucasbatista.vienna.sdk.entity.PaymentIntent
 
 interface PaymentRepository {
-    fun processPayment(
-        customerEmail: String,
-        paymentMethodId: String,
-        amount: Double,
-    ): ProcessedPayment
+    fun createPaymentIntent(customerEmail: String, amount: Double): PaymentIntent
 }

@@ -6,6 +6,8 @@ plugins {
     id("com.expediagroup.graphql") version "7.0.2"
     kotlin("jvm") version "1.9.22"
     kotlin("plugin.spring") version "1.9.22"
+    kotlin("plugin.jpa") version "1.9.22"
+    kotlin("plugin.noarg") version "1.9.22"
 }
 
 group = "me.lucasbatista"
@@ -29,9 +31,11 @@ dependencies {
     implementation("com.stripe:stripe-java:24.13.0")
     implementation("com.expediagroup:graphql-kotlin-spring-client:7.0.2")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
+    runtimeOnly("com.h2database:h2")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
@@ -52,4 +56,8 @@ graphql {
         packageName = "me.lucasbatista.vienna.shopify.graphql"
         endpoint = "https://run.mocky.io/v3/ed6e33af-2e9c-4ab5-b65a-bbaf49e1a43b"
     }
+}
+
+noArg {
+    annotation("jakarta.persistence.Entity")
 }

@@ -1,5 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../network/dtos/payment_intent_dto.dart';
 import 'entities/cart.dart';
 import 'repositories/cart_repository.dart';
 
@@ -14,10 +15,7 @@ abstract interface class CartManager {
 
   Future<void> updateCartLine(String cartLineId, int quantity);
 
-  Future<void> checkout({
-    required String shippingAddressId,
-    required String paymentMethodId,
-  });
+  Future<PaymentIntentDTO> createPaymentIntent();
 }
 
 class DefaultCartManager implements CartManager {
@@ -66,13 +64,6 @@ class DefaultCartManager implements CartManager {
   }
 
   @override
-  Future<void> checkout({
-    required String shippingAddressId,
-    required String paymentMethodId,
-  }) async =>
-      _repository.checkout(
-        cartId: _currentCart.id,
-        shippingAddressId: shippingAddressId,
-        paymentMethodId: paymentMethodId,
-      );
+  Future<PaymentIntentDTO> createPaymentIntent() async =>
+      _repository.createPaymentIntent(_currentCart.id);
 }

@@ -1,5 +1,6 @@
 import '../../mappers/cart_mapper.dart';
 import '../../network/dtos/cart_line_dto.dart';
+import '../../network/dtos/payment_intent_dto.dart';
 import '../../network/web_services/cart_web_service.dart';
 import '../entities/cart.dart';
 
@@ -19,11 +20,7 @@ abstract interface class CartRepository {
     required int quantity,
   });
 
-  Future<void> checkout({
-    required String cartId,
-    required String shippingAddressId,
-    required String paymentMethodId,
-  });
+  Future<PaymentIntentDTO> createPaymentIntent(String cartId);
 }
 
 class DefaultCartRepository implements CartRepository {
@@ -73,14 +70,6 @@ class DefaultCartRepository implements CartRepository {
   }
 
   @override
-  Future<void> checkout({
-    required String cartId,
-    required String shippingAddressId,
-    required String paymentMethodId,
-  }) =>
-      _service.checkout(
-        cartId: cartId,
-        shippingAddressId: shippingAddressId,
-        paymentMethodId: paymentMethodId,
-      );
+  Future<PaymentIntentDTO> createPaymentIntent(String cartId) =>
+      _service.createPaymentIntent(cartId);
 }

@@ -3,6 +3,7 @@ import 'package:retrofit/retrofit.dart';
 
 import '../dtos/cart_dto.dart';
 import '../dtos/cart_line_dto.dart';
+import '../dtos/payment_intent_dto.dart';
 
 part 'cart_web_service.g.dart';
 
@@ -28,10 +29,6 @@ abstract class CartWebService {
     @Body() required CartLineDTO cartLine,
   });
 
-  @POST('/{id}/checkout')
-  Future<void> checkout({
-    @Path('id') required String cartId,
-    @Query('shippingAddressId') required String shippingAddressId,
-    @Query('paymentMethodId') required String paymentMethodId,
-  });
+  @POST('/{id}/checkout/payment-intents')
+  Future<PaymentIntentDTO> createPaymentIntent(@Path('id') String cartId);
 }

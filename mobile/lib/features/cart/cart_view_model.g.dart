@@ -46,12 +46,13 @@ mixin _$CartViewModel on CartViewModelBase, Store {
         .run(() => super.updateCartLine(cartLineId, quantity));
   }
 
-  late final _$checkoutAsyncAction =
-      AsyncAction('CartViewModelBase.checkout', context: context);
+  late final _$createPaymentIntentAsyncAction =
+      AsyncAction('CartViewModelBase.createPaymentIntent', context: context);
 
   @override
-  Future<void> checkout() {
-    return _$checkoutAsyncAction.run(() => super.checkout());
+  Future<void> createPaymentIntent() {
+    return _$createPaymentIntentAsyncAction
+        .run(() => super.createPaymentIntent());
   }
 
   late final _$CartViewModelBaseActionController =

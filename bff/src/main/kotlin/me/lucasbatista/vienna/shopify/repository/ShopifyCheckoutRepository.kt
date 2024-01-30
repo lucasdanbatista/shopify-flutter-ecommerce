@@ -3,7 +3,7 @@ package me.lucasbatista.vienna.shopify.repository
 import me.lucasbatista.vienna.sdk.entity.Address
 import me.lucasbatista.vienna.sdk.entity.Cart
 import me.lucasbatista.vienna.sdk.entity.Checkout
-import me.lucasbatista.vienna.sdk.entity.ProcessedPayment
+import me.lucasbatista.vienna.sdk.entity.CheckoutPayment
 import me.lucasbatista.vienna.sdk.repository.CheckoutRepository
 import me.lucasbatista.vienna.shopify.graphql.CompleteCheckoutMutation
 import me.lucasbatista.vienna.shopify.graphql.CreateCheckoutMutation
@@ -49,22 +49,22 @@ class ShopifyCheckoutRepository(private val client: ShopifyGraphQLClient) : Chec
         )
     }
 
-    override fun complete(checkoutId: String, payment: ProcessedPayment, billingAddress: Address) {
+    override fun complete(payment: CheckoutPayment) {
         client.executeAsAdmin(
             CompleteCheckoutMutation(
                 CompleteCheckoutMutation.Variables(
-                    checkoutId = checkoutId,
+                    checkoutId = payment.checkoutId,
                     payment = TokenizedPaymentInputV3(
                         idempotencyKey = UUID.randomUUID().toString(),
                         billingAddress = MailingAddressInput(
-                            firstName = billingAddress.recipientFirstName,
-                            lastName = billingAddress.recipientLastName,
-                            address1 = billingAddress.line1,
-                            address2 = billingAddress.line2,
-                            city = billingAddress.city,
-                            province = billingAddress.province,
-                            country = billingAddress.country,
-                            zip = billingAddress.zipcode,
+                            firstName = payment.billingAddress.recipientFirstName,
+                            lastName = payment.billingAddress.recipientLastName,
+                            address1 = payment.billingAddress.line1,
+                            address2 = payment.billingAddress.line2,
+                            city = payment.billingAddress.city,
+                            province = payment.billingAddress.province,
+                            country = payment.billingAddress.country,
+                            zip = payment.billingAddress.zipcode,
                         ),
                         paymentAmount = MoneyInput(
                             amount = payment.totalPaid.toString(),

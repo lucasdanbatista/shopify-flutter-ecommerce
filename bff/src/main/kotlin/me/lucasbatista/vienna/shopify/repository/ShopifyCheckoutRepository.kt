@@ -8,6 +8,7 @@ import me.lucasbatista.vienna.sdk.repository.CheckoutRepository
 import me.lucasbatista.vienna.shopify.graphql.CompleteCheckoutMutation
 import me.lucasbatista.vienna.shopify.graphql.CreateCheckoutMutation
 import me.lucasbatista.vienna.shopify.graphql.ShopifyGraphQLClient
+import me.lucasbatista.vienna.shopify.graphql.UpdateCheckoutShippingLineMutation
 import me.lucasbatista.vienna.shopify.graphql.enums.CurrencyCode
 import me.lucasbatista.vienna.shopify.graphql.enums.PaymentTokenType
 import me.lucasbatista.vienna.shopify.graphql.inputs.CheckoutLineItemInput
@@ -43,6 +44,17 @@ class ShopifyCheckoutRepository(private val client: ShopifyGraphQLClient) : Chec
                 )
             ),
         ).data!!.checkoutCreate!!.checkout!!
+        val shippingResult = client.executeAsAdmin(
+            UpdateCheckoutShippingLineMutation(
+                UpdateCheckoutShippingLineMutation.Variables(
+                    shippingRateHandle = result.availableShippingRates!!.shippingRates!!.first().handle,
+                    checkoutId = result.id,
+                ),
+            ),
+        ).data!!.checkoutShippingLineUpdate!!
+        if (shippingResult.checkoutUserErrors.isNotEmpty()) {
+            throw Error(shippingResult.checkoutUserErrors.first().message)
+        }
         return Checkout(
             id = result.id,
             total = result.totalPrice.amount.toDouble(),
@@ -50,7 +62,7 @@ class ShopifyCheckoutRepository(private val client: ShopifyGraphQLClient) : Chec
     }
 
     override fun complete(payment: CheckoutPayment) {
-        client.executeAsAdmin(
+        val result = client.executeAsAdmin(
             CompleteCheckoutMutation(
                 CompleteCheckoutMutation.Variables(
                     checkoutId = payment.checkoutId,
@@ -75,6 +87,12 @@ class ShopifyCheckoutRepository(private val client: ShopifyGraphQLClient) : Chec
                     ),
                 )
             )
-        )
+        ).data!!.checkoutCompleteWithTokenizedPaymentV3!!
+        if (result.checkoutUserErrors.isNotEmpty()) {
+            throw Error(result.checkoutUserErrors.first().message)
+        }
+        if (result.payment?.errorMessage != null) {
+            throw Error(result.payment.errorMessage)
+        }
     }
 }

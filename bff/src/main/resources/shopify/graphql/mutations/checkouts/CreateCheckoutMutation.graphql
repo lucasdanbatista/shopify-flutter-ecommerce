@@ -12,6 +12,11 @@ mutation CreateCheckoutMutation(
     ){
         checkout {
             id
+            availableShippingRates {
+                shippingRates {
+                    handle
+                }
+            }
             totalPrice {
                 amount
             }

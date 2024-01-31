@@ -5,17 +5,19 @@ import 'package:get_it/get_it.dart';
 
 import '../../util/init_state_mixin.dart';
 import '../../util/router.gr.dart';
+import '../wishlist/wishlist_view_model.dart';
 import 'categories_view_model.dart';
 
 @RoutePage()
 class CategoriesPage extends StatelessWidget with InitStateMixin {
-  final viewModel = GetIt.I<CategoriesViewModel>();
+  final categoriesViewModel = GetIt.I<CategoriesViewModel>();
+  final wishlistViewModel = GetIt.I<WishlistViewModel>();
 
   CategoriesPage({super.key});
 
   @override
   void initState() {
-    viewModel.fetch();
+    categoriesViewModel.fetch();
   }
 
   @override
@@ -27,15 +29,21 @@ class CategoriesPage extends StatelessWidget with InitStateMixin {
         actions: [
           IconButton(
             onPressed: () => context.pushRoute(WishlistRoute()),
-            icon: const Icon(Icons.favorite_border),
+            icon: Observer(
+              builder: (context) => Badge.count(
+                isLabelVisible: wishlistViewModel.wishlist.isNotEmpty,
+                count: wishlistViewModel.wishlist.length,
+                child: const Icon(Icons.favorite_border),
+              ),
+            ),
           ),
         ],
       ),
       body: Observer(
         builder: (context) => ListView.builder(
-          itemCount: viewModel.categories.length,
+          itemCount: categoriesViewModel.categories.length,
           itemBuilder: (context, index) {
-            final category = viewModel.categories[index];
+            final category = categoriesViewModel.categories[index];
             return ListTile(
               minVerticalPadding: 20,
               leading: CircleAvatar(

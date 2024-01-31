@@ -21,7 +21,6 @@ dependencies:
   mobx: ^2.3.0+1
   retrofit: ^4.0.3
   sqflite: ^2.3.2
-  uuid: ^4.3.3
 
 dev_dependencies:
   flutter_test:

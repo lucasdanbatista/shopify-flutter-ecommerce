@@ -47,7 +47,29 @@ class ProductDetailsPage extends StatelessWidget with InitStateMixin {
             actions: [
               Observer(
                 builder: (context) => IconButton(
-                  onPressed: () => wishlistViewModel.toggleFavorite(product),
+                  onPressed: () async {
+                    await wishlistViewModel.toggleFavorite(product);
+                    if (wishlistViewModel.isFavorite(product) && context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Colors.green,
+                          duration: const Duration(seconds: 5),
+                          action: SnackBarAction(
+                            label: 'VER LISTA',
+                            textColor: Colors.white,
+                            onPressed: () => context.pushRoute(WishlistRoute()),
+                          ),
+                          content: Text(
+                            'Adicionado aos favoritos.',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(color: Colors.white),
+                          ),
+                        ),
+                      );
+                    }
+                  },
                   isSelected: wishlistViewModel.isFavorite(product),
                   icon: const Icon(Icons.favorite_border),
                   selectedIcon: const Icon(Icons.favorite),
@@ -111,20 +133,18 @@ class ProductDetailsPage extends StatelessWidget with InitStateMixin {
                 const Padding(padding: EdgeInsets.only(top: 16)),
                 Text.rich(
                   TextSpan(
-                    text: '${CurrencyFormatter().format(
-                      product.variants.first.originalPrice,
-                    )}\n',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          decoration: TextDecoration.lineThrough,
-                        ),
+                    text: '${CurrencyFormatter().format(product.variants.first.originalPrice)}\n',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(decoration: TextDecoration.lineThrough),
                     children: [
                       TextSpan(
-                        text: CurrencyFormatter().format(
-                          product.variants.first.sellingPrice,
-                        ),
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                              fontWeight: FontWeight.w500,
-                            ),
+                        text: CurrencyFormatter().format(product.variants.first.sellingPrice),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall
+                            ?.copyWith(fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
@@ -158,7 +178,7 @@ class ProductDetailsPage extends StatelessWidget with InitStateMixin {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 backgroundColor: Colors.green,
-                                content: Text('Adicionado ao carrinho'),
+                                content: Text('Adicionado ao carrinho.'),
                               ),
                             );
                             productViewModel.setAddedToCart(true);

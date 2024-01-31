@@ -1,7 +1,7 @@
+import '../../dtos/cart_line_dto.dart';
+import '../../dtos/payment_intent_dto.dart';
 import '../../mappers/cart_mapper.dart';
-import '../../network/dtos/cart_line_dto.dart';
-import '../../network/dtos/payment_intent_dto.dart';
-import '../../network/web_services/cart_web_service.dart';
+import '../../providers/cart_provider.dart';
 import '../entities/cart.dart';
 
 abstract interface class CartRepository {
@@ -24,20 +24,20 @@ abstract interface class CartRepository {
 }
 
 class DefaultCartRepository implements CartRepository {
-  final CartWebService _service;
+  final CartProvider _provider;
   final CartMapper _mapper;
 
-  DefaultCartRepository(this._service, this._mapper);
+  DefaultCartRepository(this._provider, this._mapper);
 
   @override
   Future<Cart> create() async {
-    final response = await _service.createCart();
+    final response = await _provider.createCart();
     return _mapper.toEntity(response);
   }
 
   @override
   Future<Cart> getCartById(String id) async {
-    final response = await _service.getCartById(id);
+    final response = await _provider.getCartById(id);
     return _mapper.toEntity(response);
   }
 
@@ -46,7 +46,7 @@ class DefaultCartRepository implements CartRepository {
     required String cartId,
     required String productVariantId,
   }) async {
-    final response = await _service.addCartLine(
+    final response = await _provider.addCartLine(
       cartId: cartId,
       productVariantId: productVariantId,
     );
@@ -59,7 +59,7 @@ class DefaultCartRepository implements CartRepository {
     required String cartLineId,
     required int quantity,
   }) async {
-    final response = await _service.updateCartLine(
+    final response = await _provider.updateCartLine(
       cartId: cartId,
       cartLine: CartLineDTO(
         id: cartLineId,
@@ -71,5 +71,5 @@ class DefaultCartRepository implements CartRepository {
 
   @override
   Future<PaymentIntentDTO> createPaymentIntent(String cartId) =>
-      _service.createPaymentIntent(cartId);
+      _provider.createPaymentIntent(cartId);
 }

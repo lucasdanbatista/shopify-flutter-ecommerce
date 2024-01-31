@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../network/web_services/customer_web_service.dart';
+import '../providers/customer_provider.dart';
 
 abstract interface class AuthManager {
   Future<void> signIn(String email, String password);
@@ -15,15 +15,15 @@ class DefaultAuthManager implements AuthManager {
   static const _authorizationHeader = 'Authorization';
   static const _accessTokenKey = 'customer.accessToken';
 
-  final CustomerWebService _service;
+  final CustomerProvider _provider;
   final FlutterSecureStorage _secureStorage;
   final Dio _httpClient;
 
-  DefaultAuthManager(this._httpClient, this._service, this._secureStorage);
+  DefaultAuthManager(this._httpClient, this._provider, this._secureStorage);
 
   @override
   Future<void> signIn(String email, String password) async {
-    final token = await _service.signIn(email, password);
+    final token = await _provider.signIn(email, password);
     await _secureStorage.write(key: _accessTokenKey, value: token.accessToken);
     await loadCredentials();
   }
@@ -36,6 +36,5 @@ class DefaultAuthManager implements AuthManager {
   }
 
   @override
-  bool get isAuthenticated =>
-      _httpClient.options.headers[_authorizationHeader] != null;
+  bool get isAuthenticated => _httpClient.options.headers[_authorizationHeader] != null;
 }

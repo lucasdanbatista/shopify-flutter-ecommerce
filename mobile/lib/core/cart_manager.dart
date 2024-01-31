@@ -1,6 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../network/dtos/payment_intent_dto.dart';
+import '../dtos/payment_intent_dto.dart';
 import 'entities/cart.dart';
 import 'repositories/cart_repository.dart';
 

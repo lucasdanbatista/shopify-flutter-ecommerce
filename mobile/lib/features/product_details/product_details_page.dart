@@ -7,6 +7,7 @@ import '../../util/formatters/currency_formatter.dart';
 import '../../util/init_state_mixin.dart';
 import '../../util/router.gr.dart';
 import '../cart/cart_view_model.dart';
+import '../wishlist/wishlist_view_model.dart';
 import 'product_details_view_model.dart';
 
 @RoutePage()
@@ -14,6 +15,7 @@ class ProductDetailsPage extends StatelessWidget with InitStateMixin {
   final String productId;
   final productViewModel = GetIt.I<ProductDetailsViewModel>();
   final cartViewModel = GetIt.I<CartViewModel>();
+  final wishlistViewModel = GetIt.I<WishlistViewModel>();
 
   ProductDetailsPage({
     super.key,
@@ -43,6 +45,14 @@ class ProductDetailsPage extends StatelessWidget with InitStateMixin {
           appBar: AppBar(
             title: const Text('Detalhes do produto'),
             actions: [
+              Observer(
+                builder: (context) => IconButton(
+                  onPressed: () => wishlistViewModel.toggleFavorite(product),
+                  isSelected: wishlistViewModel.isFavorite(product),
+                  icon: const Icon(Icons.favorite_border),
+                  selectedIcon: const Icon(Icons.favorite),
+                ),
+              ),
               IconButton(
                 onPressed: () => context.pushRoute(CartRoute()),
                 icon: Badge.count(

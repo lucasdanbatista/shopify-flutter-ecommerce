@@ -1,5 +1,5 @@
 import '../../mappers/product_category_mapper.dart';
-import '../../network/web_services/product_category_web_service.dart';
+import '../../providers/product_category_provider.dart';
 import '../entities/product_category.dart';
 
 abstract interface class ProductCategoryRepository {
@@ -7,14 +7,14 @@ abstract interface class ProductCategoryRepository {
 }
 
 class DefaultProductCategoryRepository implements ProductCategoryRepository {
-  final ProductCategoryWebService _service;
+  final ProductCategoryProvider _provider;
   final ProductCategoryMapper _mapper;
 
-  DefaultProductCategoryRepository(this._service, this._mapper);
+  DefaultProductCategoryRepository(this._provider, this._mapper);
 
   @override
   Future<List<ProductCategory>> findAll() async {
-    final response = await _service.findAll();
+    final response = await _provider.findAll();
     return response.map(_mapper.toEntity).toList();
   }
 }

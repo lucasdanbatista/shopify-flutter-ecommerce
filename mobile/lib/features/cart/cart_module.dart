@@ -5,7 +5,7 @@ import 'cart_view_model.dart';
 
 class CartModule implements Module {
   @override
-  void init(GetIt i) {
+  Future<void> init(GetIt i) async {
     i.registerLazySingleton(() => CartViewModel(i.get()));
   }
 }

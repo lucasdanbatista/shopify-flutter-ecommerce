@@ -5,7 +5,7 @@ import 'product_details_view_model.dart';
 
 class ProductDetailsModule implements Module {
   @override
-  void init(GetIt i) {
+  Future<void> init(GetIt i) async {
     i.registerFactory(() => ProductDetailsViewModel(i.get()));
   }
 }

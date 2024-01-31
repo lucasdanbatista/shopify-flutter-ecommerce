@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'cart_web_service.dart';
+part of 'cart_provider.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,8 +8,8 @@ part of 'cart_web_service.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _CartWebService implements CartWebService {
-  _CartWebService(
+class _CartProvider implements CartProvider {
+  _CartProvider(
     this._dio, {
     this.baseUrl,
   }) {

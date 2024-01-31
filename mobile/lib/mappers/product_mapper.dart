@@ -1,5 +1,5 @@
 import '../core/entities/product.dart';
-import '../network/dtos/product_dto.dart';
+import '../dtos/product_dto.dart';
 import 'entity_mapper.dart';
 import 'product_variant_mapper.dart';
 

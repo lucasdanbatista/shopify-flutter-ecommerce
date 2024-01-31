@@ -1,11 +1,11 @@
 import 'package:get_it/get_it.dart';
 
 abstract interface class Module {
-  void init(GetIt i);
+  Future<void> init(GetIt i);
 
-  static void initAll(List<Module> modules) {
+  static Future<void> initAll(List<Module> modules) async {
     for (final module in modules) {
-      module.init(GetIt.instance);
+      await module.init(GetIt.instance);
     }
   }
 }

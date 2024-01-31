@@ -1,5 +1,5 @@
 import '../core/entities/cart.dart';
-import '../network/dtos/cart_dto.dart';
+import '../dtos/cart_dto.dart';
 import 'cart_line_mapper.dart';
 import 'entity_mapper.dart';
 

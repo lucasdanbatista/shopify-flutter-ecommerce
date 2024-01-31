@@ -4,11 +4,11 @@ import 'package:retrofit/retrofit.dart';
 import '../dtos/product_category_dto.dart';
 import '../dtos/product_dto.dart';
 
-part 'product_category_web_service.g.dart';
+part 'product_category_provider.g.dart';
 
 @RestApi(baseUrl: '/v1/categories')
-abstract class ProductCategoryWebService {
-  factory ProductCategoryWebService(Dio dio) = _ProductCategoryWebService;
+abstract class ProductCategoryProvider {
+  factory ProductCategoryProvider(Dio dio) = _ProductCategoryProvider;
 
   @GET('')
   Future<List<ProductCategoryDTO>> findAll();

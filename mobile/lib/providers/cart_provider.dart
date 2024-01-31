@@ -5,11 +5,11 @@ import '../dtos/cart_dto.dart';
 import '../dtos/cart_line_dto.dart';
 import '../dtos/payment_intent_dto.dart';
 
-part 'cart_web_service.g.dart';
+part 'cart_provider.g.dart';
 
 @RestApi(baseUrl: '/v1/carts')
-abstract class CartWebService {
-  factory CartWebService(Dio dio) = _CartWebService;
+abstract class CartProvider {
+  factory CartProvider(Dio dio) = _CartProvider;
 
   @GET('/{id}')
   Future<CartDTO> getCartById(@Path('id') String id);

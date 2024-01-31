@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'product_category_web_service.dart';
+part of 'product_provider.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,12 +8,12 @@ part of 'product_category_web_service.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _ProductCategoryWebService implements ProductCategoryWebService {
-  _ProductCategoryWebService(
+class _ProductProvider implements ProductProvider {
+  _ProductProvider(
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= '/v1/categories';
+    baseUrl ??= '/v1/products';
   }
 
   final Dio _dio;
@@ -21,20 +21,20 @@ class _ProductCategoryWebService implements ProductCategoryWebService {
   String? baseUrl;
 
   @override
-  Future<List<ProductCategoryDTO>> findAll() async {
+  Future<ProductDTO> findProductById(String id) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio
-        .fetch<List<dynamic>>(_setStreamType<List<ProductCategoryDTO>>(Options(
+        .fetch<Map<String, dynamic>>(_setStreamType<ProductDTO>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '',
+              '/${id}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -43,17 +43,14 @@ class _ProductCategoryWebService implements ProductCategoryWebService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    var value = _result.data!
-        .map((dynamic i) =>
-            ProductCategoryDTO.fromJson(i as Map<String, dynamic>))
-        .toList();
+    final value = ProductDTO.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<List<ProductDTO>> findAllProductsByCategoryId(String id) async {
+  Future<List<ProductDTO>> findAllByIds(String ids) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'ids': ids};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio
@@ -64,7 +61,7 @@ class _ProductCategoryWebService implements ProductCategoryWebService {
     )
             .compose(
               _dio.options,
-              '/${id}/products',
+              '',
               queryParameters: queryParameters,
               data: _data,
             )

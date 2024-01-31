@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'customer_web_service.dart';
+part of 'customer_provider.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,8 +8,8 @@ part of 'customer_web_service.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _CustomerWebService implements CustomerWebService {
-  _CustomerWebService(
+class _CustomerProvider implements CustomerProvider {
+  _CustomerProvider(
     this._dio, {
     this.baseUrl,
   }) {

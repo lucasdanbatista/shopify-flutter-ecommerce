@@ -3,8 +3,10 @@ query GetProductsQuery($query: String!) {
         nodes {
             id
             title
+            description
             variants(first: 1){
                 nodes {
+                    id
                     compareAtPrice {
                         amount
                     }

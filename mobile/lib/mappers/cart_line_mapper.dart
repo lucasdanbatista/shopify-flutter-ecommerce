@@ -1,5 +1,5 @@
 import '../core/entities/cart_line.dart';
-import '../network/dtos/cart_line_dto.dart';
+import '../dtos/cart_line_dto.dart';
 import 'entity_mapper.dart';
 import 'product_variant_mapper.dart';
 
@@ -14,9 +14,8 @@ class CartLineMapper implements EntityMapper<CartLineDTO, CartLine> {
       id: it.id,
       quantity: it.quantity,
       total: it.total,
-      productVariant: it.productVariant != null
-          ? _productVariantMapper.toEntity(it.productVariant!)
-          : null,
+      productVariant:
+          it.productVariant != null ? _productVariantMapper.toEntity(it.productVariant!) : null,
     );
   }
 }

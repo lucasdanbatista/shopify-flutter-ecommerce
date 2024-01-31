@@ -24,6 +24,12 @@ class CategoriesPage extends StatelessWidget with InitStateMixin {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Categorias'),
+        actions: [
+          IconButton(
+            onPressed: () => context.pushRoute(WishlistRoute()),
+            icon: const Icon(Icons.favorite_border),
+          ),
+        ],
       ),
       body: Observer(
         builder: (context) => ListView.builder(

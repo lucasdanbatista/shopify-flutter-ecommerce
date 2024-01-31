@@ -6,13 +6,15 @@ import 'core/auth_manager.dart';
 import 'core/cart_manager.dart';
 import 'core/core_module.dart';
 import 'core/module.dart';
+import 'core/wishlist_manager.dart';
 import 'features/cart/cart_module.dart';
 import 'features/categories/categories_module.dart';
 import 'features/category_details/category_details_module.dart';
 import 'features/product_details/product_details_module.dart';
 import 'features/sign_in/sign_in_module.dart';
+import 'features/wishlist/wishlist_module.dart';
 import 'mappers/mappers_module.dart';
-import 'network/web_services/web_services_module.dart';
+import 'providers/providers_module.dart';
 import 'util/router.dart';
 
 final router = AppRouter();
@@ -20,18 +22,20 @@ final router = AppRouter();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Intl.defaultLocale = 'pt_BR';
-  Module.initAll([
+  await Module.initAll([
     CoreModule(),
     MappersModule(),
-    WebServicesModule(),
+    ProvidersModule(),
     SignInModule(),
     CategoriesModule(),
     CategoryDetailsModule(),
     ProductDetailsModule(),
     CartModule(),
+    WishlistModule(),
   ]);
   await GetIt.I<AuthManager>().loadCredentials();
   await GetIt.I<CartManager>().loadCurrentCart();
+  await GetIt.I<WishlistManager>().fetch();
   runApp(const MainApp());
 }
 

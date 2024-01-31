@@ -3,11 +3,11 @@ import 'package:retrofit/retrofit.dart';
 
 import '../dtos/auth_token_dto.dart';
 
-part 'customer_web_service.g.dart';
+part 'customer_provider.g.dart';
 
 @RestApi(baseUrl: '/v1/customers')
-abstract class CustomerWebService {
-  factory CustomerWebService(Dio dio) = _CustomerWebService;
+abstract class CustomerProvider {
+  factory CustomerProvider(Dio dio) = _CustomerProvider;
 
   @MultiPart()
   @POST('/sign-in')

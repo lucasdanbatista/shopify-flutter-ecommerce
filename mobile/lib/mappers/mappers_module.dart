@@ -9,7 +9,7 @@ import 'product_variant_mapper.dart';
 
 class MappersModule implements Module {
   @override
-  void init(GetIt i) {
+  Future<void> init(GetIt i) async {
     i.registerLazySingleton(() => ProductCategoryMapper());
     i.registerLazySingleton(() => ProductMapper(i.get()));
     i.registerLazySingleton(() => ProductVariantMapper());

@@ -3,6 +3,8 @@ import 'package:get_it/get_it.dart';
 import '../core/module.dart';
 import 'cart_line_mapper.dart';
 import 'cart_mapper.dart';
+import 'order_item_mapper.dart';
+import 'order_mapper.dart';
 import 'product_category_mapper.dart';
 import 'product_mapper.dart';
 import 'product_variant_mapper.dart';
@@ -15,5 +17,7 @@ class MappersModule implements Module {
     i.registerLazySingleton(() => ProductVariantMapper());
     i.registerLazySingleton(() => CartMapper(i.get()));
     i.registerLazySingleton(() => CartLineMapper(i.get()));
+    i.registerLazySingleton(() => OrderMapper(i.get()));
+    i.registerLazySingleton(() => OrderItemMapper(i.get()));
   }
 }

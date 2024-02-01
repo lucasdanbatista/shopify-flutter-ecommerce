@@ -11,6 +11,7 @@ import 'features/cart/cart_module.dart';
 import 'features/categories/categories_module.dart';
 import 'features/category_details/category_details_module.dart';
 import 'features/home/home_module.dart';
+import 'features/orders/orders_module.dart';
 import 'features/product_details/product_details_module.dart';
 import 'features/sign_in/sign_in_module.dart';
 import 'features/wishlist/wishlist_module.dart';
@@ -34,6 +35,7 @@ Future<void> main() async {
     ProductDetailsModule(),
     CartModule(),
     WishlistModule(),
+    OrdersModule(),
   ]);
   await GetIt.I<AuthManager>().loadCredentials();
   await GetIt.I<CartManager>().loadCurrentCart();

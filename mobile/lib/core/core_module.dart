@@ -8,6 +8,7 @@ import 'database_scheme.dart';
 import 'environment.dart';
 import 'module.dart';
 import 'repositories/cart_repository.dart';
+import 'repositories/order_repository.dart';
 import 'repositories/product_category_repository.dart';
 import 'repositories/product_repository.dart';
 import 'repositories/wishlist_repository.dart';
@@ -29,6 +30,7 @@ class CoreModule implements Module {
     );
     i.registerLazySingleton<CartRepository>(() => DefaultCartRepository(i.get(), i.get()));
     i.registerLazySingleton<WishlistRepository>(() => DefaultWishlistRepository(i.get(), i.get()));
+    i.registerLazySingleton<OrderRepository>(() => DefaultOrderRepository(i.get(), i.get()));
     final database = await openDatabase(
       DatabaseScheme.databaseName,
       version: DatabaseScheme.latest().version,

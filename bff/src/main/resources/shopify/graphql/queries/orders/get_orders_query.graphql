@@ -1,0 +1,22 @@
+query GetOrdersQuery($customerAccessToken: String!){
+    customer(customerAccessToken: $customerAccessToken){
+        orders(first: 250, sortKey: RELEVANCE) {
+            nodes {
+                id
+                orderNumber
+                lineItems(first: 4) {
+                    nodes {
+                        title
+                        variant {
+                            image {
+                                url
+                            }
+                        }
+                    }
+                }
+                fulfillmentStatus
+                financialStatus
+            }
+        }
+    }
+}

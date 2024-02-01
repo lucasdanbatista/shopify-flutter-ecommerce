@@ -5,6 +5,7 @@ import '../../core/environment.dart';
 import '../../core/module.dart';
 import 'cart_provider.dart';
 import 'customer_provider.dart';
+import 'order_provider.dart';
 import 'product_category_provider.dart';
 import 'product_provider.dart';
 import 'wishlist_provider.dart';
@@ -24,5 +25,6 @@ class ProvidersModule implements Module {
     i.registerLazySingleton(() => ProductCategoryProvider(i.get()));
     i.registerLazySingleton(() => CartProvider(i.get()));
     i.registerLazySingleton<WishlistProvider>(() => LocalWishlistProvider(i.get(), i.get()));
+    i.registerLazySingleton(() => OrderProvider(i.get()));
   }
 }

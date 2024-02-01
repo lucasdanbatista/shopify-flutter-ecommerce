@@ -24,7 +24,21 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const Drawer(),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            const DrawerHeader(
+              child: Placeholder(),
+            ),
+            ListTile(
+              style: ListTileStyle.drawer,
+              title: const Text('Meus pedidos'),
+              leading: const Icon(Icons.receipt_long_outlined),
+              onTap: () => context.pushRoute(OrdersRoute()),
+            ),
+          ],
+        ),
+      ),
       appBar: AppBar(
         title: Observer(
           builder: (context) => Text(viewModel.pageTitle),

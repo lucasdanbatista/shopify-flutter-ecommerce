@@ -3,47 +3,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../util/init_state_mixin.dart';
 import '../../util/router.gr.dart';
-import '../wishlist/wishlist_view_model.dart';
 import 'categories_view_model.dart';
 
 @RoutePage()
-class CategoriesPage extends StatelessWidget with InitStateMixin {
+class CategoriesPage extends StatefulWidget {
   final categoriesViewModel = GetIt.I<CategoriesViewModel>();
-  final wishlistViewModel = GetIt.I<WishlistViewModel>();
 
   CategoriesPage({super.key});
 
   @override
+  State<CategoriesPage> createState() => _CategoriesPageState();
+}
+
+class _CategoriesPageState extends State<CategoriesPage> with AutomaticKeepAliveClientMixin {
+  @override
   void initState() {
-    categoriesViewModel.fetch();
+    super.initState();
+    widget.categoriesViewModel.fetch();
   }
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Categorias'),
-        actions: [
-          IconButton(
-            onPressed: () => context.pushRoute(WishlistRoute()),
-            icon: Observer(
-              builder: (context) => Badge.count(
-                isLabelVisible: wishlistViewModel.wishlist.isNotEmpty,
-                count: wishlistViewModel.wishlist.length,
-                child: const Icon(Icons.favorite_border),
-              ),
-            ),
-          ),
-        ],
-      ),
       body: Observer(
         builder: (context) => ListView.builder(
-          itemCount: categoriesViewModel.categories.length,
+          itemCount: widget.categoriesViewModel.categories.length,
           itemBuilder: (context, index) {
-            final category = categoriesViewModel.categories[index];
+            final category = widget.categoriesViewModel.categories[index];
             return ListTile(
               minVerticalPadding: 20,
               leading: CircleAvatar(

@@ -10,6 +10,7 @@ import 'core/wishlist_manager.dart';
 import 'features/cart/cart_module.dart';
 import 'features/categories/categories_module.dart';
 import 'features/category_details/category_details_module.dart';
+import 'features/home/home_module.dart';
 import 'features/product_details/product_details_module.dart';
 import 'features/sign_in/sign_in_module.dart';
 import 'features/wishlist/wishlist_module.dart';
@@ -27,6 +28,7 @@ Future<void> main() async {
     MappersModule(),
     ProvidersModule(),
     SignInModule(),
+    HomeModule(),
     CategoriesModule(),
     CategoryDetailsModule(),
     ProductDetailsModule(),

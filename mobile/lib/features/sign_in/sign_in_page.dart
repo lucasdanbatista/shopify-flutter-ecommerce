@@ -76,8 +76,7 @@ class SignInPage extends StatelessWidget {
                           onPressed: viewModel.togglePasswordVisible,
                           isSelected: viewModel.isPasswordVisible,
                           icon: const Icon(Icons.visibility_outlined),
-                          selectedIcon:
-                              const Icon(Icons.visibility_off_outlined),
+                          selectedIcon: const Icon(Icons.visibility_off_outlined),
                         ),
                       ),
                     ),
@@ -104,7 +103,7 @@ class SignInPage extends StatelessWidget {
                             passwordController.text,
                           );
                           if (context.mounted) {
-                            context.replaceRoute(CategoriesRoute());
+                            context.replaceRoute(HomeRoute());
                           }
                         },
                         style: TextButton.styleFrom(

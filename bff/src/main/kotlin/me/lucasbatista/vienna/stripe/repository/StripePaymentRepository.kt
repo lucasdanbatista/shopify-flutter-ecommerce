@@ -25,7 +25,12 @@ class StripePaymentRepository(
         val payment = StripePaymentIntent.create(
             PaymentIntentCreateParams
                 .builder()
-                .setAmount(amount.toString().replace(".", "").toLong() * 10)
+                .setAmount(
+                    amount.toBigDecimal()
+                        .movePointRight(2)
+                        .setScale(0)
+                        .longValueExact(),
+                )
                 .setCurrency("BRL")
                 .build()
         )

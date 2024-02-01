@@ -21,6 +21,7 @@ class CategoryController(
         CategoryDTO(
             id = it.id,
             title = it.title,
+            image = it.image,
         )
     }
 

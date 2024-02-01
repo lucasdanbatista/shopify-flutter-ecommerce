@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../core/entities/product_category.dart';
 import '../../util/formatters/currency_formatter.dart';
 import '../../util/init_state_mixin.dart';
 import '../../util/router.gr.dart';
@@ -10,17 +11,17 @@ import 'category_details_view_model.dart';
 
 @RoutePage()
 class CategoryDetailsPage extends StatelessWidget with InitStateMixin {
-  final String categoryId;
+  final ProductCategory category;
   final viewModel = GetIt.I<CategoryDetailsViewModel>();
 
   CategoryDetailsPage({
     super.key,
-    required this.categoryId,
+    required this.category,
   });
 
   @override
   void initState() {
-    viewModel.fetch(categoryId);
+    viewModel.fetch(category.id);
   }
 
   @override
@@ -28,7 +29,7 @@ class CategoryDetailsPage extends StatelessWidget with InitStateMixin {
     super.build(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(categoryId),
+        title: Text(category.title),
       ),
       body: Observer(
         builder: (context) => GridView.count(

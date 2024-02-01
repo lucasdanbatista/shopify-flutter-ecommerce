@@ -10,6 +10,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i9;
 import 'package:flutter/material.dart' as _i10;
+import 'package:vienna/core/entities/product_category.dart' as _i11;
 import 'package:vienna/features/cart/cart_page.dart' as _i1;
 import 'package:vienna/features/categories/categories_page.dart' as _i2;
 import 'package:vienna/features/category_details/category_details_page.dart'
@@ -48,7 +49,7 @@ abstract class $AppRouter extends _i9.RootStackRouter {
         routeData: routeData,
         child: _i3.CategoryDetailsPage(
           key: args.key,
-          categoryId: args.categoryId,
+          category: args.category,
         ),
       );
     },
@@ -160,13 +161,13 @@ class CategoriesRouteArgs {
 class CategoryDetailsRoute extends _i9.PageRouteInfo<CategoryDetailsRouteArgs> {
   CategoryDetailsRoute({
     _i10.Key? key,
-    required String categoryId,
+    required _i11.ProductCategory category,
     List<_i9.PageRouteInfo>? children,
   }) : super(
           CategoryDetailsRoute.name,
           args: CategoryDetailsRouteArgs(
             key: key,
-            categoryId: categoryId,
+            category: category,
           ),
           initialChildren: children,
         );
@@ -180,16 +181,16 @@ class CategoryDetailsRoute extends _i9.PageRouteInfo<CategoryDetailsRouteArgs> {
 class CategoryDetailsRouteArgs {
   const CategoryDetailsRouteArgs({
     this.key,
-    required this.categoryId,
+    required this.category,
   });
 
   final _i10.Key? key;
 
-  final String categoryId;
+  final _i11.ProductCategory category;
 
   @override
   String toString() {
-    return 'CategoryDetailsRouteArgs{key: $key, categoryId: $categoryId}';
+    return 'CategoryDetailsRouteArgs{key: $key, category: $category}';
   }
 }
 

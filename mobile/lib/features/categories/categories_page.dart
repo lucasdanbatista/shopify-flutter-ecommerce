@@ -40,10 +40,8 @@ class _CategoriesPageState extends State<CategoriesPage> with AutomaticKeepAlive
               leading: CircleAvatar(
                 radius: 24,
                 backgroundColor: Colors.grey.shade200,
-                child: Icon(
-                  Icons.category_outlined,
-                  color: Colors.grey.shade600,
-                ),
+                foregroundImage:
+                    category.image != null ? NetworkImage(category.image.toString()) : null,
               ),
               title: Text(
                 category.title,
@@ -51,7 +49,7 @@ class _CategoriesPageState extends State<CategoriesPage> with AutomaticKeepAlive
               ),
               onTap: () => context.pushRoute(
                 CategoryDetailsRoute(
-                  categoryId: category.id,
+                  category: category,
                 ),
               ),
             );

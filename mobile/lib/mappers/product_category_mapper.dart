@@ -8,6 +8,7 @@ class ProductCategoryMapper implements EntityMapper<ProductCategoryDTO, ProductC
     return ProductCategory.lazy(
       id: it.id,
       title: it.title,
+      image: it.image,
     );
   }
 }

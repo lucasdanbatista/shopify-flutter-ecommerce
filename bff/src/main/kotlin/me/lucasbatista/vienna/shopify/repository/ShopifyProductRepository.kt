@@ -12,7 +12,7 @@ import java.net.URL
 
 @Repository
 class ShopifyProductRepository(private val client: ShopifyGraphQLClient) : ProductRepository {
-    override fun findAllByCategoryId(id: String) = findAllByQuery("tag:$id")
+    override fun findAllByCategoryId(id: String) = findAllByQuery("collection:$id")
 
     override fun findAllByIds(ids: List<String>): List<Product> {
         if (ids.isEmpty()) return listOf()

@@ -6,10 +6,12 @@ part 'product_category_dto.g.dart';
 class ProductCategoryDTO {
   String? id;
   String? title;
+  Uri? image;
 
   ProductCategoryDTO({
     this.id,
     this.title,
+    this.image,
   });
 
   factory ProductCategoryDTO.fromJson(Map<String, dynamic> json) =>

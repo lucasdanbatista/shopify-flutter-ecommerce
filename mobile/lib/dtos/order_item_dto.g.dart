@@ -12,10 +12,14 @@ OrderItemDTO _$OrderItemDTOFromJson(Map<String, dynamic> json) => OrderItemDTO(
           ? null
           : ProductVariantDTO.fromJson(
               json['productVariant'] as Map<String, dynamic>),
+      quantity: json['quantity'] as int?,
+      total: (json['total'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$OrderItemDTOToJson(OrderItemDTO instance) =>
     <String, dynamic>{
       'title': instance.title,
       'productVariant': instance.productVariant,
+      'quantity': instance.quantity,
+      'total': instance.total,
     };

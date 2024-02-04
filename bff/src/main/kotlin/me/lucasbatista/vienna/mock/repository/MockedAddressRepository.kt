@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository
 @Repository
 class MockedAddressRepository : AddressRepository {
     override fun findById(id: String) = Address(
-        recipientLastName = "Lucas",
-        recipientFirstName = "Batista",
+        recipientFirstName = "Lucas",
+        recipientLastName = "Batista",
         line1 = "Rua São Joaquim, 518",
         line2 = "Bairro São Vicente",
         city = "Itajaí",

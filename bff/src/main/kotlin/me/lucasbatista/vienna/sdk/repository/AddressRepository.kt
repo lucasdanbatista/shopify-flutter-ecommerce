@@ -7,4 +7,4 @@ interface AddressRepository {
     fun findById(id: String): Address
 }
 
-interface InMemoryAddressRepository : CrudRepository<Address, Int>
+interface InMemoryAddressRepository : CrudRepository<Address, String>

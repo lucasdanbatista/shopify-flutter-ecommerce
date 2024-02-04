@@ -14,6 +14,8 @@ class OrderItemMapper implements EntityMapper<OrderItemDTO, OrderItem> {
       title: it.title,
       productVariant:
           it.productVariant != null ? _productVariantMapper.toEntity(it.productVariant!) : null,
+      quantity: it.quantity,
+      total: it.total,
     );
   }
 }

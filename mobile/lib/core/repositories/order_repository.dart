@@ -4,6 +4,8 @@ import '../entities/order.dart';
 
 abstract interface class OrderRepository {
   Future<List<Order>> findAll();
+
+  Future<Order> findById(String id);
 }
 
 class DefaultOrderRepository implements OrderRepository {
@@ -16,5 +18,11 @@ class DefaultOrderRepository implements OrderRepository {
   Future<List<Order>> findAll() async {
     final response = await _provider.getAll();
     return response.map(_mapper.toEntity).toList();
+  }
+
+  @override
+  Future<Order> findById(String id) async {
+    final response = await _provider.getById(id);
+    return _mapper.toEntity(response);
   }
 }

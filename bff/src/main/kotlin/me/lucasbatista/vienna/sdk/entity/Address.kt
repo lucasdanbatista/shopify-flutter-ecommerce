@@ -2,13 +2,14 @@ package me.lucasbatista.vienna.sdk.entity
 
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 
 @Entity
 data class Address(
     @Id
-    @GeneratedValue
-    val id: Int? = null,
+    @GeneratedValue(strategy = GenerationType.UUID)
+    val id: String? = null,
 
     val recipientFirstName: String,
 

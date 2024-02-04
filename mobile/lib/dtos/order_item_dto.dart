@@ -8,10 +8,14 @@ part 'order_item_dto.g.dart';
 class OrderItemDTO {
   String? title;
   ProductVariantDTO? productVariant;
+  int? quantity;
+  double? total;
 
   OrderItemDTO({
     this.title,
     this.productVariant,
+    this.quantity,
+    this.total,
   });
 
   factory OrderItemDTO.fromJson(Map<String, dynamic> json) => _$OrderItemDTOFromJson(json);

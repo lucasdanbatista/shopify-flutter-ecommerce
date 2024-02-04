@@ -1,6 +1,9 @@
-query GetOrdersQuery($customerAccessToken: String!){
-    customer(customerAccessToken: $customerAccessToken){
-        orders(first: 250, sortKey: RELEVANCE) {
+query GetOrderDetailsQuery(
+    $customerAccessToken: String!
+    $query: String!
+) {
+    customer(customerAccessToken: $customerAccessToken) {
+        orders(query: $query, first: 1, sortKey: RELEVANCE) {
             nodes {
                 id
                 orderNumber
@@ -23,6 +26,17 @@ query GetOrdersQuery($customerAccessToken: String!){
                 }
                 fulfillmentStatus
                 financialStatus
+                shippingAddress {
+                    id
+                    firstName
+                    lastName
+                    address1
+                    address2
+                    city
+                    province
+                    zip
+                    country
+                }
             }
         }
     }

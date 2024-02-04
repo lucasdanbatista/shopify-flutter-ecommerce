@@ -13,6 +13,11 @@ OrderDTO _$OrderDTOFromJson(Map<String, dynamic> json) => OrderDTO(
           ?.map((e) => OrderItemDTO.fromJson(e as Map<String, dynamic>))
           .toList(),
       status: $enumDecodeNullable(_$OrderStatusEnumMap, json['status']),
+      shippingAddress: json['shippingAddress'] == null
+          ? null
+          : AddressDTO.fromJson(
+              json['shippingAddress'] as Map<String, dynamic>),
+      total: (json['total'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$OrderDTOToJson(OrderDTO instance) => <String, dynamic>{
@@ -20,6 +25,8 @@ Map<String, dynamic> _$OrderDTOToJson(OrderDTO instance) => <String, dynamic>{
       'orderNumber': instance.orderNumber,
       'items': instance.items,
       'status': _$OrderStatusEnumMap[instance.status],
+      'shippingAddress': instance.shippingAddress,
+      'total': instance.total,
     };
 
 const _$OrderStatusEnumMap = {

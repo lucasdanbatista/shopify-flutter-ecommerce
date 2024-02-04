@@ -57,11 +57,9 @@ abstract class $AppRouter extends _i12.RootStackRouter {
       );
     },
     HomeRoute.name: (routeData) {
-      final args =
-          routeData.argsAs<HomeRouteArgs>(orElse: () => const HomeRouteArgs());
       return _i12.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i4.HomePage(key: args.key),
+        child: const _i4.HomePage(),
       );
     },
     OrderDetailsRoute.name: (routeData) {
@@ -226,31 +224,16 @@ class CategoryDetailsRouteArgs {
 
 /// generated route for
 /// [_i4.HomePage]
-class HomeRoute extends _i12.PageRouteInfo<HomeRouteArgs> {
-  HomeRoute({
-    _i13.Key? key,
-    List<_i12.PageRouteInfo>? children,
-  }) : super(
+class HomeRoute extends _i12.PageRouteInfo<void> {
+  const HomeRoute({List<_i12.PageRouteInfo>? children})
+      : super(
           HomeRoute.name,
-          args: HomeRouteArgs(key: key),
           initialChildren: children,
         );
 
   static const String name = 'HomeRoute';
 
-  static const _i12.PageInfo<HomeRouteArgs> page =
-      _i12.PageInfo<HomeRouteArgs>(name);
-}
-
-class HomeRouteArgs {
-  const HomeRouteArgs({this.key});
-
-  final _i13.Key? key;
-
-  @override
-  String toString() {
-    return 'HomeRouteArgs{key: $key}';
-  }
+  static const _i12.PageInfo<void> page = _i12.PageInfo<void>(name);
 }
 
 /// generated route for

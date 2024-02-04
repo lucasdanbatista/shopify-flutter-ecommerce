@@ -7,6 +7,7 @@ import '../../util/formatters/currency_formatter.dart';
 import '../../util/init_state_mixin.dart';
 import '../../util/router.gr.dart';
 import '../cart/cart_view_model.dart';
+import '../cart/widgets/cart_icon_button.dart';
 import '../wishlist/wishlist_view_model.dart';
 import 'product_details_view_model.dart';
 
@@ -75,14 +76,7 @@ class ProductDetailsPage extends StatelessWidget with InitStateMixin {
                   selectedIcon: const Icon(Icons.favorite),
                 ),
               ),
-              IconButton(
-                onPressed: () => context.pushRoute(CartRoute()),
-                icon: Badge.count(
-                  isLabelVisible: cartViewModel.cart.lines.isNotEmpty,
-                  count: cartViewModel.cart.lines.length,
-                  child: const Icon(Icons.shopping_cart_outlined),
-                ),
-              ),
+              CartIconButton(),
             ],
           ),
           body: SingleChildScrollView(

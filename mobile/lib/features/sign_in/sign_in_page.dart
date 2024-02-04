@@ -103,7 +103,7 @@ class SignInPage extends StatelessWidget {
                             passwordController.text,
                           );
                           if (context.mounted) {
-                            context.replaceRoute(HomeRoute());
+                            context.replaceRoute(const HomeRoute());
                           }
                         },
                         style: TextButton.styleFrom(

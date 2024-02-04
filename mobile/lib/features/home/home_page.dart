@@ -1,17 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:get_it/get_it.dart';
 
 import '../../util/assets.dart';
 import '../../util/router.gr.dart';
-import '../wishlist/wishlist_view_model.dart';
+import '../cart/widgets/cart_icon_button.dart';
 
 @RoutePage()
 class HomePage extends StatelessWidget {
-  final wishlistViewModel = GetIt.I<WishlistViewModel>();
-
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +39,12 @@ class HomePage extends StatelessWidget {
             ),
             ListTile(
               style: ListTileStyle.drawer,
+              title: const Text('Meus favoritos'),
+              leading: const Icon(Icons.favorite_outline),
+              onTap: () => context.pushRoute(WishlistRoute()),
+            ),
+            ListTile(
+              style: ListTileStyle.drawer,
               title: const Text('Categorias'),
               leading: const Icon(Icons.category_outlined),
               onTap: () => context.pushRoute(CategoriesRoute()),
@@ -57,16 +59,7 @@ class HomePage extends StatelessWidget {
             onPressed: () => throw UnimplementedError(),
             icon: const Icon(Icons.search),
           ),
-          IconButton(
-            onPressed: () => context.pushRoute(WishlistRoute()),
-            icon: Observer(
-              builder: (context) => Badge.count(
-                isLabelVisible: wishlistViewModel.wishlist.isNotEmpty,
-                count: wishlistViewModel.wishlist.length,
-                child: const Icon(Icons.favorite_border),
-              ),
-            ),
-          ),
+          CartIconButton(),
         ],
       ),
     );

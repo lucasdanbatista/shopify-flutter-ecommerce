@@ -39,9 +39,12 @@ Future<void> main() async {
     OrdersModule(),
     OrderDetailsModule(),
   ]);
-  await GetIt.I<AuthManager>().loadCredentials();
-  await GetIt.I<CartManager>().loadCurrentCart();
-  await GetIt.I<WishlistManager>().fetch();
+  final authManager = GetIt.I<AuthManager>();
+  await authManager.loadCredentials();
+  if (authManager.isAuthenticated) {
+    await GetIt.I<CartManager>().loadCurrentCart();
+    await GetIt.I<WishlistManager>().fetch();
+  }
   runApp(const MainApp());
 }
 

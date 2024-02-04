@@ -66,7 +66,7 @@ class HomePage extends StatelessWidget {
         children: [
           CategoriesPage(),
           const CatalogPage(),
-          const ProfilePage(),
+          ProfilePage(),
         ],
       ),
       bottomNavigationBar: Observer(

@@ -26,17 +26,30 @@ class OrdersPage extends StatelessWidget with InitStateMixin {
       appBar: AppBar(
         title: const Text('Meus pedidos'),
       ),
-      body: Observer(
-        builder: (context) => ListView.builder(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 72),
-          itemCount: viewModel.orders.length,
-          itemBuilder: (context, index) {
-            final order = viewModel.orders[index];
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: OrderListTile(order),
-            );
-          },
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 72),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 16),
+              child: Text(
+                'Novos pedidos podem demorar alguns minutos para serem exibidos aqui.',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ),
+            Observer(
+              builder: (context) => Column(
+                children: viewModel.orders
+                    .map(
+                      (order) => Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: OrderListTile(order),
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+          ],
         ),
       ),
     );

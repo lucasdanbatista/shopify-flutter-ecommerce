@@ -30,11 +30,7 @@ Map<String, dynamic> _$OrderDTOToJson(OrderDTO instance) => <String, dynamic>{
     };
 
 const _$OrderStatusEnumMap = {
-  OrderStatus.paymentRejected: 'PAYMENT_REJECTED',
-  OrderStatus.waitingPayment: 'WAITING_PAYMENT',
   OrderStatus.paid: 'PAID',
-  OrderStatus.onTheWay: 'ON_THE_WAY',
-  OrderStatus.canceled: 'CANCELED',
-  OrderStatus.delivered: 'DELIVERED',
+  OrderStatus.processing: 'PROCESSING',
   OrderStatus.unknownStatus: 'UNKNOWN_STATUS',
 };

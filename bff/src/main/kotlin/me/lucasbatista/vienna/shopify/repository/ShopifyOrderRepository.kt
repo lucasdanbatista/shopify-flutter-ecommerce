@@ -64,12 +64,8 @@ class ShopifyOrderRepository(
                 )
             },
             status = when {
-                data.financialStatus == OrderFinancialStatus.VOIDED -> OrderStatus.PAYMENT_REJECTED
-                data.financialStatus == OrderFinancialStatus.PENDING -> OrderStatus.WAITING_PAYMENT
+                data.fulfillmentStatus == OrderFulfillmentStatus.UNFULFILLED -> OrderStatus.PROCESSING
                 data.financialStatus == OrderFinancialStatus.PAID -> OrderStatus.PAID
-                data.fulfillmentStatus == OrderFulfillmentStatus.IN_PROGRESS -> OrderStatus.ON_THE_WAY
-                data.fulfillmentStatus == OrderFulfillmentStatus.FULFILLED -> OrderStatus.DELIVERED
-                data.fulfillmentStatus == OrderFulfillmentStatus.UNFULFILLED -> OrderStatus.CANCELED
                 else -> OrderStatus.UNKNOWN_STATUS
             },
             total = data.totalPrice.amount.toDouble(),

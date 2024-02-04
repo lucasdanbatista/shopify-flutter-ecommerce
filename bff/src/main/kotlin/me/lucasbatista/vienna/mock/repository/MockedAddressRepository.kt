@@ -1,12 +1,11 @@
 package me.lucasbatista.vienna.mock.repository
 
 import me.lucasbatista.vienna.sdk.entity.Address
-import me.lucasbatista.vienna.sdk.repository.AddressRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-class MockedAddressRepository : AddressRepository {
-    override fun findById(id: String) = Address(
+class MockedAddressRepository {
+    fun findById(id: String) = Address(
         recipientFirstName = "Lucas",
         recipientLastName = "Batista",
         line1 = "Rua São Joaquim, 518",

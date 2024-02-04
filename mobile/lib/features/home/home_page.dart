@@ -62,6 +62,10 @@ class HomePage extends StatelessWidget {
           CartIconButton(),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => context.pushRoute(AddressFormRoute()),
+        child: const Icon(Icons.location_on_outlined),
+      ),
     );
   }
 }

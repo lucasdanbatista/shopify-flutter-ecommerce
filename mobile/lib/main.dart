@@ -7,6 +7,7 @@ import 'core/cart_manager.dart';
 import 'core/core_module.dart';
 import 'core/module.dart';
 import 'core/wishlist_manager.dart';
+import 'features/address_form/address_form_module.dart';
 import 'features/cart/cart_module.dart';
 import 'features/categories/categories_module.dart';
 import 'features/category_details/category_details_module.dart';
@@ -36,6 +37,7 @@ Future<void> main() async {
     WishlistModule(),
     OrdersModule(),
     OrderDetailsModule(),
+    AddressFormModule(),
   ]);
   final authManager = GetIt.I<AuthManager>();
   await authManager.loadCredentials();

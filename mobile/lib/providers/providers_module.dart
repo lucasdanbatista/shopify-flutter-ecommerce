@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 
 import '../../core/environment.dart';
 import '../../core/module.dart';
+import 'address_provider.dart';
 import 'cart_provider.dart';
 import 'customer_provider.dart';
 import 'order_provider.dart';
@@ -26,5 +27,6 @@ class ProvidersModule implements Module {
     i.registerLazySingleton(() => CartProvider(i.get()));
     i.registerLazySingleton<WishlistProvider>(() => LocalWishlistProvider(i.get(), i.get()));
     i.registerLazySingleton(() => OrderProvider(i.get()));
+    i.registerLazySingleton(() => AddressProvider(i.get()));
   }
 }

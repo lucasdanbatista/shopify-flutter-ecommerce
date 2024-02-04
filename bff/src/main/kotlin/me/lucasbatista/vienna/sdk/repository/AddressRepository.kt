@@ -5,6 +5,17 @@ import org.springframework.data.repository.CrudRepository
 
 interface AddressRepository {
     fun findById(id: String): Address
+
+    fun create(
+        customerAccessToken: String,
+        recipientFirstName: String,
+        recipientLastName: String,
+        line1: String,
+        line2: String,
+        city: String,
+        province: String,
+        zipcode: String,
+    ): Address
 }
 
 interface InMemoryAddressRepository : CrudRepository<Address, String>

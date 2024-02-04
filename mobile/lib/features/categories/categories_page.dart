@@ -30,6 +30,9 @@ class _CategoriesPageState extends State<CategoriesPage> with AutomaticKeepAlive
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Categorias'),
+      ),
       body: Observer(
         builder: (context) => ListView.builder(
           itemCount: widget.categoriesViewModel.categories.length,

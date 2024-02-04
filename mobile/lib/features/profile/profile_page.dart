@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import '../../core/auth_manager.dart';
 import '../../util/router.gr.dart';
 
+@RoutePage()
 class ProfilePage extends StatelessWidget {
   final authManager = GetIt.I<AuthManager>();
 
@@ -13,6 +14,9 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Minha conta'),
+      ),
       persistentFooterAlignment: AlignmentDirectional.center,
       persistentFooterButtons: [
         TextButton(

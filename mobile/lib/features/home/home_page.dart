@@ -3,21 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../util/assets.dart';
 import '../../util/router.gr.dart';
-import '../catalog/catalog_page.dart';
-import '../categories/categories_page.dart';
-import '../profile/profile_page.dart';
 import '../wishlist/wishlist_view_model.dart';
-import 'home_view_model.dart';
 
 @RoutePage()
 class HomePage extends StatelessWidget {
   final wishlistViewModel = GetIt.I<WishlistViewModel>();
-  final viewModel = GetIt.I<HomeViewModel>();
-  late final pageController = PageController(
-    keepPage: true,
-    initialPage: viewModel.initialPage,
-  );
 
   HomePage({super.key});
 
@@ -27,8 +19,21 @@ class HomePage extends StatelessWidget {
       drawer: Drawer(
         child: ListView(
           children: [
-            const DrawerHeader(
-              child: Placeholder(),
+            DrawerHeader(
+              padding: EdgeInsets.zero,
+              child: Container(
+                color: ColorAssets.storeLogoTransparentBackgroundColor,
+                child: Image.asset(
+                  ImageAssets.storeLogoTransparent,
+                  fit: BoxFit.fitHeight,
+                ),
+              ),
+            ),
+            ListTile(
+              style: ListTileStyle.drawer,
+              title: const Text('Minha conta'),
+              leading: const Icon(Icons.account_circle_outlined),
+              onTap: () => context.pushRoute(ProfileRoute()),
             ),
             ListTile(
               style: ListTileStyle.drawer,
@@ -36,13 +41,17 @@ class HomePage extends StatelessWidget {
               leading: const Icon(Icons.receipt_long_outlined),
               onTap: () => context.pushRoute(OrdersRoute()),
             ),
+            ListTile(
+              style: ListTileStyle.drawer,
+              title: const Text('Categorias'),
+              leading: const Icon(Icons.category_outlined),
+              onTap: () => context.pushRoute(CategoriesRoute()),
+            ),
           ],
         ),
       ),
       appBar: AppBar(
-        title: Observer(
-          builder: (context) => Text(viewModel.pageTitle),
-        ),
+        title: const Text('Vienna'),
         actions: [
           IconButton(
             onPressed: () => throw UnimplementedError(),
@@ -59,39 +68,6 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ],
-      ),
-      body: PageView(
-        onPageChanged: viewModel.setCurrentPageIndex,
-        controller: pageController,
-        children: [
-          CategoriesPage(),
-          const CatalogPage(),
-          ProfilePage(),
-        ],
-      ),
-      bottomNavigationBar: Observer(
-        builder: (context) => BottomNavigationBar(
-          currentIndex: viewModel.currentPageIndex,
-          showUnselectedLabels: false,
-          onTap: (index) {
-            viewModel.setCurrentPageIndex(index);
-            pageController.jumpToPage(index);
-          },
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.category_outlined),
-              label: 'Categorias',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.local_offer_outlined),
-              label: 'Catálogo',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle_outlined),
-              label: 'Perfil',
-            ),
-          ],
-        ),
       ),
     );
   }

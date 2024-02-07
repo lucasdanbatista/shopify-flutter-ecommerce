@@ -1,6 +1,7 @@
 import 'entity.dart';
 
 class Address implements Entity {
+  late final String id;
   late final String recipientFirstName;
   late final String recipientLastName;
   late final String line1;
@@ -10,6 +11,7 @@ class Address implements Entity {
   late final String zipcode;
 
   Address.lazy({
+    String? id,
     String? recipientFirstName,
     String? recipientLastName,
     String? line1,
@@ -18,6 +20,7 @@ class Address implements Entity {
     String? province,
     String? zipcode,
   }) {
+    if (id != null) this.id = id;
     if (recipientFirstName != null) this.recipientFirstName = recipientFirstName;
     if (recipientLastName != null) this.recipientLastName = recipientLastName;
     if (line1 != null) this.line1 = line1;

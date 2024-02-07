@@ -18,4 +18,6 @@ abstract class AddressesViewModelBase with Store {
   @action
   Future<void> fetch() async =>
       addresses = ObservableList.of(await _repository.findAll());
+
+  Future<void> deleteById(String id) => _repository.deleteById(id);
 }

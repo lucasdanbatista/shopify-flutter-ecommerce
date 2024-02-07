@@ -49,6 +49,31 @@ class _AddressProvider implements AddressProvider {
   }
 
   @override
+  Future<void> delete(AddressDTO address) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(address.toJson());
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
   Future<List<AddressDTO>> findAll() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

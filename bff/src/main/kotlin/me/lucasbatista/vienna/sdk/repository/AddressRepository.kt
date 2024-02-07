@@ -8,6 +8,8 @@ interface AddressRepository {
 
     fun findAll(customerAccessToken: String): List<Address>
 
+    fun deleteById(customerAccessToken: String, id: String)
+
     fun create(
         customerAccessToken: String,
         recipientFirstName: String,

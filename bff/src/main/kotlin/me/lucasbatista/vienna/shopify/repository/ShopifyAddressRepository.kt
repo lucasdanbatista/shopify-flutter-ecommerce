@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import me.lucasbatista.vienna.sdk.entity.Address
 import me.lucasbatista.vienna.sdk.repository.AddressRepository
 import me.lucasbatista.vienna.shopify.graphql.CreateAddressMutation
+import me.lucasbatista.vienna.shopify.graphql.DeleteAddressMutation
 import me.lucasbatista.vienna.shopify.graphql.GetAddressesQuery
 import me.lucasbatista.vienna.shopify.graphql.ShopifyGraphQLClient
 import me.lucasbatista.vienna.shopify.graphql.inputs.MailingAddressInput
@@ -54,6 +55,17 @@ class ShopifyAddressRepository(
         return mapAddress(result)
     }
 
+    override fun deleteById(customerAccessToken: String, id: String) {
+        client.executeAsAdmin(
+            DeleteAddressMutation(
+                DeleteAddressMutation.Variables(
+                    customerAccessToken,
+                    id,
+                ),
+            ),
+        )
+    }
+
     private fun mapAddress(data: Any): Address {
         val result = objectMapper.convertValue(data, ShopifyAddress::class.java)
         return Address(
@@ -66,7 +78,7 @@ class ShopifyAddressRepository(
             zipcode = result.zip!!,
             country = result.country!!,
         ).apply {
-            id = result.id.split("/").last()
+            id = result.id
         }
     }
 }

@@ -51,7 +51,11 @@ class AddressesPage extends StatelessWidget with InitStateMixin {
                           content: Text(AddressFormatter().format(address)),
                           actions: [
                             TextButton(
-                              onPressed: () => throw UnimplementedError(),
+                              onPressed: () async {
+                                Navigator.pop(context);
+                                await viewModel.deleteById(address.id);
+                                viewModel.fetch();
+                              },
                               style: TextButton.styleFrom(
                                 foregroundColor: Colors.redAccent,
                               ),

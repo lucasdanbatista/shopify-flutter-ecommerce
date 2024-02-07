@@ -15,6 +15,8 @@ abstract interface class AddressRepository {
   });
 
   Future<List<Address>> findAll();
+
+  Future<void> deleteById(String id);
 }
 
 class DefaultAddressRepository implements AddressRepository {
@@ -46,6 +48,9 @@ class DefaultAddressRepository implements AddressRepository {
     );
     return _mapper.toEntity(response);
   }
+
+  @override
+  Future<void> deleteById(String id) => _provider.delete(AddressDTO(id: id));
 
   @override
   Future<List<Address>> findAll() async {

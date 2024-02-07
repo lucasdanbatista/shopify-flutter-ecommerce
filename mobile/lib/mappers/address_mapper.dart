@@ -6,6 +6,7 @@ class AddressMapper implements EntityMapper<AddressDTO, Address> {
   @override
   Address toEntity(AddressDTO it) {
     return Address.lazy(
+      id: it.id,
       recipientFirstName: it.recipientFirstName,
       recipientLastName: it.recipientLastName,
       line1: it.line1,

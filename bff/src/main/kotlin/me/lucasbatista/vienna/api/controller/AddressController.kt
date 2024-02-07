@@ -47,6 +47,15 @@ class AddressController(private val addressRepository: AddressRepository) {
         return mapAddress(result)
     }
 
+    @DeleteMapping
+    fun deleteAddress(
+        @RequestHeader authorization: String,
+        @RequestBody address: AddressDTO,
+    ): Unit = addressRepository.deleteById(
+        customerAccessToken = AuthorizationHeaderUtil.extractToken(authorization),
+        id = address.id!!,
+    )
+
     private fun mapAddress(it: Address): AddressDTO {
         return AddressDTO(
             id = it.id,

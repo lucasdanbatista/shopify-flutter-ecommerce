@@ -1,16 +1,27 @@
 package me.lucasbatista.vienna.shopify.repository
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import me.lucasbatista.vienna.sdk.entity.Address
 import me.lucasbatista.vienna.sdk.repository.AddressRepository
 import me.lucasbatista.vienna.shopify.graphql.CreateAddressMutation
+import me.lucasbatista.vienna.shopify.graphql.GetAddressesQuery
 import me.lucasbatista.vienna.shopify.graphql.ShopifyGraphQLClient
 import me.lucasbatista.vienna.shopify.graphql.inputs.MailingAddressInput
 import org.springframework.stereotype.Repository
+import me.lucasbatista.vienna.shopify.graphql.createaddressmutation.MailingAddress as ShopifyAddress
 
 @Repository
-class ShopifyAddressRepository(private val client: ShopifyGraphQLClient) : AddressRepository {
-    override fun findById(id: String): Address {
-        TODO("Not yet implemented")
+class ShopifyAddressRepository(
+    private val client: ShopifyGraphQLClient,
+    private val objectMapper: ObjectMapper,
+) : AddressRepository {
+    override fun findById(customerAccessToken: String, id: String) =
+        findAll(customerAccessToken).first { it.id.contains(id) }
+
+    override fun findAll(customerAccessToken: String): List<Address> {
+        val query = GetAddressesQuery(GetAddressesQuery.Variables(customerAccessToken))
+        val result = client.executeAsAdmin(query).data!!.customer!!.addresses.nodes
+        return result.map(::mapAddress)
     }
 
     override fun create(
@@ -40,8 +51,12 @@ class ShopifyAddressRepository(private val client: ShopifyGraphQLClient) : Addre
                 ),
             ),
         ).data!!.customerAddressCreate!!.customerAddress!!
+        return mapAddress(result)
+    }
+
+    private fun mapAddress(data: Any): Address {
+        val result = objectMapper.convertValue(data, ShopifyAddress::class.java)
         return Address(
-            id = result.id,
             recipientFirstName = result.firstName!!,
             recipientLastName = result.lastName!!,
             line1 = result.address1!!,
@@ -50,6 +65,8 @@ class ShopifyAddressRepository(private val client: ShopifyGraphQLClient) : Addre
             province = result.province!!,
             zipcode = result.zip!!,
             country = result.country!!,
-        )
+        ).apply {
+            id = result.id.split("/").last()
+        }
     }
 }

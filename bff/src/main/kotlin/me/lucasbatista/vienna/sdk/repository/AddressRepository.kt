@@ -4,7 +4,9 @@ import me.lucasbatista.vienna.sdk.entity.Address
 import org.springframework.data.repository.CrudRepository
 
 interface AddressRepository {
-    fun findById(id: String): Address
+    fun findById(customerAccessToken: String, id: String): Address
+
+    fun findAll(customerAccessToken: String): List<Address>
 
     fun create(
         customerAccessToken: String,

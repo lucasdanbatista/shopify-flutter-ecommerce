@@ -11,4 +11,7 @@ abstract class AddressProvider {
 
   @POST('')
   Future<AddressDTO> create(@Body() AddressDTO address);
+
+  @GET('')
+  Future<List<AddressDTO>> findAll();
 }

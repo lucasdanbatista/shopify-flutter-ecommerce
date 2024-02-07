@@ -34,7 +34,6 @@ class ShopifyOrderRepository(
         return mapOrder(result).apply {
             shippingAddress = result.shippingAddress!!.let {
                 Address(
-                    id = it.id,
                     city = it.city!!,
                     zipcode = it.zip!!,
                     line1 = it.address1!!,
@@ -43,7 +42,9 @@ class ShopifyOrderRepository(
                     recipientLastName = it.lastName!!,
                     province = it.province!!,
                     country = it.country!!,
-                )
+                ).apply {
+                    this.id = it.id
+                }
             }
         }
     }

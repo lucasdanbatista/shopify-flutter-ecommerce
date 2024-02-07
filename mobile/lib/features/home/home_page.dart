@@ -33,6 +33,12 @@ class HomePage extends StatelessWidget {
             ),
             ListTile(
               style: ListTileStyle.drawer,
+              title: const Text('Meus endereços'),
+              leading: const Icon(Icons.location_on_outlined),
+              onTap: () => context.pushRoute(AddressesRoute()),
+            ),
+            ListTile(
+              style: ListTileStyle.drawer,
               title: const Text('Meus pedidos'),
               leading: const Icon(Icons.receipt_long_outlined),
               onTap: () => context.pushRoute(OrdersRoute()),
@@ -61,10 +67,6 @@ class HomePage extends StatelessWidget {
           ),
           CartIconButton(),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => context.pushRoute(AddressFormRoute()),
-        child: const Icon(Icons.location_on_outlined),
       ),
     );
   }

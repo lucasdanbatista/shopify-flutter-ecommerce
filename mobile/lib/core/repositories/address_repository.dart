@@ -13,6 +13,8 @@ abstract interface class AddressRepository {
     required String province,
     required String zipcode,
   });
+
+  Future<List<Address>> findAll();
 }
 
 class DefaultAddressRepository implements AddressRepository {
@@ -43,5 +45,11 @@ class DefaultAddressRepository implements AddressRepository {
       ),
     );
     return _mapper.toEntity(response);
+  }
+
+  @override
+  Future<List<Address>> findAll() async {
+    final response = await _provider.findAll();
+    return response.map(_mapper.toEntity).toList();
   }
 }

@@ -7,10 +7,6 @@ import jakarta.persistence.Id
 
 @Entity
 data class Address(
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    val id: String? = null,
-
     val recipientFirstName: String,
 
     val recipientLastName: String,
@@ -26,4 +22,8 @@ data class Address(
     val country: String,
 
     val zipcode: String,
-)
+) {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    lateinit var id: String
+}

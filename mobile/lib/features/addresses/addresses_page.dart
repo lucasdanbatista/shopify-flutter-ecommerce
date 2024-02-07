@@ -39,7 +39,12 @@ class AddressesPage extends StatelessWidget with InitStateMixin {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      await context.pushRoute(
+                        AddressFormRoute(initialAddress: address),
+                      );
+                      viewModel.fetch();
+                    },
                     icon: const Icon(Icons.edit_outlined),
                   ),
                   IconButton(

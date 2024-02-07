@@ -4,15 +4,9 @@ import '../../providers/address_provider.dart';
 import '../entities/address.dart';
 
 abstract interface class AddressRepository {
-  Future<Address> create({
-    required String recipientFirstName,
-    required String recipientLastName,
-    required String line1,
-    required String line2,
-    required String city,
-    required String province,
-    required String zipcode,
-  });
+  Future<Address> create(Address address);
+
+  Future<Address> update(Address address);
 
   Future<List<Address>> findAll();
 
@@ -26,24 +20,33 @@ class DefaultAddressRepository implements AddressRepository {
   DefaultAddressRepository(this._provider, this._mapper);
 
   @override
-  Future<Address> create({
-    required String recipientFirstName,
-    required String recipientLastName,
-    required String line1,
-    required String line2,
-    required String city,
-    required String province,
-    required String zipcode,
-  }) async {
+  Future<Address> create(Address address) async {
     final response = await _provider.create(
       AddressDTO(
-        recipientFirstName: recipientFirstName,
-        recipientLastName: recipientLastName,
-        line1: line1,
-        line2: line2,
-        city: city,
-        province: province,
-        zipcode: zipcode,
+        recipientFirstName: address.recipientFirstName,
+        recipientLastName: address.recipientLastName,
+        line1: address.line1,
+        line2: address.line2,
+        city: address.city,
+        province: address.province,
+        zipcode: address.zipcode,
+      ),
+    );
+    return _mapper.toEntity(response);
+  }
+
+  @override
+  Future<Address> update(Address address) async {
+    final response = await _provider.update(
+      AddressDTO(
+        id: address.id,
+        recipientFirstName: address.recipientFirstName,
+        recipientLastName: address.recipientLastName,
+        line1: address.line1,
+        line2: address.line2,
+        city: address.city,
+        province: address.province,
+        zipcode: address.zipcode,
       ),
     );
     return _mapper.toEntity(response);

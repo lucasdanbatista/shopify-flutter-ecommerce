@@ -1,0 +1,23 @@
+mutation UpdateAddressMutation(
+    $id: ID!
+    $customerAccessToken: String!
+    $address: MailingAddressInput!
+) {
+    customerAddressUpdate(
+        id: $id
+        customerAccessToken: $customerAccessToken
+        address: $address
+    ) {
+        customerAddress {
+            id
+            firstName
+            lastName
+            address1
+            address2
+            city
+            province
+            zip
+            country
+        }
+    }
+}

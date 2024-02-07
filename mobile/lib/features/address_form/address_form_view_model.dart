@@ -7,21 +7,27 @@ class AddressFormViewModel {
   AddressFormViewModel(this._repository);
 
   Future<Address> save({
-    required String recipientFirstName,
-    required String recipientLastName,
-    required String line1,
-    required String line2,
+    String? id,
+    required String recipientName,
+    required String street,
+    required String buildingNumber,
+    required String neighborhood,
     required String city,
     required String province,
     required String zipcode,
-  }) async =>
-      _repository.create(
-        recipientFirstName: recipientFirstName,
-        recipientLastName: recipientLastName,
-        line1: line1,
-        line2: line2,
-        city: city,
-        province: province,
-        zipcode: zipcode,
-      );
+  }) async {
+    final address = Address.lazy(
+      id: id?.trim(),
+      recipientFirstName: recipientName.trim().split(' ').first,
+      recipientLastName: recipientName.trim().split(' ').last,
+      line1: '${street.trim()}, ${buildingNumber.trim()}',
+      line2: neighborhood.trim(),
+      city: city.trim(),
+      province: province.trim(),
+      zipcode: zipcode.trim(),
+    );
+    return id == null
+        ? _repository.create(address)
+        : _repository.update(address);
+  }
 }

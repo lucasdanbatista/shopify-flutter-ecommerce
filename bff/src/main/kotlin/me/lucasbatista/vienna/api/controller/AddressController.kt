@@ -27,6 +27,25 @@ class AddressController(private val addressRepository: AddressRepository) {
         return mapAddress(result)
     }
 
+    @PutMapping
+    fun updateAddress(
+        @RequestHeader authorization: String,
+        @RequestBody body: AddressDTO,
+    ): AddressDTO {
+        val result = addressRepository.update(
+            customerAccessToken = AuthorizationHeaderUtil.extractToken(authorization),
+            id = body.id!!,
+            recipientFirstName = body.recipientFirstName!!,
+            recipientLastName = body.recipientLastName!!,
+            line1 = body.line1!!,
+            line2 = body.line2!!,
+            city = body.city!!,
+            province = body.province!!,
+            zipcode = body.zipcode!!,
+        )
+        return mapAddress(result)
+    }
+
     @GetMapping
     fun findAll(@RequestHeader authorization: String): List<AddressDTO> {
         val result = addressRepository.findAll(

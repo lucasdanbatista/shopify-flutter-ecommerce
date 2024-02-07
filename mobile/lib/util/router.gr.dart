@@ -10,7 +10,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i14;
 import 'package:flutter/material.dart' as _i15;
-import 'package:vienna/core/entities/product_category.dart' as _i16;
+import 'package:vienna/core/entities/address.dart' as _i16;
+import 'package:vienna/core/entities/product_category.dart' as _i17;
 import 'package:vienna/features/address_form/address_form_page.dart' as _i1;
 import 'package:vienna/features/addresses/addresses_page.dart' as _i2;
 import 'package:vienna/features/cart/cart_page.dart' as _i3;
@@ -37,7 +38,10 @@ abstract class $AppRouter extends _i14.RootStackRouter {
           orElse: () => const AddressFormRouteArgs());
       return _i14.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i1.AddressFormPage(key: args.key),
+        child: _i1.AddressFormPage(
+          key: args.key,
+          initialAddress: args.initialAddress,
+        ),
       );
     },
     AddressesRoute.name: (routeData) {
@@ -148,10 +152,14 @@ abstract class $AppRouter extends _i14.RootStackRouter {
 class AddressFormRoute extends _i14.PageRouteInfo<AddressFormRouteArgs> {
   AddressFormRoute({
     _i15.Key? key,
+    _i16.Address? initialAddress,
     List<_i14.PageRouteInfo>? children,
   }) : super(
           AddressFormRoute.name,
-          args: AddressFormRouteArgs(key: key),
+          args: AddressFormRouteArgs(
+            key: key,
+            initialAddress: initialAddress,
+          ),
           initialChildren: children,
         );
 
@@ -162,13 +170,18 @@ class AddressFormRoute extends _i14.PageRouteInfo<AddressFormRouteArgs> {
 }
 
 class AddressFormRouteArgs {
-  const AddressFormRouteArgs({this.key});
+  const AddressFormRouteArgs({
+    this.key,
+    this.initialAddress,
+  });
 
   final _i15.Key? key;
 
+  final _i16.Address? initialAddress;
+
   @override
   String toString() {
-    return 'AddressFormRouteArgs{key: $key}';
+    return 'AddressFormRouteArgs{key: $key, initialAddress: $initialAddress}';
   }
 }
 
@@ -265,7 +278,7 @@ class CategoryDetailsRoute
     extends _i14.PageRouteInfo<CategoryDetailsRouteArgs> {
   CategoryDetailsRoute({
     _i15.Key? key,
-    required _i16.ProductCategory category,
+    required _i17.ProductCategory category,
     List<_i14.PageRouteInfo>? children,
   }) : super(
           CategoryDetailsRoute.name,
@@ -290,7 +303,7 @@ class CategoryDetailsRouteArgs {
 
   final _i15.Key? key;
 
-  final _i16.ProductCategory category;
+  final _i17.ProductCategory category;
 
   @override
   String toString() {

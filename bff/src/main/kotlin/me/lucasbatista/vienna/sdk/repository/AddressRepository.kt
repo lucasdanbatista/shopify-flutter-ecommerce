@@ -20,6 +20,18 @@ interface AddressRepository {
         province: String,
         zipcode: String,
     ): Address
+
+    fun update(
+        customerAccessToken: String,
+        id: String,
+        recipientFirstName: String,
+        recipientLastName: String,
+        line1: String,
+        line2: String,
+        city: String,
+        province: String,
+        zipcode: String,
+    ): Address
 }
 
 interface InMemoryAddressRepository : CrudRepository<Address, String>

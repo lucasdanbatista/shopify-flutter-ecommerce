@@ -6,7 +6,6 @@ import me.lucasbatista.vienna.api.dto.PaymentIntentDTO
 import me.lucasbatista.vienna.api.dto.ProductVariantDTO
 import me.lucasbatista.vienna.api.util.AuthorizationHeaderUtil
 import me.lucasbatista.vienna.mock.repository.MockedAddressRepository
-import me.lucasbatista.vienna.sdk.entity.AuthenticationToken
 import me.lucasbatista.vienna.sdk.entity.Cart
 import me.lucasbatista.vienna.sdk.entity.CheckoutPayment
 import me.lucasbatista.vienna.sdk.repository.*
@@ -30,11 +29,9 @@ class CartController(
     }
 
     @PostMapping
-    fun createCart(@RequestHeader authorization: String): CartDTO {
+    fun createCart(@RequestHeader authorization: String?): CartDTO {
         val result = cartRepository.create(
-            customerAuthenticationToken = AuthenticationToken(
-                accessToken = AuthorizationHeaderUtil.extractToken(authorization),
-            ),
+            customerAccessToken = AuthorizationHeaderUtil.extractToken(authorization),
         )
         return CartDTO(
             id = result.id,

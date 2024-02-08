@@ -42,10 +42,13 @@ Future<void> main() async {
     AddressesModule(),
   ]);
   final authManager = GetIt.I<AuthManager>();
-  await authManager.loadCredentials();
-  if (authManager.isAuthenticated) {
+  try {
+    await authManager.loadCredentials();
     await GetIt.I<CartManager>().loadCurrentCart();
     await GetIt.I<WishlistManager>().fetch();
+  } catch (e) {
+    debugPrint(e.toString());
+    await authManager.signOut();
   }
   runApp(const MainApp());
 }

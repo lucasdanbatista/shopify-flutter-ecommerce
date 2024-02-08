@@ -1,6 +1,5 @@
 package me.lucasbatista.vienna.shopify.repository
 
-import me.lucasbatista.vienna.sdk.entity.AuthenticationToken
 import me.lucasbatista.vienna.sdk.entity.Cart
 import me.lucasbatista.vienna.sdk.repository.CartRepository
 import me.lucasbatista.vienna.shopify.graphql.*
@@ -21,17 +20,10 @@ class ShopifyCartRepository(
         return mapper.fromGraphQLResult(result)
     }
 
-    override fun create(customerAuthenticationToken: AuthenticationToken): Cart {
-        val result = client.executeAsAdmin(
-            CreateCartMutation(
-                CreateCartMutation.Variables(
-                    customerAccessToken = customerAuthenticationToken.accessToken,
-                ),
-            ),
-        ).data!!.cartCreate!!.cart!!
-        return Cart(
-            id = result.id.split("/").last(),
-        )
+    override fun create(customerAccessToken: String?): Cart {
+        val query = CreateCartMutation(CreateCartMutation.Variables(customerAccessToken))
+        val result = client.executeAsAdmin(query).data!!.cartCreate!!.cart!!
+        return Cart(result.id.split("/").last())
     }
 
     override fun addLine(cartId: String, productVariantId: String): Cart {

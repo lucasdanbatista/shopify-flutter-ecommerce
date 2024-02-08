@@ -1,4 +1,4 @@
-mutation CreateCartMutation($customerAccessToken: String!){
+mutation CreateCartMutation($customerAccessToken: String){
     cartCreate(
         input: {
             buyerIdentity: {

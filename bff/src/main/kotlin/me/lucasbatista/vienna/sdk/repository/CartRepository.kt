@@ -1,12 +1,11 @@
 package me.lucasbatista.vienna.sdk.repository
 
-import me.lucasbatista.vienna.sdk.entity.AuthenticationToken
 import me.lucasbatista.vienna.sdk.entity.Cart
 
 interface CartRepository {
     fun findById(id: String): Cart
 
-    fun create(customerAuthenticationToken: AuthenticationToken): Cart
+    fun create(customerAccessToken: String? = null): Cart
 
     fun addLine(cartId: String, productVariantId: String): Cart
 

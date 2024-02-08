@@ -1,4 +1,3 @@
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../core/cart_manager.dart';
@@ -34,13 +33,7 @@ abstract class CartViewModelBase with Store {
   @action
   Future<void> createPaymentIntent() async {
     final paymentIntent = await _cartManager.createPaymentIntent();
-    Stripe.publishableKey = paymentIntent.clientKey;
-    await Stripe.instance.initPaymentSheet(
-      paymentSheetParameters: SetupPaymentSheetParameters(
-        paymentIntentClientSecret: paymentIntent.clientSecret,
-      ),
-    );
-    await Stripe.instance.presentPaymentSheet();
+    //TODO: handle payment here
     await _cartManager.initializeNewCart();
     refreshCart();
   }

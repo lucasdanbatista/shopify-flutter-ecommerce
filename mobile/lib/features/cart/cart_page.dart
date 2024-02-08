@@ -7,6 +7,7 @@ import '../../util/assets.dart';
 import '../../util/formatters/currency_formatter.dart';
 import '../../util/router.gr.dart';
 import 'cart_view_model.dart';
+import 'widgets/order_summary.dart';
 
 @RoutePage()
 class CartPage extends StatelessWidget {
@@ -105,52 +106,9 @@ class CartPage extends StatelessWidget {
       ),
       persistentFooterAlignment: AlignmentDirectional.topStart,
       persistentFooterButtons: [
-        Observer(
-          builder: (context) => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Padding(padding: EdgeInsets.only(top: 8)),
-              Column(
-                children: [
-                  ListTile(
-                    title: Text(
-                      'Subtotal',
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
-                    trailing: Text(
-                      CurrencyFormatter().format(viewModel.cart.subtotal),
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  ),
-                  ListTile(
-                    minVerticalPadding: 0,
-                    title: Text(
-                      'Total',
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
-                    trailing: Text(
-                      CurrencyFormatter().format(viewModel.cart.total),
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  ),
-                ],
-              ),
-              Visibility(
-                visible: viewModel.cart.lines.isNotEmpty,
-                child: Center(
-                  child: TextButton(
-                    onPressed: () async {
-                      await viewModel.createPaymentIntent();
-                      if (context.mounted) {
-                        Navigator.of(context).pop();
-                      }
-                    },
-                    child: const Text('FECHAR PEDIDO'),
-                  ),
-                ),
-              ),
-            ],
-          ),
+        OrderSummary(
+          confirmationButtonText: 'FECHAR PEDIDO',
+          onConfirmationButtonPressed: () => context.pushRoute(CheckoutRoute()),
         ),
       ],
     );

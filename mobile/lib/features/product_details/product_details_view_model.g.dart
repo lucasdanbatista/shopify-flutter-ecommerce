@@ -25,22 +25,6 @@ mixin _$ProductDetailsViewModel on ProductDetailsViewModelBase, Store {
     });
   }
 
-  late final _$addedToCartAtom =
-      Atom(name: 'ProductDetailsViewModelBase.addedToCart', context: context);
-
-  @override
-  bool get addedToCart {
-    _$addedToCartAtom.reportRead();
-    return super.addedToCart;
-  }
-
-  @override
-  set addedToCart(bool value) {
-    _$addedToCartAtom.reportWrite(value, super.addedToCart, () {
-      super.addedToCart = value;
-    });
-  }
-
   late final _$fetchAsyncAction =
       AsyncAction('ProductDetailsViewModelBase.fetch', context: context);
 
@@ -49,25 +33,10 @@ mixin _$ProductDetailsViewModel on ProductDetailsViewModelBase, Store {
     return _$fetchAsyncAction.run(() => super.fetch(id));
   }
 
-  late final _$ProductDetailsViewModelBaseActionController =
-      ActionController(name: 'ProductDetailsViewModelBase', context: context);
-
-  @override
-  void setAddedToCart(bool value) {
-    final _$actionInfo = _$ProductDetailsViewModelBaseActionController
-        .startAction(name: 'ProductDetailsViewModelBase.setAddedToCart');
-    try {
-      return super.setAddedToCart(value);
-    } finally {
-      _$ProductDetailsViewModelBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
   @override
   String toString() {
     return '''
-product: ${product},
-addedToCart: ${addedToCart}
+product: ${product}
     ''';
   }
 }

@@ -50,7 +50,8 @@ class ProductDetailsPage extends StatelessWidget with InitStateMixin {
                 builder: (context) => IconButton(
                   onPressed: () async {
                     await wishlistViewModel.toggleFavorite(product);
-                    if (wishlistViewModel.isFavorite(product) && context.mounted) {
+                    if (wishlistViewModel.isFavorite(product) &&
+                        context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           backgroundColor: Colors.green,
@@ -127,14 +128,16 @@ class ProductDetailsPage extends StatelessWidget with InitStateMixin {
                 const Padding(padding: EdgeInsets.only(top: 16)),
                 Text.rich(
                   TextSpan(
-                    text: '${CurrencyFormatter().format(product.variants.first.originalPrice)}\n',
+                    text:
+                        '${CurrencyFormatter().format(product.variants.first.originalPrice)}\n',
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium
                         ?.copyWith(decoration: TextDecoration.lineThrough),
                     children: [
                       TextSpan(
-                        text: CurrencyFormatter().format(product.variants.first.sellingPrice),
+                        text: CurrencyFormatter()
+                            .format(product.variants.first.sellingPrice),
                         style: Theme.of(context)
                             .textTheme
                             .headlineSmall
@@ -161,29 +164,20 @@ class ProductDetailsPage extends StatelessWidget with InitStateMixin {
           persistentFooterButtons: [
             Observer(
               builder: (context) {
-                final canContinueToPayment =
-                    productViewModel.addedToCart && cartViewModel.cart.lines.isNotEmpty;
                 return TextButton.icon(
-                  onPressed: canContinueToPayment
-                      ? () => context.pushRoute(CartRoute())
-                      : () async {
-                          await cartViewModel.addCartLine(product.variants.first.id);
-                          if (context.mounted) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                backgroundColor: Colors.green,
-                                content: Text('Adicionado ao carrinho.'),
-                              ),
-                            );
-                            productViewModel.setAddedToCart(true);
-                          }
-                        },
-                  icon: Icon(
-                    canContinueToPayment ? Icons.check_outlined : Icons.add_shopping_cart_outlined,
-                  ),
-                  label: Text(
-                    canContinueToPayment ? 'FECHAR PEDIDO' : 'ADICIONAR AO CARRINHO',
-                  ),
+                  onPressed: () async {
+                    await cartViewModel.addCartLine(product.variants.first.id);
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          backgroundColor: Colors.green,
+                          content: Text('Adicionado ao carrinho.'),
+                        ),
+                      );
+                    }
+                  },
+                  icon: const Icon(Icons.add_shopping_cart_outlined),
+                  label: const Text('ADICIONAR AO CARRINHO'),
                 );
               },
             ),

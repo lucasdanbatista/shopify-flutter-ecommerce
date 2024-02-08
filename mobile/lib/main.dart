@@ -12,6 +12,7 @@ import 'features/addresses/addresses_module.dart';
 import 'features/cart/cart_module.dart';
 import 'features/categories/categories_module.dart';
 import 'features/category_details/category_details_module.dart';
+import 'features/checkout/checkout_module.dart';
 import 'features/order_details/order_details_module.dart';
 import 'features/orders/orders_module.dart';
 import 'features/product_details/product_details_module.dart';
@@ -40,16 +41,12 @@ Future<void> main() async {
     OrderDetailsModule(),
     AddressFormModule(),
     AddressesModule(),
+    CheckoutModule(),
   ]);
   final authManager = GetIt.I<AuthManager>();
-  try {
-    await authManager.loadCredentials();
-    await GetIt.I<CartManager>().loadCurrentCart();
-    await GetIt.I<WishlistManager>().fetch();
-  } catch (e) {
-    debugPrint(e.toString());
-    await authManager.signOut();
-  }
+  await authManager.loadCredentials();
+  await GetIt.I<CartManager>().loadCurrentCart();
+  await GetIt.I<WishlistManager>().fetch();
   runApp(const MainApp());
 }
 

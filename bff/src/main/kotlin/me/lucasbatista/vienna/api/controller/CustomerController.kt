@@ -1,11 +1,12 @@
 package me.lucasbatista.vienna.api.controller
 
 import me.lucasbatista.vienna.api.dto.AuthenticationTokenDTO
-import me.lucasbatista.vienna.api.dto.CustomerDTO
-import me.lucasbatista.vienna.api.dto.request.SignUpRequestDTO
 import me.lucasbatista.vienna.sdk.repository.AuthenticationTokenRepository
 import me.lucasbatista.vienna.sdk.repository.CustomerRepository
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestPart
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/v1/customers")
@@ -26,13 +27,11 @@ class CustomerController(
     }
 
     @PostMapping("/sign-up")
-    fun signUp(@RequestBody body: SignUpRequestDTO): CustomerDTO {
-        val result = customerRepository.create(
-            firstName = body.firstName,
-            lastName = body.lastName,
-            email = body.email,
-            password = body.password,
-        )
-        return CustomerDTO(result.id)
+    fun signUp(
+        @RequestPart name: String,
+        @RequestPart email: String,
+        @RequestPart password: String,
+    ) {
+        customerRepository.create(name, email, password)
     }
 }

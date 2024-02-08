@@ -10,25 +10,19 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class ShopifyCustomerRepository(private val client: ShopifyGraphQLClient) : CustomerRepository {
-    override fun create(
-        firstName: String,
-        lastName: String,
-        email: String,
-        password: String,
-    ): Customer {
-        val result = client.executeAsAdmin(
+    override fun create(name: String, email: String, password: String) {
+        client.executeAsAdmin(
             CreateCustomerMutation(
                 CreateCustomerMutation.Variables(
                     CustomerCreateInput(
-                        firstName = firstName,
-                        lastName = lastName,
+                        firstName = name.trim().split(" ").first(),
+                        lastName = name.trim().split(" ").last(),
                         email = email,
                         password = password,
                     ),
                 ),
             ),
-        ).data!!.customerCreate!!.customer!!
-        return Customer(result.id)
+        )
     }
 
     override fun findByAccessToken(accessToken: String): Customer {

@@ -15,4 +15,12 @@ abstract class CustomerProvider {
     @Part(name: 'email') String email,
     @Part(name: 'password') String password,
   );
+
+  @MultiPart()
+  @POST('/sign-up')
+  Future<void> signUp(
+    @Part(name: 'name') String name,
+    @Part(name: 'email') String email,
+    @Part(name: 'password') String password,
+  );
 }

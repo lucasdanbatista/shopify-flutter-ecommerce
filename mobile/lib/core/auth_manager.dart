@@ -6,6 +6,8 @@ import '../providers/customer_provider.dart';
 abstract interface class AuthManager {
   Future<void> signIn(String email, String password);
 
+  Future<void> signUp(String name, String email, String password);
+
   Future<void> signOut();
 
   bool get isAuthenticated;
@@ -31,6 +33,12 @@ class DefaultAuthManager implements AuthManager {
   }
 
   @override
+  Future<void> signUp(String name, String email, String password) async {
+    await _provider.signUp(name, email, password);
+    await signIn(email, password);
+  }
+
+  @override
   Future<void> signOut() async {
     _setAuthorizationHeader(null);
     await _secureStorage.deleteAll();
@@ -43,7 +51,8 @@ class DefaultAuthManager implements AuthManager {
   }
 
   @override
-  bool get isAuthenticated => _httpClient.options.headers[_authorizationHeader] != null;
+  bool get isAuthenticated =>
+      _httpClient.options.headers[_authorizationHeader] != null;
 
   void _setAuthorizationHeader(String? authorization) =>
       _httpClient.options.headers[_authorizationHeader] = authorization;

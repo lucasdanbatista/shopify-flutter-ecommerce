@@ -32,7 +32,7 @@ class SignInPage extends StatelessWidget {
             backgroundColor: Colors.transparent,
             actions: [
               TextButton(
-                onPressed: () => throw UnimplementedError(),
+                onPressed: () => context.pushRoute(SignUpRoute()),
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.white,
                 ),
@@ -76,7 +76,8 @@ class SignInPage extends StatelessWidget {
                           onPressed: viewModel.togglePasswordVisible,
                           isSelected: viewModel.isPasswordVisible,
                           icon: const Icon(Icons.visibility_outlined),
-                          selectedIcon: const Icon(Icons.visibility_off_outlined),
+                          selectedIcon:
+                              const Icon(Icons.visibility_off_outlined),
                         ),
                       ),
                     ),

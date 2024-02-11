@@ -31,10 +31,5 @@ abstract class CartViewModelBase with Store {
   }
 
   @action
-  Future<void> createPaymentIntent() async {
-    final paymentIntent = await _cartManager.createPaymentIntent();
-    //TODO: handle payment here
-    await _cartManager.initializeNewCart();
-    refreshCart();
-  }
+  Future<void> createPaymentIntent() => throw UnimplementedError();
 }

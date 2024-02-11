@@ -5,15 +5,27 @@ import 'package:get_it/get_it.dart';
 import '../../../util/formatters/currency_formatter.dart';
 import '../cart_view_model.dart';
 
+class OrderSummaryLine {
+  final String title;
+  final String value;
+
+  OrderSummaryLine({
+    required this.title,
+    required this.value,
+  });
+}
+
 class OrderSummary extends StatelessWidget {
   final cartViewModel = GetIt.I<CartViewModel>();
   final String confirmationButtonText;
   final VoidCallback onConfirmationButtonPressed;
+  final List<OrderSummaryLine> additionalLines;
 
   OrderSummary({
     super.key,
     required this.confirmationButtonText,
     required this.onConfirmationButtonPressed,
+    this.additionalLines = const [],
   });
 
   @override
@@ -23,28 +35,17 @@ class OrderSummary extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Padding(padding: EdgeInsets.only(top: 8)),
-          Column(
-            children: [
-              ListTile(
-                title: Text(
-                  'Subtotal',
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-                trailing: Text(
-                  CurrencyFormatter().format(cartViewModel.cart.subtotal),
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
+          _renderLines(
+            context,
+            [
+              ...additionalLines,
+              OrderSummaryLine(
+                title: 'Subtotal',
+                value: CurrencyFormatter().format(cartViewModel.cart.subtotal),
               ),
-              ListTile(
-                minVerticalPadding: 0,
-                title: Text(
-                  'Total',
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-                trailing: Text(
-                  CurrencyFormatter().format(cartViewModel.cart.total),
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
+              OrderSummaryLine(
+                title: 'Total',
+                value: CurrencyFormatter().format(cartViewModel.cart.total),
               ),
             ],
           ),
@@ -59,6 +60,25 @@ class OrderSummary extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _renderLines(BuildContext context, List<OrderSummaryLine> lines) {
+    return Column(
+      children: lines
+          .map(
+            (line) => ListTile(
+              title: Text(
+                line.title,
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+              trailing: Text(
+                line.value,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ),
+          )
+          .toList(),
     );
   }
 }

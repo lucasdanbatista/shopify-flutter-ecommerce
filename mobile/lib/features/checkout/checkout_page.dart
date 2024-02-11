@@ -4,9 +4,11 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../util/formatters/address_formatter.dart';
+import '../../util/formatters/currency_formatter.dart';
 import '../../util/init_state_mixin.dart';
 import '../cart/cart_view_model.dart';
 import '../cart/widgets/order_summary.dart';
+import '../orders/widgets/order_item_list_tile.dart';
 import 'checkout_view_model.dart';
 
 @RoutePage()
@@ -60,6 +62,48 @@ class CheckoutPage extends StatelessWidget with InitStateMixin {
                 );
               },
             ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Text(
+                    'Forma de pagamento',
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                ),
+                //TODO: remove mocked payment method
+                ListTile(
+                  leading: const Icon(Icons.payment),
+                  title: const Text('VISA **** **** **** 2056'),
+                  subtitle: const Text('Vence em 12/2026'),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.edit_outlined),
+                    onPressed: () {},
+                  ),
+                ),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Text(
+                    'Items do pedido (${cartViewModel.cart.lines.length})',
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                ),
+                ...cartViewModel.cart.lines.map(
+                  (line) => OrderItemListTile(
+                    productTitle: line.productVariant.title,
+                    productImage: line.productVariant.image,
+                    quantity: line.quantity,
+                    total: line.total,
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -68,6 +112,13 @@ class CheckoutPage extends StatelessWidget with InitStateMixin {
         OrderSummary(
           confirmationButtonText: 'PAGAR',
           onConfirmationButtonPressed: cartViewModel.createPaymentIntent,
+          additionalLines: [
+            OrderSummaryLine(
+              title: 'Frete',
+              //TODO: remove mocked shipping coast
+              value: CurrencyFormatter().format(14.97),
+            ),
+          ],
         ),
       ],
     );

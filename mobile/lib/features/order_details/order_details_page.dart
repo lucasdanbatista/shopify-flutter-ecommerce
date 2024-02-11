@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import '../../util/formatters/currency_formatter.dart';
 import '../../util/formatters/order_formatter.dart';
 import '../../util/init_state_mixin.dart';
+import '../orders/widgets/order_item_list_tile.dart';
 import 'order_details_view_model.dart';
 
 @RoutePage()
@@ -84,41 +85,11 @@ class OrderDetailsPage extends StatelessWidget with InitStateMixin {
                   title: Text('Itens (${order.items.length})'),
                   children: order.items
                       .map(
-                        (item) => ListTile(
-                          minVerticalPadding: 16,
-                          leading: Container(
-                            clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(Radius.circular(4)),
-                              border: Border.all(
-                                color: Colors.grey.shade200,
-                                width: 1,
-                                strokeAlign: BorderSide.strokeAlignOutside,
-                              ),
-                            ),
-                            child: Image.network(item.productVariant.image.toString()),
-                          ),
-                          title: Text(
-                            item.title,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          trailing: Text.rich(
-                            TextSpan(
-                              text: '${item.quantity} un.\n',
-                              style: Theme.of(context).textTheme.labelSmall,
-                              children: [
-                                TextSpan(
-                                  text: CurrencyFormatter().format(item.total),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium
-                                      ?.copyWith(fontWeight: FontWeight.w400),
-                                ),
-                              ],
-                            ),
-                            textAlign: TextAlign.end,
-                          ),
+                        (item) => OrderItemListTile(
+                          productTitle: item.title,
+                          productImage: item.productVariant.image,
+                          quantity: item.quantity,
+                          total: item.total,
                         ),
                       )
                       .toList(),

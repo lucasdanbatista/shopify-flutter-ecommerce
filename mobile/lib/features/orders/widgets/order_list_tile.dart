@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/entities/order.dart';
-import '../../../util/formatters/order_formatter.dart';
-import '../../../util/router.gr.dart';
+import '../../../utils/formatters/order_formatter.dart';
+import '../../../utils/router.gr.dart';
 
 class OrderListTile extends StatelessWidget {
   final Order order;

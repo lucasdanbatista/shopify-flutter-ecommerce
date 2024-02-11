@@ -4,8 +4,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../core/auth_manager.dart';
-import '../../util/assets.dart';
-import '../../util/router.gr.dart';
+import '../../utils/assets.dart';
+import '../../utils/router.gr.dart';
 import 'sign_in_view_model.dart';
 
 @RoutePage()

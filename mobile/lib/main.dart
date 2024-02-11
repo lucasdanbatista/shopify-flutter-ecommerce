@@ -20,7 +20,7 @@ import 'features/sign_in/sign_in_module.dart';
 import 'features/wishlist/wishlist_module.dart';
 import 'mappers/mappers_module.dart';
 import 'providers/providers_module.dart';
-import 'util/router.dart';
+import 'utils/router.dart';
 
 final router = AppRouter();
 

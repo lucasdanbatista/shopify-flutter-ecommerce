@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../util/assets.dart';
-import '../../util/formatters/currency_formatter.dart';
-import '../../util/router.gr.dart';
+import '../../utils/assets.dart';
+import '../../utils/formatters/currency_formatter.dart';
+import '../../utils/router.gr.dart';
+import '../../widgets/order_summary.dart';
 import 'cart_view_model.dart';
-import 'widgets/order_summary.dart';
 
 @RoutePage()
 class CartPage extends StatelessWidget {

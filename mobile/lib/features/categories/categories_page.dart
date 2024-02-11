@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../util/router.gr.dart';
+import '../../utils/router.gr.dart';
 import 'categories_view_model.dart';
 
 @RoutePage()

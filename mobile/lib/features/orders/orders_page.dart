@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../util/init_state_mixin.dart';
+import '../../utils/init_state_mixin.dart';
 import 'orders_view_model.dart';
 import 'widgets/order_list_tile.dart';
 

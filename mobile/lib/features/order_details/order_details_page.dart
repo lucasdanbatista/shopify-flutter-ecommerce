@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../util/formatters/currency_formatter.dart';
-import '../../util/formatters/order_formatter.dart';
-import '../../util/init_state_mixin.dart';
-import '../orders/widgets/order_item_list_tile.dart';
+import '../../utils/formatters/currency_formatter.dart';
+import '../../utils/formatters/order_formatter.dart';
+import '../../utils/init_state_mixin.dart';
+import '../../widgets/list_tiles/order_item_list_tile.dart';
 import 'order_details_view_model.dart';
 
 @RoutePage()

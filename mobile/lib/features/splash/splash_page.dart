@@ -4,10 +4,10 @@ import 'package:get_it/get_it.dart';
 
 import '../../core/auth_manager.dart';
 import '../../main.dart';
-import '../../util/assets.dart';
-import '../../util/cron.dart';
-import '../../util/init_state_mixin.dart';
-import '../../util/router.gr.dart';
+import '../../utils/assets.dart';
+import '../../utils/cron.dart';
+import '../../utils/init_state_mixin.dart';
+import '../../utils/router.gr.dart';
 
 @RoutePage()
 class SplashPage extends StatelessWidget with InitStateMixin {

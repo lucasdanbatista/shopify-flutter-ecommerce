@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../core/auth_manager.dart';
-import '../../util/router.gr.dart';
+import '../../utils/router.gr.dart';
 
 @RoutePage()
 class SignUpPage extends StatelessWidget {

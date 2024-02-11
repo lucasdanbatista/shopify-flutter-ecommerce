@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../util/formatters/currency_formatter.dart';
+import '../../utils/formatters/currency_formatter.dart';
 
 class OrderItemListTile extends StatelessWidget {
   final String productTitle;

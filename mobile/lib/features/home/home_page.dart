@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../util/assets.dart';
-import '../../util/router.gr.dart';
-import '../cart/widgets/cart_icon_button.dart';
+import '../../utils/assets.dart';
+import '../../utils/router.gr.dart';
+import '../../widgets/icon_buttons/cart_icon_button.dart';
 
 @RoutePage()
 class HomePage extends StatelessWidget {

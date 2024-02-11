@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../../util/formatters/currency_formatter.dart';
-import '../cart_view_model.dart';
+import '../features/cart/cart_view_model.dart';
+import '../utils/formatters/currency_formatter.dart';
 
 class OrderSummaryLine {
   final String title;

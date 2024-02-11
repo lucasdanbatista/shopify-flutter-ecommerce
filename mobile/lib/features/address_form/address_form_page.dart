@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../core/entities/address.dart';
-import '../../util/init_state_mixin.dart';
+import '../../utils/init_state_mixin.dart';
 import 'address_form_view_model.dart';
 
 @RoutePage()

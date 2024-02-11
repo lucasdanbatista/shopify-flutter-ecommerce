@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../util/formatters/currency_formatter.dart';
-import '../../util/init_state_mixin.dart';
-import '../../util/router.gr.dart';
+import '../../utils/formatters/currency_formatter.dart';
+import '../../utils/init_state_mixin.dart';
+import '../../utils/router.gr.dart';
+import '../../widgets/icon_buttons/cart_icon_button.dart';
 import '../cart/cart_view_model.dart';
-import '../cart/widgets/cart_icon_button.dart';
 import '../wishlist/wishlist_view_model.dart';
 import 'product_details_view_model.dart';
 

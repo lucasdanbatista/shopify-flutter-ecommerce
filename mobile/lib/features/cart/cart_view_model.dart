@@ -29,7 +29,4 @@ abstract class CartViewModelBase with Store {
     await _cartManager.updateCartLine(cartLineId, quantity);
     refreshCart();
   }
-
-  @action
-  Future<void> createPaymentIntent() => throw UnimplementedError();
 }

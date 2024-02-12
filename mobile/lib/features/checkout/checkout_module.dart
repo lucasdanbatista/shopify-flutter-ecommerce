@@ -6,6 +6,6 @@ import 'checkout_view_model.dart';
 class CheckoutModule implements Module {
   @override
   Future<void> init(GetIt i) async {
-    i.registerFactory(() => CheckoutViewModel(i.get()));
+    i.registerFactory(() => CheckoutViewModel(i.get(), i.get()));
   }
 }

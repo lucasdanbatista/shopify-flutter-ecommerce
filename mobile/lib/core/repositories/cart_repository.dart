@@ -1,5 +1,4 @@
 import '../../dtos/cart_line_dto.dart';
-import '../../dtos/payment_intent_dto.dart';
 import '../../mappers/cart_mapper.dart';
 import '../../providers/cart_provider.dart';
 import '../entities/cart.dart';
@@ -19,8 +18,6 @@ abstract interface class CartRepository {
     required String cartLineId,
     required int quantity,
   });
-
-  Future<PaymentIntentDTO> createPaymentIntent(String cartId);
 }
 
 class DefaultCartRepository implements CartRepository {
@@ -68,8 +65,4 @@ class DefaultCartRepository implements CartRepository {
     );
     return _mapper.toEntity(response);
   }
-
-  @override
-  Future<PaymentIntentDTO> createPaymentIntent(String cartId) =>
-      _provider.createPaymentIntent(cartId);
 }

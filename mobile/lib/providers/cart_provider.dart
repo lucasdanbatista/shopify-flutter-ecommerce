@@ -3,7 +3,6 @@ import 'package:retrofit/retrofit.dart';
 
 import '../dtos/cart_dto.dart';
 import '../dtos/cart_line_dto.dart';
-import '../dtos/payment_intent_dto.dart';
 
 part 'cart_provider.g.dart';
 
@@ -28,7 +27,4 @@ abstract class CartProvider {
     @Path('id') required String cartId,
     @Body() required CartLineDTO cartLine,
   });
-
-  @POST('/{id}/checkout/payment-intents')
-  Future<PaymentIntentDTO> createPaymentIntent(@Path('id') String cartId);
 }

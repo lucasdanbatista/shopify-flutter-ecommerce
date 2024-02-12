@@ -46,15 +46,6 @@ mixin _$CartViewModel on CartViewModelBase, Store {
         .run(() => super.updateCartLine(cartLineId, quantity));
   }
 
-  late final _$createPaymentIntentAsyncAction =
-      AsyncAction('CartViewModelBase.createPaymentIntent', context: context);
-
-  @override
-  Future<void> createPaymentIntent() {
-    return _$createPaymentIntentAsyncAction
-        .run(() => super.createPaymentIntent());
-  }
-
   late final _$CartViewModelBaseActionController =
       ActionController(name: 'CartViewModelBase', context: context);
 

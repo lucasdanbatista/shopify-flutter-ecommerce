@@ -25,6 +25,22 @@ mixin _$CheckoutViewModel on CheckoutViewModelBase, Store {
     });
   }
 
+  late final _$checkoutAtom =
+      Atom(name: 'CheckoutViewModelBase.checkout', context: context);
+
+  @override
+  Checkout? get checkout {
+    _$checkoutAtom.reportRead();
+    return super.checkout;
+  }
+
+  @override
+  set checkout(Checkout? value) {
+    _$checkoutAtom.reportWrite(value, super.checkout, () {
+      super.checkout = value;
+    });
+  }
+
   late final _$fetchShippingAddressAsyncAction = AsyncAction(
       'CheckoutViewModelBase.fetchShippingAddress',
       context: context);
@@ -35,10 +51,28 @@ mixin _$CheckoutViewModel on CheckoutViewModelBase, Store {
         .run(() => super.fetchShippingAddress());
   }
 
+  late final _$createCheckoutAsyncAction =
+      AsyncAction('CheckoutViewModelBase.createCheckout', context: context);
+
+  @override
+  Future<void> createCheckout(String cartId) {
+    return _$createCheckoutAsyncAction.run(() => super.createCheckout(cartId));
+  }
+
+  late final _$selectShippingRateAsyncAction =
+      AsyncAction('CheckoutViewModelBase.selectShippingRate', context: context);
+
+  @override
+  Future<void> selectShippingRate(String shippingRateId) {
+    return _$selectShippingRateAsyncAction
+        .run(() => super.selectShippingRate(shippingRateId));
+  }
+
   @override
   String toString() {
     return '''
-shippingAddress: ${shippingAddress}
+shippingAddress: ${shippingAddress},
+checkout: ${checkout}
     ''';
   }
 }

@@ -1,7 +1,6 @@
 package me.lucasbatista.vienna.sdk.repository
 
 import me.lucasbatista.vienna.sdk.entity.Address
-import org.springframework.data.repository.CrudRepository
 
 interface AddressRepository {
     fun findById(customerAccessToken: String, id: String): Address
@@ -33,5 +32,3 @@ interface AddressRepository {
         zipcode: String,
     ): Address
 }
-
-interface InMemoryAddressRepository : CrudRepository<Address, String>

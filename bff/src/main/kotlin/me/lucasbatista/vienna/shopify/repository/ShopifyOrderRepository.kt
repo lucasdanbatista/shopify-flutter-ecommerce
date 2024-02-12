@@ -1,6 +1,8 @@
 package me.lucasbatista.vienna.shopify.repository
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import me.lucasbatista.vienna.api.util.fromBase64
+import me.lucasbatista.vienna.api.util.toBase64
 import me.lucasbatista.vienna.sdk.entity.*
 import me.lucasbatista.vienna.sdk.repository.OrderRepository
 import me.lucasbatista.vienna.shopify.graphql.GetOrderDetailsQuery
@@ -9,6 +11,7 @@ import me.lucasbatista.vienna.shopify.graphql.ShopifyGraphQLClient
 import me.lucasbatista.vienna.shopify.graphql.enums.OrderFinancialStatus
 import me.lucasbatista.vienna.shopify.graphql.enums.OrderFulfillmentStatus
 import org.springframework.stereotype.Repository
+import java.net.URI
 import java.net.URL
 import me.lucasbatista.vienna.shopify.graphql.getordersquery.Order as ShopifyOrder
 
@@ -27,7 +30,7 @@ class ShopifyOrderRepository(
         val query = GetOrderDetailsQuery(
             GetOrderDetailsQuery.Variables(
                 customerAccessToken = customerAccessToken,
-                query = "id:$id",
+                query = "id:${URI(id.fromBase64()).path.split("/").last()}",
             ),
         )
         val result = client.executeAsAdmin(query).data!!.customer!!.orders.nodes.first()
@@ -43,7 +46,7 @@ class ShopifyOrderRepository(
                     province = it.province!!,
                     country = it.country!!,
                 ).apply {
-                    this.id = it.id
+                    this.id = it.id.toBase64()
                 }
             }
         }
@@ -52,7 +55,7 @@ class ShopifyOrderRepository(
     private fun mapOrder(result: Any): Order {
         val data = objectMapper.convertValue(result, ShopifyOrder::class.java)
         return Order(
-            id = data.id.split("/").last(),
+            id = data.id.toBase64(),
             orderNumber = data.orderNumber,
             items = data.lineItems.nodes.map {
                 OrderItem(

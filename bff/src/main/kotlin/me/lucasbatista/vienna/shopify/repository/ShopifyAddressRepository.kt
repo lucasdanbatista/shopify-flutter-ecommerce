@@ -1,11 +1,14 @@
 package me.lucasbatista.vienna.shopify.repository
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import me.lucasbatista.vienna.api.util.fromBase64
+import me.lucasbatista.vienna.api.util.toBase64
 import me.lucasbatista.vienna.sdk.entity.Address
 import me.lucasbatista.vienna.sdk.repository.AddressRepository
 import me.lucasbatista.vienna.shopify.graphql.*
 import me.lucasbatista.vienna.shopify.graphql.inputs.MailingAddressInput
 import org.springframework.stereotype.Repository
+import java.net.URI
 import me.lucasbatista.vienna.shopify.graphql.createaddressmutation.MailingAddress as ShopifyAddress
 
 @Repository
@@ -13,8 +16,10 @@ class ShopifyAddressRepository(
     private val client: ShopifyGraphQLClient,
     private val objectMapper: ObjectMapper,
 ) : AddressRepository {
-    override fun findById(customerAccessToken: String, id: String) =
-        findAll(customerAccessToken).first { it.id.contains(id) }
+    override fun findById(customerAccessToken: String, id: String): Address {
+        fun extractId(rawId: String) = URI(rawId.fromBase64()).path
+        return findAll(customerAccessToken).first { extractId(it.id) == extractId(id) }
+    }
 
     override fun findAll(customerAccessToken: String): List<Address> {
         val query = GetAddressesQuery(GetAddressesQuery.Variables(customerAccessToken))
@@ -67,7 +72,7 @@ class ShopifyAddressRepository(
             UpdateAddressMutation(
                 UpdateAddressMutation.Variables(
                     customerAccessToken = customerAccessToken,
-                    id = id,
+                    id = id.fromBase64(),
                     address = MailingAddressInput(
                         firstName = recipientFirstName,
                         lastName = recipientLastName,
@@ -89,7 +94,7 @@ class ShopifyAddressRepository(
             DeleteAddressMutation(
                 DeleteAddressMutation.Variables(
                     customerAccessToken,
-                    id,
+                    id.fromBase64(),
                 ),
             ),
         )
@@ -107,7 +112,7 @@ class ShopifyAddressRepository(
             zipcode = result.zip!!,
             country = result.country!!,
         ).apply {
-            id = result.id
+            id = result.id.toBase64()
         }
     }
 }

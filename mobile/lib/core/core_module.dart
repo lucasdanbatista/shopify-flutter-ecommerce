@@ -9,6 +9,7 @@ import 'environment.dart';
 import 'module.dart';
 import 'repositories/address_repository.dart';
 import 'repositories/cart_repository.dart';
+import 'repositories/checkout_repository.dart';
 import 'repositories/order_repository.dart';
 import 'repositories/product_category_repository.dart';
 import 'repositories/product_repository.dart';
@@ -20,19 +21,36 @@ class CoreModule implements Module {
   Future<void> init(GetIt i) async {
     i.registerLazySingleton<Environment>(() => DebugEnvironment());
     i.registerLazySingleton(() => const FlutterSecureStorage());
-    i.registerLazySingleton<WishlistManager>(() => DefaultWishlistManager(i.get()));
-    i.registerLazySingleton<AuthManager>(() => DefaultAuthManager(i.get(), i.get(), i.get()));
-    i.registerLazySingleton<CartManager>(() => DefaultCartManager(i.get(), i.get()));
+    i.registerLazySingleton<WishlistManager>(
+      () => DefaultWishlistManager(i.get()),
+    );
+    i.registerLazySingleton<AuthManager>(
+      () => DefaultAuthManager(i.get(), i.get(), i.get()),
+    );
+    i.registerLazySingleton<CartManager>(
+      () => DefaultCartManager(i.get(), i.get()),
+    );
     i.registerLazySingleton<ProductRepository>(
       () => DefaultProductRepository(i.get(), i.get(), i.get()),
     );
     i.registerLazySingleton<ProductCategoryRepository>(
       () => DefaultProductCategoryRepository(i.get(), i.get()),
     );
-    i.registerLazySingleton<CartRepository>(() => DefaultCartRepository(i.get(), i.get()));
-    i.registerLazySingleton<WishlistRepository>(() => DefaultWishlistRepository(i.get(), i.get()));
-    i.registerLazySingleton<OrderRepository>(() => DefaultOrderRepository(i.get(), i.get()));
-    i.registerLazySingleton<AddressRepository>(() => DefaultAddressRepository(i.get(), i.get()));
+    i.registerLazySingleton<CartRepository>(
+      () => DefaultCartRepository(i.get(), i.get()),
+    );
+    i.registerLazySingleton<WishlistRepository>(
+      () => DefaultWishlistRepository(i.get(), i.get()),
+    );
+    i.registerLazySingleton<OrderRepository>(
+      () => DefaultOrderRepository(i.get(), i.get()),
+    );
+    i.registerLazySingleton<AddressRepository>(
+      () => DefaultAddressRepository(i.get(), i.get()),
+    );
+    i.registerLazySingleton<CheckoutRepository>(
+      () => DefaultCheckoutRepository(i.get(), i.get()),
+    );
     final database = await openDatabase(
       DatabaseScheme.databaseName,
       version: DatabaseScheme.latest().version,

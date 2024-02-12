@@ -2,6 +2,8 @@ package me.lucasbatista.vienna.shopify.repository
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import me.lucasbatista.vienna.api.util.fromBase64
+import me.lucasbatista.vienna.api.util.toBase64
 import me.lucasbatista.vienna.sdk.entity.Product
 import me.lucasbatista.vienna.sdk.entity.ProductVariant
 import me.lucasbatista.vienna.sdk.repository.ProductRepository
@@ -10,6 +12,7 @@ import me.lucasbatista.vienna.shopify.graphql.GetProductsByCollectionIdQuery
 import me.lucasbatista.vienna.shopify.graphql.GetProductsQuery
 import me.lucasbatista.vienna.shopify.graphql.ShopifyGraphQLClient
 import org.springframework.stereotype.Repository
+import java.net.URI
 import java.net.URL
 import me.lucasbatista.vienna.shopify.graphql.getproductsquery.Product as ShopifyProduct
 
@@ -19,50 +22,44 @@ class ShopifyProductRepository(
     private val objectMapper: ObjectMapper,
 ) : ProductRepository {
     override fun findAllByCategoryId(id: String): List<Product> {
-        val result = client.executeAsAdmin(
-            GetProductsByCollectionIdQuery(
-                GetProductsByCollectionIdQuery.Variables("gid://shopify/Collection/$id"),
-            ),
-        ).data!!.collection!!.products
+        val query = GetProductsByCollectionIdQuery(
+            GetProductsByCollectionIdQuery.Variables(id.fromBase64()),
+        )
+        val result = client.executeAsAdmin(query).data!!.collection!!.products
         return result.nodes.map(::mapProduct)
     }
 
     override fun findAllByIds(ids: List<String>): List<Product> {
-        if (ids.isEmpty()) return listOf()
+        val decodedIds = ids.map { URI(it.fromBase64()).path.split("/").last() }
+        if (decodedIds.isEmpty()) return listOf()
         var query = "id:"
-        for (id in ids) {
+        for (id in decodedIds) {
             query += id
-            if (id != ids.last()) {
+            if (id != decodedIds.last()) {
                 query += " OR "
             }
         }
-        val result = client.executeAsAdmin(
-            GetProductsQuery(
-                GetProductsQuery.Variables(query),
-            ),
-        ).data!!.products.nodes
+        val graphqlQuery = GetProductsQuery(GetProductsQuery.Variables(query))
+        val result = client.executeAsAdmin(graphqlQuery).data!!.products.nodes
         return result.map(::mapProduct)
     }
 
     override fun findById(id: String): Product {
-        val result = client.executeAsAdmin(
-            GetProductByIdQuery(
-                GetProductByIdQuery.Variables("gid://shopify/Product/$id"),
-            ),
-        ).data!!.product!!
+        val query = GetProductByIdQuery(GetProductByIdQuery.Variables(id.fromBase64()))
+        val result = client.executeAsAdmin(query).data!!.product!!
         return mapProduct(result)
     }
 
     private fun mapProduct(result: Any): Product {
         val it = objectMapper.readValue<ShopifyProduct>(objectMapper.writeValueAsBytes(result))
         return Product(
-            id = it.id.split("/").last(),
+            id = it.id.toBase64(),
             images = it.images.nodes.map { URL(it.url) },
             title = it.title,
             description = it.description,
             variants = it.variants.nodes.map {
                 ProductVariant(
-                    id = it.id.split("/").last(),
+                    id = it.id.toBase64(),
                     originalPrice = it.compareAtPrice!!.amount.toDouble(),
                     sellingPrice = it.price.amount.toDouble(),
                 )

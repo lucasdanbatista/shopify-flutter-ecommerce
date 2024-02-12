@@ -1,6 +1,5 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../dtos/payment_intent_dto.dart';
 import 'entities/cart.dart';
 import 'repositories/cart_repository.dart';
 
@@ -14,8 +13,6 @@ abstract interface class CartManager {
   Future<void> addCartLine(String productVariantId);
 
   Future<void> updateCartLine(String cartLineId, int quantity);
-
-  Future<PaymentIntentDTO> createPaymentIntent();
 }
 
 class DefaultCartManager implements CartManager {
@@ -62,8 +59,4 @@ class DefaultCartManager implements CartManager {
       quantity: quantity,
     );
   }
-
-  @override
-  Future<PaymentIntentDTO> createPaymentIntent() async =>
-      _repository.createPaymentIntent(_currentCart.id);
 }

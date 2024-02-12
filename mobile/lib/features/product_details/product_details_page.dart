@@ -162,24 +162,20 @@ class ProductDetailsPage extends StatelessWidget with InitStateMixin {
           ),
           persistentFooterAlignment: AlignmentDirectional.center,
           persistentFooterButtons: [
-            Observer(
-              builder: (context) {
-                return TextButton.icon(
-                  onPressed: () async {
-                    await cartViewModel.addCartLine(product.variants.first.id);
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          backgroundColor: Colors.green,
-                          content: Text('Adicionado ao carrinho.'),
-                        ),
-                      );
-                    }
-                  },
-                  icon: const Icon(Icons.add_shopping_cart_outlined),
-                  label: const Text('ADICIONAR AO CARRINHO'),
-                );
+            TextButton.icon(
+              onPressed: () async {
+                await cartViewModel.addCartLine(product.variants.first.id);
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      backgroundColor: Colors.green,
+                      content: Text('Adicionado ao carrinho.'),
+                    ),
+                  );
+                }
               },
+              icon: const Icon(Icons.add_shopping_cart_outlined),
+              label: const Text('ADICIONAR AO CARRINHO'),
             ),
           ],
         );

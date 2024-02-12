@@ -1,33 +1,45 @@
 package me.lucasbatista.vienna.shopify.repository
 
-import me.lucasbatista.vienna.sdk.entity.Address
-import me.lucasbatista.vienna.sdk.entity.Cart
+import com.fasterxml.jackson.databind.ObjectMapper
+import me.lucasbatista.vienna.api.util.fromBase64
+import me.lucasbatista.vienna.api.util.toBase64
 import me.lucasbatista.vienna.sdk.entity.Checkout
-import me.lucasbatista.vienna.sdk.entity.CheckoutPayment
+import me.lucasbatista.vienna.sdk.entity.ShippingRate
+import me.lucasbatista.vienna.sdk.repository.AddressRepository
+import me.lucasbatista.vienna.sdk.repository.CartRepository
 import me.lucasbatista.vienna.sdk.repository.CheckoutRepository
-import me.lucasbatista.vienna.shopify.graphql.CompleteCheckoutMutation
+import me.lucasbatista.vienna.sdk.repository.CustomerRepository
 import me.lucasbatista.vienna.shopify.graphql.CreateCheckoutMutation
 import me.lucasbatista.vienna.shopify.graphql.ShopifyGraphQLClient
 import me.lucasbatista.vienna.shopify.graphql.UpdateCheckoutShippingLineMutation
-import me.lucasbatista.vienna.shopify.graphql.enums.CurrencyCode
-import me.lucasbatista.vienna.shopify.graphql.enums.PaymentTokenType
 import me.lucasbatista.vienna.shopify.graphql.inputs.CheckoutLineItemInput
 import me.lucasbatista.vienna.shopify.graphql.inputs.MailingAddressInput
-import me.lucasbatista.vienna.shopify.graphql.inputs.MoneyInput
-import me.lucasbatista.vienna.shopify.graphql.inputs.TokenizedPaymentInputV3
 import org.springframework.stereotype.Repository
-import java.util.*
+import me.lucasbatista.vienna.shopify.graphql.createcheckoutmutation.Checkout as ShopifyCheckout
 
 @Repository
-class ShopifyCheckoutRepository(private val client: ShopifyGraphQLClient) : CheckoutRepository {
-    override fun create(customerEmail: String, cart: Cart, shippingAddress: Address): Checkout {
+class ShopifyCheckoutRepository(
+    private val client: ShopifyGraphQLClient,
+    private val addressRepository: AddressRepository,
+    private val cartRepository: CartRepository,
+    private val customerRepository: CustomerRepository,
+    private val objectMapper: ObjectMapper,
+) : CheckoutRepository {
+    override fun create(
+        customerAccessToken: String,
+        cartId: String,
+        shippingAddressId: String,
+    ): Checkout {
+        val cart = cartRepository.findById(cartId)
+        val customer = customerRepository.findByAccessToken(customerAccessToken)
+        val shippingAddress = addressRepository.findById(customerAccessToken, shippingAddressId)
         val result = client.executeAsAdmin(
             CreateCheckoutMutation(
                 CreateCheckoutMutation.Variables(
-                    customerEmail = customerEmail,
+                    customerEmail = customer.email,
                     cartLines = cart.lines.map {
                         CheckoutLineItemInput(
-                            variantId = "gid://shopify/ProductVariant/${it.productVariant.id}",
+                            variantId = it.productVariant.id.fromBase64(),
                             quantity = it.quantity,
                         )
                     },
@@ -41,58 +53,43 @@ class ShopifyCheckoutRepository(private val client: ShopifyGraphQLClient) : Chec
                         country = shippingAddress.country,
                         zip = shippingAddress.zipcode,
                     ),
-                )
-            ),
-        ).data!!.checkoutCreate!!.checkout!!
-        val shippingResult = client.executeAsAdmin(
-            UpdateCheckoutShippingLineMutation(
-                UpdateCheckoutShippingLineMutation.Variables(
-                    shippingRateHandle = result.availableShippingRates!!.shippingRates!!.first().handle,
-                    checkoutId = result.id,
                 ),
             ),
-        ).data!!.checkoutShippingLineUpdate!!
-        if (shippingResult.checkoutUserErrors.isNotEmpty()) {
-            throw Error(shippingResult.checkoutUserErrors.first().message)
-        }
-        return Checkout(
-            id = result.id,
-            total = result.totalPrice.amount.toDouble(),
-        )
+        ).data!!.checkoutCreate!!.checkout!!
+        return mapCheckout(result)
     }
 
-    override fun complete(payment: CheckoutPayment) {
-        val result = client.executeAsAdmin(
-            CompleteCheckoutMutation(
-                CompleteCheckoutMutation.Variables(
-                    checkoutId = payment.checkoutId,
-                    payment = TokenizedPaymentInputV3(
-                        idempotencyKey = UUID.randomUUID().toString(),
-                        billingAddress = MailingAddressInput(
-                            firstName = payment.billingAddress.recipientFirstName,
-                            lastName = payment.billingAddress.recipientLastName,
-                            address1 = payment.billingAddress.line1,
-                            address2 = payment.billingAddress.line2,
-                            city = payment.billingAddress.city,
-                            province = payment.billingAddress.province,
-                            country = payment.billingAddress.country,
-                            zip = payment.billingAddress.zipcode,
-                        ),
-                        paymentAmount = MoneyInput(
-                            amount = payment.totalPaid.toString(),
-                            currencyCode = CurrencyCode.BRL,
-                        ),
-                        type = PaymentTokenType.STRIPE_VAULT_TOKEN,
-                        paymentData = payment.completionToken,
-                    ),
+    override fun setShippingLine(checkoutId: String, shippingRateId: String): Checkout {
+        val query = UpdateCheckoutShippingLineMutation(
+            UpdateCheckoutShippingLineMutation.Variables(
+                checkoutId = checkoutId.fromBase64(),
+                shippingRateHandle = shippingRateId,
+            ),
+        )
+        val result = client.executeAsAdmin(query).data!!.checkoutShippingLineUpdate!!.checkout!!
+        return mapCheckout(result)
+    }
+
+    private fun mapCheckout(data: Any): Checkout {
+        val result = objectMapper.convertValue(data, ShopifyCheckout::class.java)
+        return Checkout(
+            id = result.id.toBase64(),
+            subtotal = result.subtotalPrice.amount.toDouble(),
+            total = result.totalPrice.amount.toDouble(),
+            selectedShippingRate = if (result.shippingLine != null) {
+                ShippingRate(
+                    id = result.shippingLine.handle,
+                    title = result.shippingLine.title,
+                    price = result.shippingLine.price.amount.toDouble(),
                 )
-            )
-        ).data!!.checkoutCompleteWithTokenizedPaymentV3!!
-        if (result.checkoutUserErrors.isNotEmpty()) {
-            throw Error(result.checkoutUserErrors.first().message)
-        }
-        if (result.payment?.errorMessage != null) {
-            throw Error(result.payment.errorMessage)
-        }
+            } else null,
+            availableShippingRates = result.availableShippingRates?.shippingRates?.map {
+                ShippingRate(
+                    id = it.handle,
+                    title = it.title,
+                    price = it.price.amount.toDouble(),
+                )
+            } ?: listOf(),
+        )
     }
 }

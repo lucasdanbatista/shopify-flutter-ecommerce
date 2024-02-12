@@ -14,8 +14,22 @@ mutation CreateCheckoutMutation(
             id
             availableShippingRates {
                 shippingRates {
+                    title
                     handle
+                    price {
+                        amount
+                    }
                 }
+            }
+            shippingLine {
+                handle
+                title
+                price {
+                    amount
+                }
+            }
+            subtotalPrice {
+                amount
             }
             totalPrice {
                 amount

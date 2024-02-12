@@ -1,6 +1,7 @@
 package me.lucasbatista.vienna.api.controller
 
 import me.lucasbatista.vienna.api.dto.ProductDTO
+import me.lucasbatista.vienna.api.dto.ProductOptionDTO
 import me.lucasbatista.vienna.api.dto.ProductVariantDTO
 import me.lucasbatista.vienna.sdk.entity.Product
 import me.lucasbatista.vienna.sdk.repository.ProductRepository
@@ -24,9 +25,17 @@ class ProductController(private val repository: ProductRepository) {
         variants = it.variants.map {
             ProductVariantDTO(
                 id = it.id,
+                image = it.image,
                 originalPrice = it.originalPrice,
                 sellingPrice = it.sellingPrice,
             )
         },
+        options = it.options.map {
+            ProductOptionDTO(
+                id = it.id,
+                name = it.name,
+                values = it.values,
+            )
+        }
     )
 }

@@ -146,7 +146,33 @@ class ProductDetailsPage extends StatelessWidget with InitStateMixin {
                     ],
                   ),
                 ),
-                const Padding(padding: EdgeInsets.only(top: 16)),
+                const Padding(padding: EdgeInsets.only(top: 12)),
+                Visibility(
+                  visible: product.options.length > 1,
+                  child: Column(
+                    children: [
+                      ...product.options.map(
+                        (option) => DropdownButtonFormField(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                          ),
+                          padding: const EdgeInsets.only(top: 12),
+                          hint: Text(option.name),
+                          items: option.values
+                              .map(
+                                (value) => DropdownMenuItem(
+                                  value: value,
+                                  child: Text(value),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (value) => throw UnimplementedError(),
+                        ),
+                      ),
+                      const Padding(padding: EdgeInsets.only(top: 24)),
+                    ],
+                  ),
+                ),
                 Text(
                   'Descrição',
                   style: Theme.of(context).textTheme.titleMedium,

@@ -8,4 +8,5 @@ data class ProductDTO(
     val description: String? = null,
     val images: List<URL>? = null,
     val variants: List<ProductVariantDTO>? = null,
+    val options: List<ProductOptionDTO>? = null,
 )

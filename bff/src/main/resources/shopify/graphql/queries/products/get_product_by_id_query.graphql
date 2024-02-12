@@ -8,9 +8,17 @@ query GetProductByIdQuery($id: ID!) {
                 url
             }
         }
+        options {
+            id
+            name
+            values
+        }
         variants(first: 10) {
             nodes {
                 id
+                image {
+                    url
+                }
                 compareAtPrice {
                     amount
                 }

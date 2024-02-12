@@ -15,7 +15,7 @@ class ProductVariant(
     var originalPrice: Double = 0.0
     var sellingPrice: Double = 0.0
     lateinit var title: String
-    lateinit var image: URL
+    var image: URL? = null
 
     init {
         id?.let { this.id = id }

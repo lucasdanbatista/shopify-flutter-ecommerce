@@ -5,6 +5,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import me.lucasbatista.vienna.api.util.fromBase64
 import me.lucasbatista.vienna.api.util.toBase64
 import me.lucasbatista.vienna.sdk.entity.Product
+import me.lucasbatista.vienna.sdk.entity.ProductOption
 import me.lucasbatista.vienna.sdk.entity.ProductVariant
 import me.lucasbatista.vienna.sdk.repository.ProductRepository
 import me.lucasbatista.vienna.shopify.graphql.GetProductByIdQuery
@@ -14,7 +15,7 @@ import me.lucasbatista.vienna.shopify.graphql.ShopifyGraphQLClient
 import org.springframework.stereotype.Repository
 import java.net.URI
 import java.net.URL
-import me.lucasbatista.vienna.shopify.graphql.getproductsquery.Product as ShopifyProduct
+import me.lucasbatista.vienna.shopify.graphql.getproductbyidquery.Product as ShopifyProduct
 
 @Repository
 class ShopifyProductRepository(
@@ -60,8 +61,16 @@ class ShopifyProductRepository(
             variants = it.variants.nodes.map {
                 ProductVariant(
                     id = it.id.toBase64(),
+                    image = if (it.image != null) URL(it.image.url) else null,
                     originalPrice = it.compareAtPrice!!.amount.toDouble(),
                     sellingPrice = it.price.amount.toDouble(),
+                )
+            },
+            options = it.options.map {
+                ProductOption(
+                    id = it.id,
+                    name = it.name,
+                    values = it.values,
                 )
             },
         )

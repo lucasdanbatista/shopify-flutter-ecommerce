@@ -5,20 +5,28 @@ query GetProductsByCollectionIdQuery($id: ID!) {
                 id
                 title
                 description
-                variants(first: 1){
+                images(first: 10) {
+                    nodes {
+                        url
+                    }
+                }
+                options {
+                    id
+                    name
+                    values
+                }
+                variants(first: 10) {
                     nodes {
                         id
+                        image {
+                            url
+                        }
                         compareAtPrice {
                             amount
                         }
                         price {
                             amount
                         }
-                    }
-                }
-                images(first: 1){
-                    nodes {
-                        url
                     }
                 }
             }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../utils/assets.dart';
 import '../../utils/router.gr.dart';
 import '../../widgets/icon_buttons/cart_icon_button.dart';
+import '../search/search_page.dart';
 
 @RoutePage()
 class HomePage extends StatelessWidget {
@@ -62,7 +63,21 @@ class HomePage extends StatelessWidget {
         title: const Text('Vienna'),
         actions: [
           IconButton(
-            onPressed: () => throw UnimplementedError(),
+            onPressed: () => Navigator.of(context).push(
+              PageRouteBuilder(
+                pageBuilder: (_, __, ___) => const SearchPage(),
+                transitionsBuilder: (_, animation, ___, child) =>
+                    SlideTransition(
+                  position: animation.drive(
+                    Tween(
+                      begin: const Offset(0, 1),
+                      end: Offset.zero,
+                    ),
+                  ),
+                  child: child,
+                ),
+              ),
+            ),
             icon: const Icon(Icons.search),
           ),
           CartIconButton(),

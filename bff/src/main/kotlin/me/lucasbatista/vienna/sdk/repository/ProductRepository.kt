@@ -8,4 +8,6 @@ interface ProductRepository {
     fun findAllByIds(ids: List<String>): List<Product>
 
     fun findById(id: String): Product
+
+    fun findProductsByTerm(term: String): List<Product>
 }

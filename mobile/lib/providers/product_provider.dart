@@ -14,4 +14,7 @@ abstract class ProductProvider {
 
   @GET('')
   Future<List<ProductDTO>> findAllByIds(@Query('ids') String ids);
+
+  @GET('/search')
+  Future<List<ProductDTO>> findProductsByTerm(@Query('term') String term);
 }

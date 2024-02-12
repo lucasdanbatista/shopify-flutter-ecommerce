@@ -3,6 +3,7 @@ package me.lucasbatista.vienna.api.controller
 import me.lucasbatista.vienna.api.dto.ProductDTO
 import me.lucasbatista.vienna.api.dto.ProductOptionDTO
 import me.lucasbatista.vienna.api.dto.ProductVariantDTO
+import me.lucasbatista.vienna.api.util.fromBase64
 import me.lucasbatista.vienna.sdk.entity.Product
 import me.lucasbatista.vienna.sdk.repository.ProductRepository
 import org.springframework.web.bind.annotation.*
@@ -16,6 +17,10 @@ class ProductController(private val repository: ProductRepository) {
     @GetMapping
     fun getProductsByIds(@RequestParam ids: List<String>) =
         repository.findAllByIds(ids).map(::mapProduct)
+
+    @GetMapping("/search")
+    fun getProductsByTerm(@RequestParam term: String) =
+        repository.findProductsByTerm(term.fromBase64()).map(::mapProduct)
 
     private fun mapProduct(it: Product) = ProductDTO(
         id = it.id,

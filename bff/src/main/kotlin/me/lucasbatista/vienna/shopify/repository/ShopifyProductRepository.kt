@@ -51,6 +51,12 @@ class ShopifyProductRepository(
         return mapProduct(result)
     }
 
+    override fun findProductsByTerm(term: String): List<Product> {
+        val query = GetProductsQuery(GetProductsQuery.Variables(term))
+        val result = client.executeAsAdmin(query).data!!.products.nodes
+        return result.map(::mapProduct)
+    }
+
     private fun mapProduct(result: Any): Product {
         val it = objectMapper.readValue<ShopifyProduct>(objectMapper.writeValueAsBytes(result))
         return Product(

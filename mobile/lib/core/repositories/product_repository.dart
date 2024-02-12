@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '../../mappers/product_mapper.dart';
 import '../../providers/product_category_provider.dart';
 import '../../providers/product_provider.dart';
@@ -7,6 +9,8 @@ abstract interface class ProductRepository {
   Future<Product> findById(String id);
 
   Future<List<Product>> findAllByCategoryId(String id);
+
+  Future<List<Product>> findProductsByTerm(String term);
 }
 
 class DefaultProductRepository implements ProductRepository {
@@ -29,6 +33,14 @@ class DefaultProductRepository implements ProductRepository {
   @override
   Future<List<Product>> findAllByCategoryId(String id) async {
     final response = await _categoryProvider.findAllProductsByCategoryId(id);
+    return response.map(_mapper.toEntity).toList();
+  }
+
+  @override
+  Future<List<Product>> findProductsByTerm(String term) async {
+    final response = await _productProvider.findProductsByTerm(
+      base64Encode(utf8.encode(term.trim())),
+    );
     return response.map(_mapper.toEntity).toList();
   }
 }

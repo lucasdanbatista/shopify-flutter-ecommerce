@@ -1,0 +1,10 @@
+query GetMetaObjectsByTypeQuery($type: String!){
+    metaobjects(first: 250, type: $type){
+        nodes{
+            fields{
+                key
+                value
+            }
+        }
+    }
+}

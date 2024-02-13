@@ -22,25 +22,27 @@ class ProductController(private val repository: ProductRepository) {
     fun getProductsByTerm(@RequestParam term: String) =
         repository.findProductsByTerm(term.fromBase64()).map(::mapProduct)
 
-    private fun mapProduct(it: Product) = ProductDTO(
-        id = it.id,
-        title = it.title,
-        description = it.description,
-        images = it.images,
-        variants = it.variants.map {
-            ProductVariantDTO(
-                id = it.id,
-                image = it.image,
-                originalPrice = it.originalPrice,
-                sellingPrice = it.sellingPrice,
-            )
-        },
-        options = it.options.map {
-            ProductOptionDTO(
-                id = it.id,
-                name = it.name,
-                values = it.values,
-            )
-        }
-    )
+    companion object {
+        fun mapProduct(it: Product) = ProductDTO(
+            id = it.id,
+            title = it.title,
+            description = it.description,
+            images = it.images,
+            variants = it.variants.map {
+                ProductVariantDTO(
+                    id = it.id,
+                    image = it.image,
+                    originalPrice = it.originalPrice,
+                    sellingPrice = it.sellingPrice,
+                )
+            },
+            options = it.options.map {
+                ProductOptionDTO(
+                    id = it.id,
+                    name = it.name,
+                    values = it.values,
+                )
+            }
+        )
+    }
 }

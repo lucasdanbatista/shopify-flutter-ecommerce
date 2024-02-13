@@ -63,11 +63,9 @@ abstract class $AppRouter extends _i16.RootStackRouter {
       );
     },
     CategoriesRoute.name: (routeData) {
-      final args = routeData.argsAs<CategoriesRouteArgs>(
-          orElse: () => const CategoriesRouteArgs());
       return _i16.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i4.CategoriesPage(key: args.key),
+        child: const _i4.CategoriesPage(),
       );
     },
     CategoryDetailsRoute.name: (routeData) {
@@ -89,9 +87,11 @@ abstract class $AppRouter extends _i16.RootStackRouter {
       );
     },
     HomeRoute.name: (routeData) {
+      final args =
+          routeData.argsAs<HomeRouteArgs>(orElse: () => const HomeRouteArgs());
       return _i16.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i7.HomePage(),
+        child: _i7.HomePage(key: args.key),
       );
     },
     OrderDetailsRoute.name: (routeData) {
@@ -263,31 +263,16 @@ class CartRouteArgs {
 
 /// generated route for
 /// [_i4.CategoriesPage]
-class CategoriesRoute extends _i16.PageRouteInfo<CategoriesRouteArgs> {
-  CategoriesRoute({
-    _i17.Key? key,
-    List<_i16.PageRouteInfo>? children,
-  }) : super(
+class CategoriesRoute extends _i16.PageRouteInfo<void> {
+  const CategoriesRoute({List<_i16.PageRouteInfo>? children})
+      : super(
           CategoriesRoute.name,
-          args: CategoriesRouteArgs(key: key),
           initialChildren: children,
         );
 
   static const String name = 'CategoriesRoute';
 
-  static const _i16.PageInfo<CategoriesRouteArgs> page =
-      _i16.PageInfo<CategoriesRouteArgs>(name);
-}
-
-class CategoriesRouteArgs {
-  const CategoriesRouteArgs({this.key});
-
-  final _i17.Key? key;
-
-  @override
-  String toString() {
-    return 'CategoriesRouteArgs{key: $key}';
-  }
+  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
 }
 
 /// generated route for
@@ -360,16 +345,31 @@ class CheckoutRouteArgs {
 
 /// generated route for
 /// [_i7.HomePage]
-class HomeRoute extends _i16.PageRouteInfo<void> {
-  const HomeRoute({List<_i16.PageRouteInfo>? children})
-      : super(
+class HomeRoute extends _i16.PageRouteInfo<HomeRouteArgs> {
+  HomeRoute({
+    _i17.Key? key,
+    List<_i16.PageRouteInfo>? children,
+  }) : super(
           HomeRoute.name,
+          args: HomeRouteArgs(key: key),
           initialChildren: children,
         );
 
   static const String name = 'HomeRoute';
 
-  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
+  static const _i16.PageInfo<HomeRouteArgs> page =
+      _i16.PageInfo<HomeRouteArgs>(name);
+}
+
+class HomeRouteArgs {
+  const HomeRouteArgs({this.key});
+
+  final _i17.Key? key;
+
+  @override
+  String toString() {
+    return 'HomeRouteArgs{key: $key}';
+  }
 }
 
 /// generated route for

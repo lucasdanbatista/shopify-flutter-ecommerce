@@ -62,7 +62,7 @@ class SignUpPage extends StatelessWidget {
               passwordController.text,
             );
             if (context.mounted && authManager.isAuthenticated) {
-              context.replaceRoute(const HomeRoute());
+              context.replaceRoute(HomeRoute());
             }
           },
           child: const Text('CADASTRAR-SE'),

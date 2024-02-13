@@ -8,20 +8,15 @@ import 'categories_view_model.dart';
 
 @RoutePage()
 class CategoriesPage extends StatefulWidget {
-  final categoriesViewModel = GetIt.I<CategoriesViewModel>();
-
-  CategoriesPage({super.key});
+  const CategoriesPage({super.key});
 
   @override
   State<CategoriesPage> createState() => _CategoriesPageState();
 }
 
-class _CategoriesPageState extends State<CategoriesPage> with AutomaticKeepAliveClientMixin {
-  @override
-  void initState() {
-    super.initState();
-    widget.categoriesViewModel.fetch();
-  }
+class _CategoriesPageState extends State<CategoriesPage>
+    with AutomaticKeepAliveClientMixin {
+  final categoriesViewModel = GetIt.I<CategoriesViewModel>();
 
   @override
   bool get wantKeepAlive => true;
@@ -35,16 +30,17 @@ class _CategoriesPageState extends State<CategoriesPage> with AutomaticKeepAlive
       ),
       body: Observer(
         builder: (context) => ListView.builder(
-          itemCount: widget.categoriesViewModel.categories.length,
+          itemCount: categoriesViewModel.categories.length,
           itemBuilder: (context, index) {
-            final category = widget.categoriesViewModel.categories[index];
+            final category = categoriesViewModel.categories[index];
             return ListTile(
               minVerticalPadding: 20,
               leading: CircleAvatar(
                 radius: 24,
                 backgroundColor: Colors.grey.shade200,
-                foregroundImage:
-                    category.image != null ? NetworkImage(category.image.toString()) : null,
+                foregroundImage: category.image != null
+                    ? NetworkImage(category.image.toString())
+                    : null,
               ),
               title: Text(
                 category.title,

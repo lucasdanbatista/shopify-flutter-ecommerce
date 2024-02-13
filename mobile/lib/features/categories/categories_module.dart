@@ -6,6 +6,6 @@ import 'categories_view_model.dart';
 class CategoriesModule implements Module {
   @override
   Future<void> init(GetIt i) async {
-    i.registerFactory(() => CategoriesViewModel(i.get()));
+    i.registerLazySingleton(() => CategoriesViewModel(i.get()));
   }
 }

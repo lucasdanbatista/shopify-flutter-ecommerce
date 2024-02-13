@@ -7,6 +7,7 @@ import 'address_provider.dart';
 import 'cart_provider.dart';
 import 'checkout_provider.dart';
 import 'customer_provider.dart';
+import 'home_provider.dart';
 import 'order_provider.dart';
 import 'product_category_provider.dart';
 import 'product_provider.dart';
@@ -26,6 +27,7 @@ class ProvidersModule implements Module {
     i.registerLazySingleton(() => ProductProvider(i.get()));
     i.registerLazySingleton(() => ProductCategoryProvider(i.get()));
     i.registerLazySingleton(() => CartProvider(i.get()));
+    i.registerLazySingleton(() => HomeProvider(i.get()));
     i.registerLazySingleton<WishlistProvider>(
       () => LocalWishlistProvider(i.get(), i.get()),
     );

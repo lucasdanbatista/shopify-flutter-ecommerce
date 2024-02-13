@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../core/auth_manager.dart';
-import '../../main.dart';
 import '../../utils/assets.dart';
 import '../../utils/cron.dart';
 import '../../utils/init_state_mixin.dart';
+import '../../utils/router.dart';
 import '../../utils/router.gr.dart';
 
 @RoutePage()

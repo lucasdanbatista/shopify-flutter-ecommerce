@@ -23,8 +23,6 @@ import 'mappers/mappers_module.dart';
 import 'providers/providers_module.dart';
 import 'utils/router.dart';
 
-final router = AppRouter();
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Intl.defaultLocale = 'pt_BR';

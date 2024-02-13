@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 
 import '../../utils/formatters/currency_formatter.dart';
 import '../../utils/init_state_mixin.dart';
+import '../../utils/router.dart';
 import '../../utils/router.gr.dart';
 import '../../widgets/icon_buttons/cart_icon_button.dart';
 import '../cart/cart_view_model.dart';
@@ -59,7 +60,7 @@ class ProductDetailsPage extends StatelessWidget with InitStateMixin {
                           action: SnackBarAction(
                             label: 'VER LISTA',
                             textColor: Colors.white,
-                            onPressed: () => context.pushRoute(WishlistRoute()),
+                            onPressed: () => router.push(WishlistRoute()),
                           ),
                           content: Text(
                             'Adicionado aos favoritos.',

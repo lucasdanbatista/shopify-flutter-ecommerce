@@ -78,16 +78,6 @@ class AddressFormPage extends StatelessWidget with InitStateMixin {
             ),
             const Padding(padding: EdgeInsets.only(top: 12)),
             TextFormField(
-              keyboardType: TextInputType.streetAddress,
-              controller: neighborhoodController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Bairro',
-                labelText: 'Bairro',
-              ),
-            ),
-            const Padding(padding: EdgeInsets.only(top: 12)),
-            TextFormField(
               keyboardType: const TextInputType.numberWithOptions(
                 signed: false,
                 decimal: false,
@@ -97,6 +87,16 @@ class AddressFormPage extends StatelessWidget with InitStateMixin {
                 border: OutlineInputBorder(),
                 hintText: 'Número',
                 labelText: 'Número',
+              ),
+            ),
+            const Padding(padding: EdgeInsets.only(top: 12)),
+            TextFormField(
+              keyboardType: TextInputType.streetAddress,
+              controller: neighborhoodController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Bairro',
+                labelText: 'Bairro',
               ),
             ),
             const Padding(padding: EdgeInsets.only(top: 12)),

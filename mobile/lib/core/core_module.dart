@@ -38,7 +38,7 @@ class CoreModule implements Module {
       () => DefaultProductCategoryRepository(i.get(), i.get()),
     );
     i.registerLazySingleton<HomeRepository>(
-      () => DefaultHomeRepository(i.get(), i.get()),
+      () => DefaultHomeRepository(i.get(), i.get(), i.get()),
     );
     i.registerLazySingleton<CartRepository>(
       () => DefaultCartRepository(i.get(), i.get()),

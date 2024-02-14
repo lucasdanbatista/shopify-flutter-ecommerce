@@ -9,6 +9,7 @@ import 'core/module.dart';
 import 'core/wishlist_manager.dart';
 import 'features/address_form/address_form_module.dart';
 import 'features/addresses/addresses_module.dart';
+import 'features/banner_details/banner_details_module.dart';
 import 'features/cart/cart_module.dart';
 import 'features/categories/categories_module.dart';
 import 'features/category_details/category_details_module.dart';
@@ -44,6 +45,7 @@ Future<void> main() async {
     CheckoutModule(),
     SearchModule(),
     HomeModule(),
+    BannerDetailsModule(),
   ]);
   final authManager = GetIt.I<AuthManager>();
   await authManager.loadCredentials();

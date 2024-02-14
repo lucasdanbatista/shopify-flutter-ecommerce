@@ -5,6 +5,7 @@ import 'address_mapper.dart';
 import 'cart_line_mapper.dart';
 import 'cart_mapper.dart';
 import 'checkout_mapper.dart';
+import 'home_banner_mapper.dart';
 import 'home_section_mapper.dart';
 import 'order_item_mapper.dart';
 import 'order_mapper.dart';
@@ -29,5 +30,6 @@ class MappersModule implements Module {
     i.registerLazySingleton(() => CheckoutMapper(i.get()));
     i.registerLazySingleton(() => ShippingRateMapper());
     i.registerLazySingleton(() => HomeSectionMapper(i.get()));
+    i.registerLazySingleton(() => HomeBannerMapper());
   }
 }

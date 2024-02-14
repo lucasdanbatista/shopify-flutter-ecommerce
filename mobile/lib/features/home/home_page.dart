@@ -21,6 +21,7 @@ class HomePage extends StatelessWidget with InitStateMixin {
 
   @override
   void initState() {
+    homeViewModel.fetchBanners();
     homeViewModel.fetchSections();
     categoriesViewModel.fetch();
   }
@@ -184,6 +185,51 @@ class HomePage extends StatelessWidget with InitStateMixin {
                   ),
                 ),
               ],
+            ),
+            const Padding(padding: EdgeInsets.only(top: 32)),
+            Observer(
+              builder: (context) => SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 200,
+                child: Center(
+                  child: GridView.count(
+                    shrinkWrap: true,
+                    clipBehavior: Clip.none,
+                    crossAxisCount: 1,
+                    childAspectRatio: 9 / 16,
+                    mainAxisSpacing: 12,
+                    scrollDirection: Axis.horizontal,
+                    children: homeViewModel.banners
+                        .map(
+                          (banner) => Container(
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(12),
+                              ),
+                              border: Border.all(
+                                color: Colors.grey.shade200,
+                                strokeAlign: BorderSide.strokeAlignOutside,
+                                width: 2,
+                              ),
+                            ),
+                            child: Material(
+                              child: Ink.image(
+                                image: NetworkImage(banner.image.toString()),
+                                fit: BoxFit.cover,
+                                child: InkWell(
+                                  onTap: () => context.pushRoute(
+                                    BannerDetailsRoute(banner: banner),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+              ),
             ),
             const Padding(padding: EdgeInsets.only(top: 32)),
             Observer(

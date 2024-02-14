@@ -8,6 +8,8 @@ import '../entities/product.dart';
 abstract interface class ProductRepository {
   Future<Product> findById(String id);
 
+  Future<List<Product>> findAllByIds(List<String> ids);
+
   Future<List<Product>> findAllByCategoryId(String id);
 
   Future<List<Product>> findProductsByTerm(String term);
@@ -28,6 +30,12 @@ class DefaultProductRepository implements ProductRepository {
   Future<Product> findById(String id) async {
     final response = await _productProvider.findProductById(id);
     return _mapper.toEntity(response);
+  }
+
+  @override
+  Future<List<Product>> findAllByIds(List<String> ids) async {
+    final response = await _productProvider.findAllByIds(ids.join(','));
+    return response.map(_mapper.toEntity).toList();
   }
 
   @override

@@ -188,20 +188,20 @@ class HomePage extends StatelessWidget with InitStateMixin {
             ),
             const Padding(padding: EdgeInsets.only(top: 32)),
             Observer(
-              builder: (context) => SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 200,
-                child: Center(
-                  child: GridView.count(
-                    shrinkWrap: true,
-                    clipBehavior: Clip.none,
-                    crossAxisCount: 1,
-                    childAspectRatio: 9 / 16,
-                    mainAxisSpacing: 12,
-                    scrollDirection: Axis.horizontal,
-                    children: homeViewModel.banners
-                        .map(
-                          (banner) => Container(
+              builder: (context) => AspectRatio(
+                aspectRatio: 1.61803,
+                child: PageView(
+                  controller: PageController(viewportFraction: 0.999),
+                  clipBehavior: Clip.none,
+                  scrollDirection: Axis.horizontal,
+                  children: homeViewModel.banners
+                      .map(
+                        (banner) => Padding(
+                          padding: EdgeInsets.only(
+                            right:
+                                banner != homeViewModel.banners.last ? 12 : 0,
+                          ),
+                          child: Container(
                             clipBehavior: Clip.antiAlias,
                             decoration: BoxDecoration(
                               borderRadius: const BorderRadius.all(
@@ -225,9 +225,9 @@ class HomePage extends StatelessWidget with InitStateMixin {
                               ),
                             ),
                           ),
-                        )
-                        .toList(),
-                  ),
+                        ),
+                      )
+                      .toList(),
                 ),
               ),
             ),

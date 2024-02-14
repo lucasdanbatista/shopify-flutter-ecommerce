@@ -27,8 +27,9 @@ class ShopifyHomeRepository(
                 title = it.fields.first { it.key == "title" }.value!!,
                 image = URL(it.fields.first { it.key == "image_url" }.value!!),
                 productIds = ids,
+                position = it.fields.first { it.key == "position" }.value!!.toInt(),
             )
-        }
+        }.sortedBy { it.position }
     }
 
     override fun getSections(): List<HomeSection> {

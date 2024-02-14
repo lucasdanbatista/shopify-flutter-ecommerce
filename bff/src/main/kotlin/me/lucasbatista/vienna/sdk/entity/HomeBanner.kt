@@ -6,4 +6,5 @@ data class HomeBanner(
     val title: String,
     val image: URL,
     val productIds: List<String>,
+    val position: Int,
 )

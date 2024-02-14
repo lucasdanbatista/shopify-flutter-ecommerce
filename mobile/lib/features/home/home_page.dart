@@ -189,7 +189,7 @@ class HomePage extends StatelessWidget with InitStateMixin {
             const Padding(padding: EdgeInsets.only(top: 32)),
             Observer(
               builder: (context) => AspectRatio(
-                aspectRatio: 1.61803,
+                aspectRatio: 16 / 9,
                 child: PageView(
                   controller: PageController(viewportFraction: 0.999),
                   clipBehavior: Clip.none,

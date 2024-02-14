@@ -31,11 +31,19 @@ class ProductCard extends StatelessWidget {
             child: Column(
               children: [
                 Expanded(
-                  child: Ink.image(
-                    fit: BoxFit.cover,
+                  child: Ink(
                     height: double.infinity,
                     width: double.infinity,
-                    image: NetworkImage(product.images.first.toString()),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(8),
+                        topRight: Radius.circular(8),
+                      ),
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(product.images.first.toString()),
+                      ),
+                    ),
                   ),
                 ),
                 Padding(

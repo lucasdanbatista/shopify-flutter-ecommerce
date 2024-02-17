@@ -1,4 +1,4 @@
-package me.lucasbatista.vienna.api.dto
+package me.lucasbatista.vienna.sdk.dto
 
 import me.lucasbatista.vienna.sdk.entity.OrderStatus
 

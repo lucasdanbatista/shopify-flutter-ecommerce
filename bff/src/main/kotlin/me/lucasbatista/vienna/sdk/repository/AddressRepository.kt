@@ -1,5 +1,6 @@
 package me.lucasbatista.vienna.sdk.repository
 
+import me.lucasbatista.vienna.sdk.dto.AddressDTO
 import me.lucasbatista.vienna.sdk.entity.Address
 
 interface AddressRepository {
@@ -9,26 +10,7 @@ interface AddressRepository {
 
     fun deleteById(customerAccessToken: String, id: String)
 
-    fun create(
-        customerAccessToken: String,
-        recipientFirstName: String,
-        recipientLastName: String,
-        line1: String,
-        line2: String,
-        city: String,
-        province: String,
-        zipcode: String,
-    ): Address
+    fun create(customerAccessToken: String, address: AddressDTO): Address
 
-    fun update(
-        customerAccessToken: String,
-        id: String,
-        recipientFirstName: String,
-        recipientLastName: String,
-        line1: String,
-        line2: String,
-        city: String,
-        province: String,
-        zipcode: String,
-    ): Address
+    fun update(customerAccessToken: String, address: AddressDTO): Address
 }

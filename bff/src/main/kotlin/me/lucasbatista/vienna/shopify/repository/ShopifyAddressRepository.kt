@@ -3,6 +3,7 @@ package me.lucasbatista.vienna.shopify.repository
 import com.fasterxml.jackson.databind.ObjectMapper
 import me.lucasbatista.vienna.api.util.fromBase64
 import me.lucasbatista.vienna.api.util.toBase64
+import me.lucasbatista.vienna.sdk.dto.AddressDTO
 import me.lucasbatista.vienna.sdk.entity.Address
 import me.lucasbatista.vienna.sdk.repository.AddressRepository
 import me.lucasbatista.vienna.shopify.graphql.ShopifyStorefrontApi
@@ -31,66 +32,42 @@ class ShopifyAddressRepository(
         return result.map(::mapAddress)
     }
 
-    override fun create(
-        customerAccessToken: String,
-        recipientFirstName: String,
-        recipientLastName: String,
-        line1: String,
-        line2: String,
-        city: String,
-        province: String,
-        zipcode: String,
-    ): Address {
+    override fun create(customerAccessToken: String, address: AddressDTO): Address {
         val result = storefront.execute(
             CreateAddressMutation(
                 CreateAddressMutation.Variables(
                     customerAccessToken = customerAccessToken,
-                    address = MailingAddressInput(
-                        firstName = recipientFirstName,
-                        lastName = recipientLastName,
-                        address1 = line1,
-                        address2 = line2,
-                        city = city,
-                        province = province,
-                        zip = zipcode,
-                        country = "BR",
-                    ),
+                    address = mapAddressInput(address),
                 ),
             ),
         ).data!!.customerAddressCreate!!.customerAddress!!
         return mapAddress(result)
     }
 
-    override fun update(
-        customerAccessToken: String,
-        id: String,
-        recipientFirstName: String,
-        recipientLastName: String,
-        line1: String,
-        line2: String,
-        city: String,
-        province: String,
-        zipcode: String,
-    ): Address {
+    override fun update(customerAccessToken: String, address: AddressDTO): Address {
         val result = storefront.execute(
             UpdateAddressMutation(
                 UpdateAddressMutation.Variables(
                     customerAccessToken = customerAccessToken,
-                    id = id.fromBase64(),
-                    address = MailingAddressInput(
-                        firstName = recipientFirstName,
-                        lastName = recipientLastName,
-                        address1 = line1,
-                        address2 = line2,
-                        city = city,
-                        province = province,
-                        zip = zipcode,
-                        country = "BR",
-                    ),
+                    id = address.id!!.fromBase64(),
+                    address = mapAddressInput(address),
                 ),
             ),
         ).data!!.customerAddressUpdate!!.customerAddress!!
         return mapAddress(result)
+    }
+
+    private fun mapAddressInput(address: AddressDTO): MailingAddressInput {
+        return MailingAddressInput(
+            firstName = address.recipientName!!.trim().split(" ").first(),
+            lastName = address.recipientName!!.trim().split(" ").last(),
+            address1 = "${address.street}, ${address.buildingNumber}",
+            address2 = address.neighborhood,
+            city = address.city,
+            province = address.state,
+            zip = address.zipcode,
+            country = "BR",
+        )
     }
 
     override fun deleteById(customerAccessToken: String, id: String) {
@@ -107,12 +84,12 @@ class ShopifyAddressRepository(
     private fun mapAddress(data: Any): Address {
         val result = objectMapper.convertValue(data, ShopifyAddress::class.java)
         return Address(
-            recipientFirstName = result.firstName!!,
-            recipientLastName = result.lastName!!,
-            line1 = result.address1!!,
-            line2 = result.address2!!,
+            recipientName = "${result.firstName!!} ${result.lastName!!}",
+            street = result.address1!!.trim().split(",")[0].trim(),
+            buildingNumber = result.address1!!.trim().split(",")[1].trim(),
+            neighborhood = result.address2!!.trim(),
             city = result.city!!,
-            province = result.province!!,
+            state = result.province!!,
             zipcode = result.zip!!,
             country = result.country!!,
         ).apply {

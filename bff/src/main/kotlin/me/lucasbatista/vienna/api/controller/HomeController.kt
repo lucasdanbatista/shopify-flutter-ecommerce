@@ -1,7 +1,7 @@
 package me.lucasbatista.vienna.api.controller
 
-import me.lucasbatista.vienna.api.dto.HomeBannerDTO
-import me.lucasbatista.vienna.api.dto.HomeSectionDTO
+import me.lucasbatista.vienna.sdk.dto.HomeBannerDTO
+import me.lucasbatista.vienna.sdk.dto.HomeSectionDTO
 import me.lucasbatista.vienna.sdk.repository.HomeRepository
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping

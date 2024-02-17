@@ -1,8 +1,8 @@
 package me.lucasbatista.vienna.api.controller
 
-import me.lucasbatista.vienna.api.dto.ProductDTO
-import me.lucasbatista.vienna.api.dto.ProductOptionDTO
-import me.lucasbatista.vienna.api.dto.ProductVariantDTO
+import me.lucasbatista.vienna.sdk.dto.ProductDTO
+import me.lucasbatista.vienna.sdk.dto.ProductOptionDTO
+import me.lucasbatista.vienna.sdk.dto.ProductVariantDTO
 import me.lucasbatista.vienna.api.util.fromBase64
 import me.lucasbatista.vienna.sdk.entity.Product
 import me.lucasbatista.vienna.sdk.repository.ProductRepository

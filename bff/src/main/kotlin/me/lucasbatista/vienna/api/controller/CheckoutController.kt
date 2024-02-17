@@ -1,8 +1,8 @@
 package me.lucasbatista.vienna.api.controller
 
-import me.lucasbatista.vienna.api.dto.CheckoutDTO
-import me.lucasbatista.vienna.api.dto.ShippingRateDTO
 import me.lucasbatista.vienna.api.util.AuthorizationHeaderUtil
+import me.lucasbatista.vienna.sdk.dto.CheckoutDTO
+import me.lucasbatista.vienna.sdk.dto.ShippingRateDTO
 import me.lucasbatista.vienna.sdk.entity.Checkout
 import me.lucasbatista.vienna.sdk.repository.CheckoutRepository
 import org.springframework.web.bind.annotation.*

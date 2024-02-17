@@ -44,12 +44,12 @@ class ShopifyCheckoutRepository(
                         )
                     },
                     shippingAddress = MailingAddressInput(
-                        firstName = shippingAddress.recipientFirstName,
-                        lastName = shippingAddress.recipientLastName,
-                        address1 = shippingAddress.line1,
-                        address2 = shippingAddress.line2,
+                        firstName = shippingAddress.recipientName.trim().split(" ").first(),
+                        lastName = shippingAddress.recipientName.trim().split(" ").last(),
+                        address1 = "${shippingAddress.street}, ${shippingAddress.buildingNumber}",
+                        address2 = shippingAddress.neighborhood,
                         city = shippingAddress.city,
-                        province = shippingAddress.province,
+                        province = shippingAddress.state,
                         country = shippingAddress.country,
                         zip = shippingAddress.zipcode,
                     ),

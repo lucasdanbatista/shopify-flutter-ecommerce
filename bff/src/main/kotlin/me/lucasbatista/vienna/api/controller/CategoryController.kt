@@ -1,8 +1,8 @@
 package me.lucasbatista.vienna.api.controller
 
-import me.lucasbatista.vienna.api.dto.CategoryDTO
-import me.lucasbatista.vienna.api.dto.ProductDTO
-import me.lucasbatista.vienna.api.dto.ProductVariantDTO
+import me.lucasbatista.vienna.sdk.dto.CategoryDTO
+import me.lucasbatista.vienna.sdk.dto.ProductDTO
+import me.lucasbatista.vienna.sdk.dto.ProductVariantDTO
 import me.lucasbatista.vienna.sdk.repository.CategoryRepository
 import me.lucasbatista.vienna.sdk.repository.ProductRepository
 import org.springframework.web.bind.annotation.GetMapping

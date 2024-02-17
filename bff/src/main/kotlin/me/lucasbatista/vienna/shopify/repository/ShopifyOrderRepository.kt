@@ -39,11 +39,11 @@ class ShopifyOrderRepository(
                 Address(
                     city = it.city!!,
                     zipcode = it.zip!!,
-                    line1 = it.address1!!,
-                    line2 = it.address2!!,
-                    recipientFirstName = it.firstName!!,
-                    recipientLastName = it.lastName!!,
-                    province = it.province!!,
+                    street = it.address1!!.trim().split(",")[0],
+                    buildingNumber = it.address1!!.trim().split(",")[1],
+                    neighborhood = it.address2!!.trim(),
+                    recipientName = "${it.firstName!!} ${it.lastName!!}",
+                    state = it.province!!,
                     country = it.country!!,
                 ).apply {
                     this.id = it.id.toBase64()

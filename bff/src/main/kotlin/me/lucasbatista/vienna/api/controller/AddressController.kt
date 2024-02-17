@@ -1,7 +1,7 @@
 package me.lucasbatista.vienna.api.controller
 
-import me.lucasbatista.vienna.api.dto.AddressDTO
 import me.lucasbatista.vienna.api.util.AuthorizationHeaderUtil
+import me.lucasbatista.vienna.sdk.dto.AddressDTO
 import me.lucasbatista.vienna.sdk.entity.Address
 import me.lucasbatista.vienna.sdk.repository.AddressRepository
 import org.springframework.web.bind.annotation.*
@@ -12,17 +12,11 @@ class AddressController(private val addressRepository: AddressRepository) {
     @PostMapping
     fun createAddress(
         @RequestHeader authorization: String,
-        @RequestBody body: AddressDTO,
+        @RequestBody address: AddressDTO,
     ): AddressDTO {
         val result = addressRepository.create(
             customerAccessToken = AuthorizationHeaderUtil.extractToken(authorization),
-            recipientFirstName = body.recipientFirstName!!,
-            recipientLastName = body.recipientLastName!!,
-            line1 = body.line1!!,
-            line2 = body.line2!!,
-            city = body.city!!,
-            province = body.province!!,
-            zipcode = body.zipcode!!,
+            address = address,
         )
         return mapAddress(result)
     }
@@ -30,18 +24,11 @@ class AddressController(private val addressRepository: AddressRepository) {
     @PutMapping
     fun updateAddress(
         @RequestHeader authorization: String,
-        @RequestBody body: AddressDTO,
+        @RequestBody address: AddressDTO,
     ): AddressDTO {
         val result = addressRepository.update(
             customerAccessToken = AuthorizationHeaderUtil.extractToken(authorization),
-            id = body.id!!,
-            recipientFirstName = body.recipientFirstName!!,
-            recipientLastName = body.recipientLastName!!,
-            line1 = body.line1!!,
-            line2 = body.line2!!,
-            city = body.city!!,
-            province = body.province!!,
-            zipcode = body.zipcode!!,
+            address = address,
         )
         return mapAddress(result)
     }
@@ -66,24 +53,25 @@ class AddressController(private val addressRepository: AddressRepository) {
         return mapAddress(result)
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     fun deleteAddress(
         @RequestHeader authorization: String,
-        @RequestBody address: AddressDTO,
+        @PathVariable id: String,
     ): Unit = addressRepository.deleteById(
         customerAccessToken = AuthorizationHeaderUtil.extractToken(authorization),
-        id = address.id!!,
+        id = id,
     )
 
     private fun mapAddress(it: Address): AddressDTO {
         return AddressDTO(
             id = it.id,
-            recipientFirstName = it.recipientFirstName,
-            recipientLastName = it.recipientLastName,
-            line1 = it.line1,
-            line2 = it.line2,
+            recipientName = it.recipientName,
+            street = it.street,
+            neighborhood = it.neighborhood,
+            buildingNumber = it.buildingNumber,
+            complement = it.complement,
             city = it.city,
-            province = it.province,
+            state = it.state,
             zipcode = it.zipcode,
             country = it.country,
         )

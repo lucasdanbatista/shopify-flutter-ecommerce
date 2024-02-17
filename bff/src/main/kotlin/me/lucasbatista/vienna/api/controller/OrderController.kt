@@ -1,9 +1,9 @@
 package me.lucasbatista.vienna.api.controller
 
-import me.lucasbatista.vienna.api.dto.AddressDTO
-import me.lucasbatista.vienna.api.dto.OrderDTO
-import me.lucasbatista.vienna.api.dto.OrderItemDTO
-import me.lucasbatista.vienna.api.dto.ProductVariantDTO
+import me.lucasbatista.vienna.sdk.dto.AddressDTO
+import me.lucasbatista.vienna.sdk.dto.OrderDTO
+import me.lucasbatista.vienna.sdk.dto.OrderItemDTO
+import me.lucasbatista.vienna.sdk.dto.ProductVariantDTO
 import me.lucasbatista.vienna.api.util.AuthorizationHeaderUtil
 import me.lucasbatista.vienna.sdk.entity.Order
 import me.lucasbatista.vienna.sdk.repository.OrderRepository
@@ -32,12 +32,13 @@ class OrderController(private val repository: OrderRepository) {
         return mapOrder(result).apply {
             shippingAddress = result.shippingAddress.let {
                 AddressDTO(
-                    recipientFirstName = it.recipientFirstName,
-                    recipientLastName = it.recipientLastName,
-                    line1 = it.line1,
-                    line2 = it.line2,
+                    recipientName = it.recipientName,
+                    street = it.street,
+                    buildingNumber = it.buildingNumber,
+                    complement = it.complement,
+                    neighborhood = it.neighborhood,
                     city = it.city,
-                    province = it.province,
+                    state = it.state,
                     zipcode = it.zipcode,
                 )
             }

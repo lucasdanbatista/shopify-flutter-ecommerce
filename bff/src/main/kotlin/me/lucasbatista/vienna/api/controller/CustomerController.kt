@@ -1,6 +1,6 @@
 package me.lucasbatista.vienna.api.controller
 
-import me.lucasbatista.vienna.api.dto.AuthenticationTokenDTO
+import me.lucasbatista.vienna.sdk.dto.AuthenticationTokenDTO
 import me.lucasbatista.vienna.sdk.repository.AuthenticationTokenRepository
 import me.lucasbatista.vienna.sdk.repository.CustomerRepository
 import org.springframework.web.bind.annotation.PostMapping

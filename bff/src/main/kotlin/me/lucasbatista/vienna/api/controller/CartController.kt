@@ -1,8 +1,8 @@
 package me.lucasbatista.vienna.api.controller
 
-import me.lucasbatista.vienna.api.dto.CartDTO
-import me.lucasbatista.vienna.api.dto.CartLineDTO
-import me.lucasbatista.vienna.api.dto.ProductVariantDTO
+import me.lucasbatista.vienna.sdk.dto.CartDTO
+import me.lucasbatista.vienna.sdk.dto.CartLineDTO
+import me.lucasbatista.vienna.sdk.dto.ProductVariantDTO
 import me.lucasbatista.vienna.api.util.AuthorizationHeaderUtil
 import me.lucasbatista.vienna.sdk.entity.Cart
 import me.lucasbatista.vienna.sdk.repository.CartRepository

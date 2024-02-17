@@ -17,7 +17,7 @@ class ShopifyCategoryRepository(private val storefront: ShopifyStorefrontApi) :
             Category(
                 id = it.id.toBase64(),
                 title = it.title,
-                image = if (it.image != null) URL(it.image.url) else null,
+                image = if (it.image != null) URL(it.image!!.url) else null,
             )
         }
 }

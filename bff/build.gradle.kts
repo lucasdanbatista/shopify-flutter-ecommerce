@@ -1,8 +1,4 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.util.*
-
-val localProperties = Properties()
-localProperties.load(project.rootProject.file("local.properties").inputStream())
 
 plugins {
     id("org.springframework.boot") version "3.2.2"
@@ -32,6 +28,8 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":shopify-admin"))
+    implementation(project(":shopify-storefront"))
     implementation("com.expediagroup:graphql-kotlin-spring-client:7.0.2")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -52,28 +50,6 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
-}
-
-graphql {
-    client {
-        packageName = "me.lucasbatista.vienna.shopify.storefront.graphql"
-        endpoint = "https://95bda6-3.myshopify.com/api/2024-01/graphql.json"
-        queryFileDirectory = "src/main/resources/shopify/storefront"
-        headers = mapOf(
-            "X-Shopify-Storefront-Access-Token" to localProperties.getProperty("shopify.graphql.accessToken.storefront")
-        )
-    }
-}
-
-graphql {
-    client {
-        packageName = "me.lucasbatista.vienna.shopify.admin.graphql"
-        endpoint = "https://95bda6-3.myshopify.com/admin/api/2024-01/graphql.json"
-        queryFileDirectory = "src/main/resources/shopify/admin"
-        headers = mapOf(
-            "X-Shopify-Access-Token" to localProperties.getProperty("shopify.graphql.accessToken.admin")
-        )
-    }
 }
 
 noArg {

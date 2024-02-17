@@ -67,7 +67,7 @@ class ShopifyProductRepository(
             variants = it.variants.nodes.map {
                 ProductVariant(
                     id = it.id.toBase64(),
-                    image = if (it.image != null) URL(it.image.url) else null,
+                    image = if (it.image != null) URL(it.image!!.url) else null,
                     originalPrice = it.compareAtPrice!!.amount.toDouble(),
                     sellingPrice = it.price.amount.toDouble(),
                 )

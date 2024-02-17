@@ -78,9 +78,9 @@ class ShopifyCheckoutRepository(
             total = result.totalPrice.amount.toDouble(),
             selectedShippingRate = if (result.shippingLine != null) {
                 ShippingRate(
-                    id = result.shippingLine.handle,
-                    title = result.shippingLine.title,
-                    price = result.shippingLine.price.amount.toDouble(),
+                    id = result.shippingLine!!.handle,
+                    title = result.shippingLine!!.title,
+                    price = result.shippingLine!!.price.amount.toDouble(),
                 )
             } else null,
             availableShippingRates = result.availableShippingRates?.shippingRates?.map {

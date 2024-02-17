@@ -15,7 +15,7 @@ class AddressFormPage extends StatelessWidget with InitStateMixin {
   final neighborhoodController = TextEditingController();
   final buildingNumberController = TextEditingController();
   final cityController = TextEditingController();
-  final provinceController = TextEditingController();
+  final stateController = TextEditingController();
   final zipcodeController = TextEditingController();
 
   AddressFormPage({
@@ -32,11 +32,11 @@ class AddressFormPage extends StatelessWidget with InitStateMixin {
 
   void fillForms(Address address) {
     recipientNameController.text = address.recipientName.trim();
-    streetController.text = address.line1.split(',').first.trim();
-    buildingNumberController.text = address.line1.split(',').last.trim();
-    neighborhoodController.text = address.line2.trim();
+    streetController.text = address.street;
+    buildingNumberController.text = address.buildingNumber;
+    neighborhoodController.text = address.neighborhood;
     cityController.text = address.city.trim();
-    provinceController.text = address.province.trim();
+    stateController.text = address.state.trim();
     zipcodeController.text = address.zipcode.trim();
   }
 
@@ -112,7 +112,7 @@ class AddressFormPage extends StatelessWidget with InitStateMixin {
             const Padding(padding: EdgeInsets.only(top: 12)),
             TextFormField(
               keyboardType: TextInputType.name,
-              controller: provinceController,
+              controller: stateController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Estado',
@@ -147,7 +147,7 @@ class AddressFormPage extends StatelessWidget with InitStateMixin {
               buildingNumber: buildingNumberController.text,
               neighborhood: neighborhoodController.text,
               city: cityController.text,
-              province: provinceController.text,
+              state: stateController.text,
               zipcode: zipcodeController.text,
             );
             if (context.mounted) {

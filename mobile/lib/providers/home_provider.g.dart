@@ -22,10 +22,10 @@ class _HomeProvider implements HomeProvider {
 
   @override
   Future<List<HomeBannerDTO>> getBanners() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<List<dynamic>>(_setStreamType<List<HomeBannerDTO>>(Options(
       method: 'GET',
@@ -51,10 +51,10 @@ class _HomeProvider implements HomeProvider {
 
   @override
   Future<List<HomeSectionDTO>> getSections() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<List<dynamic>>(_setStreamType<List<HomeSectionDTO>>(Options(
       method: 'GET',

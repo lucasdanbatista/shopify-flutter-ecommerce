@@ -41,7 +41,7 @@ class ShopifyOrderRepository(
                     zipcode = it.zip!!,
                     street = it.address1!!.trim().split(",")[0],
                     buildingNumber = it.address1!!.trim().split(",")[1],
-                    neighborhood = it.address2!!.trim(),
+                    neighborhood = it.address2?.trim() ?: "",
                     recipientName = "${it.firstName!!} ${it.lastName!!}",
                     state = it.province!!,
                     country = it.country!!,

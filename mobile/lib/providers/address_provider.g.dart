@@ -22,7 +22,7 @@ class _AddressProvider implements AddressProvider {
 
   @override
   Future<AddressDTO> create(AddressDTO address) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -50,7 +50,7 @@ class _AddressProvider implements AddressProvider {
 
   @override
   Future<AddressDTO> update(AddressDTO address) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -78,7 +78,7 @@ class _AddressProvider implements AddressProvider {
 
   @override
   Future<void> delete(AddressDTO address) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -103,10 +103,10 @@ class _AddressProvider implements AddressProvider {
 
   @override
   Future<List<AddressDTO>> findAll() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<List<dynamic>>(_setStreamType<List<AddressDTO>>(Options(
       method: 'GET',

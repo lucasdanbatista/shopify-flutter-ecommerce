@@ -22,10 +22,10 @@ class _CartProvider implements CartProvider {
 
   @override
   Future<CartDTO> getCartById(String id) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<Map<String, dynamic>>(_setStreamType<CartDTO>(Options(
       method: 'GET',
@@ -49,10 +49,10 @@ class _CartProvider implements CartProvider {
 
   @override
   Future<CartDTO> createCart() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<Map<String, dynamic>>(_setStreamType<CartDTO>(Options(
       method: 'POST',
@@ -79,12 +79,12 @@ class _CartProvider implements CartProvider {
     required String cartId,
     required String productVariantId,
   }) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'productVariantId': productVariantId
     };
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<Map<String, dynamic>>(_setStreamType<CartDTO>(Options(
       method: 'POST',
@@ -111,7 +111,7 @@ class _CartProvider implements CartProvider {
     required String cartId,
     required CartLineDTO cartLine,
   }) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};

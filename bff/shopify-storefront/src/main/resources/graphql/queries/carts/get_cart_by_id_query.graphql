@@ -1,6 +1,7 @@
 query GetCartByIdQuery($id: ID!){
     cart(id: $id) {
         id
+        checkoutUrl
         lines(first: 250) {
             nodes {
                 id

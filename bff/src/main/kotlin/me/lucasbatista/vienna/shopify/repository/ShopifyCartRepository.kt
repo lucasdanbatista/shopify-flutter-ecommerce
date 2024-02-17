@@ -66,6 +66,7 @@ class ShopifyCartRepository(
         )
         return Cart(
             id = result.id.toBase64(),
+            checkoutUrl = URL(result.checkoutUrl),
             lines = result.lines.nodes.map {
                 val merchandise = it.merchandise as ShopifyProductVariant
                 CartLine(

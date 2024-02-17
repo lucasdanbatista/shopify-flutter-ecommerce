@@ -2,33 +2,31 @@ import 'entity.dart';
 
 class Address implements Entity {
   late final String id;
-  late final String recipientFirstName;
-  late final String recipientLastName;
-  late final String line1;
-  late final String line2;
+  late final String recipientName;
+  late final String street;
+  late final String buildingNumber;
+  late final String neighborhood;
   late final String city;
-  late final String province;
+  late final String state;
   late final String zipcode;
 
   Address.lazy({
     String? id,
-    String? recipientFirstName,
-    String? recipientLastName,
-    String? line1,
-    String? line2,
+    String? recipientName,
+    String? street,
+    String? buildingNumber,
+    String? neighborhood,
     String? city,
-    String? province,
+    String? state,
     String? zipcode,
   }) {
     if (id != null) this.id = id;
-    if (recipientFirstName != null) this.recipientFirstName = recipientFirstName;
-    if (recipientLastName != null) this.recipientLastName = recipientLastName;
-    if (line1 != null) this.line1 = line1;
-    if (line2 != null) this.line2 = line2;
+    if (recipientName != null) this.recipientName = recipientName;
+    if (street != null) this.street = street;
+    if (buildingNumber != null) this.buildingNumber = buildingNumber;
+    if (neighborhood != null) this.neighborhood = neighborhood;
     if (city != null) this.city = city;
-    if (province != null) this.province = province;
+    if (state != null) this.state = state;
     if (zipcode != null) this.zipcode = zipcode;
   }
-
-  String get recipientName => '$recipientFirstName $recipientLastName';
 }

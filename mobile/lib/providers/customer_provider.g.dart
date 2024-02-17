@@ -25,7 +25,7 @@ class _CustomerProvider implements CustomerProvider {
     String email,
     String password,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
@@ -65,7 +65,7 @@ class _CustomerProvider implements CustomerProvider {
     String email,
     String password,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();

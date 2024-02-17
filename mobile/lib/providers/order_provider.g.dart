@@ -22,10 +22,10 @@ class _OrderProvider implements OrderProvider {
 
   @override
   Future<List<OrderDTO>> getAll() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<List<dynamic>>(_setStreamType<List<OrderDTO>>(Options(
       method: 'GET',
@@ -51,10 +51,10 @@ class _OrderProvider implements OrderProvider {
 
   @override
   Future<OrderDTO> getById(String id) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result =
         await _dio.fetch<Map<String, dynamic>>(_setStreamType<OrderDTO>(Options(
       method: 'GET',

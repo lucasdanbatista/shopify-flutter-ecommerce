@@ -91,11 +91,13 @@ abstract class $AppRouter extends _i17.RootStackRouter {
       );
     },
     CheckoutRoute.name: (routeData) {
-      final args = routeData.argsAs<CheckoutRouteArgs>(
-          orElse: () => const CheckoutRouteArgs());
+      final args = routeData.argsAs<CheckoutRouteArgs>();
       return _i17.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i7.CheckoutPage(key: args.key),
+        child: _i7.CheckoutPage(
+          key: args.key,
+          checkoutUrl: args.checkoutUrl,
+        ),
       );
     },
     HomeRoute.name: (routeData) {
@@ -369,10 +371,14 @@ class CategoryDetailsRouteArgs {
 class CheckoutRoute extends _i17.PageRouteInfo<CheckoutRouteArgs> {
   CheckoutRoute({
     _i18.Key? key,
+    required Uri checkoutUrl,
     List<_i17.PageRouteInfo>? children,
   }) : super(
           CheckoutRoute.name,
-          args: CheckoutRouteArgs(key: key),
+          args: CheckoutRouteArgs(
+            key: key,
+            checkoutUrl: checkoutUrl,
+          ),
           initialChildren: children,
         );
 
@@ -383,13 +389,18 @@ class CheckoutRoute extends _i17.PageRouteInfo<CheckoutRouteArgs> {
 }
 
 class CheckoutRouteArgs {
-  const CheckoutRouteArgs({this.key});
+  const CheckoutRouteArgs({
+    this.key,
+    required this.checkoutUrl,
+  });
 
   final _i18.Key? key;
 
+  final Uri checkoutUrl;
+
   @override
   String toString() {
-    return 'CheckoutRouteArgs{key: $key}';
+    return 'CheckoutRouteArgs{key: $key, checkoutUrl: $checkoutUrl}';
   }
 }
 

@@ -22,10 +22,10 @@ class _ProductProvider implements ProductProvider {
 
   @override
   Future<ProductDTO> findProductById(String id) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<ProductDTO>(Options(
       method: 'GET',
@@ -49,10 +49,10 @@ class _ProductProvider implements ProductProvider {
 
   @override
   Future<List<ProductDTO>> findAllByIds(String ids) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'ids': ids};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<List<dynamic>>(_setStreamType<List<ProductDTO>>(Options(
       method: 'GET',
@@ -78,10 +78,10 @@ class _ProductProvider implements ProductProvider {
 
   @override
   Future<List<ProductDTO>> findProductsByTerm(String term) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'term': term};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<List<dynamic>>(_setStreamType<List<ProductDTO>>(Options(
       method: 'GET',

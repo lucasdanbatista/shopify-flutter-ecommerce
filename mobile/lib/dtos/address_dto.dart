@@ -5,22 +5,26 @@ part 'address_dto.g.dart';
 @JsonSerializable()
 class AddressDTO {
   String? id;
-  String? recipientFirstName;
-  String? recipientLastName;
+  String? recipientName;
+  String? street;
+  String? buildingNumber;
+  String? neighborhood;
   String? line1;
   String? line2;
   String? city;
-  String? province;
+  String? state;
   String? zipcode;
 
   AddressDTO({
     this.id,
-    this.recipientFirstName,
-    this.recipientLastName,
+    this.recipientName,
+    this.street,
+    this.buildingNumber,
+    this.neighborhood,
     this.line1,
     this.line2,
     this.city,
-    this.province,
+    this.state,
     this.zipcode,
   });
 

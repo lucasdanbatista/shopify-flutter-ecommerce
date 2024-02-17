@@ -108,7 +108,7 @@ class CartPage extends StatelessWidget {
       persistentFooterButtons: [
         Observer(
           builder: (context) => OrderSummary(
-            confirmationButtonText: 'VER RESUMO DO PEDIDO',
+            confirmationButtonText: 'FECHAR PEDIDO',
             showConfirmationButton: viewModel.cart.lines.isNotEmpty,
             lines: [
               OrderSummaryLine(
@@ -116,8 +116,11 @@ class CartPage extends StatelessWidget {
                 textValue: CurrencyFormatter().format(viewModel.cart.subtotal),
               ),
             ],
-            onConfirmationButtonPressed: () =>
-                context.pushRoute(CheckoutRoute()),
+            onConfirmationButtonPressed: () => context.pushRoute(
+              CheckoutRoute(
+                checkoutUrl: viewModel.cart.checkoutUrl,
+              ),
+            ),
           ),
         ),
       ],

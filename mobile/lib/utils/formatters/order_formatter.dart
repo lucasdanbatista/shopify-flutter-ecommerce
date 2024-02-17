@@ -19,8 +19,9 @@ class OrderFormatter {
     return title;
   }
 
-  String get shippingAddress => '${_order.shippingAddress.line1}, ${_order.shippingAddress.line2}. '
-      '${_order.shippingAddress.city}, ${_order.shippingAddress.province}, '
+  String get shippingAddress =>
+      '${_order.shippingAddress.street}, ${_order.shippingAddress.buildingNumber}, ${_order.shippingAddress.neighborhood}. '
+      '${_order.shippingAddress.city}, ${_order.shippingAddress.state}, '
       'CEP: ${_order.shippingAddress.zipcode}.';
 
   String get statusText => switch (_order.status) {

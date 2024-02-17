@@ -7,12 +7,12 @@ class AddressMapper implements EntityMapper<AddressDTO, Address> {
   Address toEntity(AddressDTO it) {
     return Address.lazy(
       id: it.id,
-      recipientFirstName: it.recipientFirstName,
-      recipientLastName: it.recipientLastName,
-      line1: it.line1,
-      line2: it.line2,
+      recipientName: it.recipientName,
+      street: it.street,
+      buildingNumber: it.buildingNumber,
+      neighborhood: it.neighborhood,
       city: it.city,
-      province: it.province,
+      state: it.state,
       zipcode: it.zipcode,
     );
   }

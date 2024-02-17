@@ -13,17 +13,17 @@ class AddressFormViewModel {
     required String buildingNumber,
     required String neighborhood,
     required String city,
-    required String province,
+    required String state,
     required String zipcode,
   }) async {
     final address = Address.lazy(
       id: id?.trim(),
-      recipientFirstName: recipientName.trim().split(' ').first,
-      recipientLastName: recipientName.trim().split(' ').last,
-      line1: '${street.trim()}, ${buildingNumber.trim()}',
-      line2: neighborhood.trim(),
+      recipientName: recipientName.trim(),
+      street: street,
+      buildingNumber: buildingNumber,
+      neighborhood: neighborhood,
       city: city.trim(),
-      province: province.trim(),
+      state: state.trim(),
       zipcode: zipcode.trim(),
     );
     return id == null

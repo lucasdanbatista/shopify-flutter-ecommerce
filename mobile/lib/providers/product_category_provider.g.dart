@@ -22,10 +22,10 @@ class _ProductCategoryProvider implements ProductCategoryProvider {
 
   @override
   Future<List<ProductCategoryDTO>> findAll() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<List<dynamic>>(_setStreamType<List<ProductCategoryDTO>>(Options(
       method: 'GET',
@@ -52,10 +52,10 @@ class _ProductCategoryProvider implements ProductCategoryProvider {
 
   @override
   Future<List<ProductDTO>> findAllProductsByCategoryId(String id) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<List<dynamic>>(_setStreamType<List<ProductDTO>>(Options(
       method: 'GET',

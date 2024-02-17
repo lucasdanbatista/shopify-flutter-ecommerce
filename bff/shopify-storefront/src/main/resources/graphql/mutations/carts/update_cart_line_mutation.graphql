@@ -12,6 +12,7 @@ mutation UpdateCartLineMutation(
     ){
         cart {
             id
+            checkoutUrl
             lines(first: 250) {
                 nodes {
                     id

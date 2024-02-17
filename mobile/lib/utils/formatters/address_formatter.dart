@@ -4,5 +4,5 @@ import 'formatter.dart';
 class AddressFormatter implements Formatter<Address, String> {
   @override
   String format(Address it) =>
-      '${it.line1}, ${it.line2}. ${it.city}, ${it.province} - ${it.zipcode}.';
+      '${it.street}, ${it.buildingNumber}, ${it.neighborhood}. ${it.city}, ${it.state} - ${it.zipcode}.';
 }

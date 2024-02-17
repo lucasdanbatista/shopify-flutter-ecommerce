@@ -7,8 +7,6 @@ import 'core/cart_manager.dart';
 import 'core/core_module.dart';
 import 'core/module.dart';
 import 'core/wishlist_manager.dart';
-import 'features/address_form/address_form_module.dart';
-import 'features/addresses/addresses_module.dart';
 import 'features/banner_details/banner_details_module.dart';
 import 'features/cart/cart_module.dart';
 import 'features/categories/categories_module.dart';
@@ -39,8 +37,6 @@ Future<void> main() async {
     WishlistModule(),
     OrdersModule(),
     OrderDetailsModule(),
-    AddressFormModule(),
-    AddressesModule(),
     SearchModule(),
     HomeModule(),
     BannerDetailsModule(),

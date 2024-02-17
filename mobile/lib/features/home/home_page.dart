@@ -51,12 +51,6 @@ class HomePage extends StatelessWidget with InitStateMixin {
             ),
             ListTile(
               style: ListTileStyle.drawer,
-              title: const Text('Meus endereços'),
-              leading: const Icon(Icons.location_on_outlined),
-              onTap: () => context.pushRoute(AddressesRoute()),
-            ),
-            ListTile(
-              style: ListTileStyle.drawer,
               title: const Text('Meus pedidos'),
               leading: const Icon(Icons.receipt_long_outlined),
               onTap: () => context.pushRoute(OrdersRoute()),

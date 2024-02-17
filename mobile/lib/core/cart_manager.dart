@@ -39,7 +39,11 @@ class DefaultCartManager implements CartManager {
       await initializeNewCart();
       await loadCurrentCart();
     } else {
-      _currentCart = await _repository.getCartById(cartId);
+      try {
+        _currentCart = await _repository.getCartById(cartId);
+      } on Exception {
+        return initializeNewCart();
+      }
     }
   }
 

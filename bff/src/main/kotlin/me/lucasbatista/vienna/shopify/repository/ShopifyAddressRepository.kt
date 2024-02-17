@@ -5,15 +5,19 @@ import me.lucasbatista.vienna.api.util.fromBase64
 import me.lucasbatista.vienna.api.util.toBase64
 import me.lucasbatista.vienna.sdk.entity.Address
 import me.lucasbatista.vienna.sdk.repository.AddressRepository
-import me.lucasbatista.vienna.shopify.graphql.*
-import me.lucasbatista.vienna.shopify.graphql.inputs.MailingAddressInput
+import me.lucasbatista.vienna.shopify.graphql.ShopifyStorefrontApi
+import me.lucasbatista.vienna.shopify.storefront.graphql.CreateAddressMutation
+import me.lucasbatista.vienna.shopify.storefront.graphql.DeleteAddressMutation
+import me.lucasbatista.vienna.shopify.storefront.graphql.GetAddressesQuery
+import me.lucasbatista.vienna.shopify.storefront.graphql.UpdateAddressMutation
+import me.lucasbatista.vienna.shopify.storefront.graphql.inputs.MailingAddressInput
 import org.springframework.stereotype.Repository
 import java.net.URI
-import me.lucasbatista.vienna.shopify.graphql.createaddressmutation.MailingAddress as ShopifyAddress
+import me.lucasbatista.vienna.shopify.storefront.graphql.createaddressmutation.MailingAddress as ShopifyAddress
 
 @Repository
 class ShopifyAddressRepository(
-    private val client: ShopifyGraphQLClient,
+    private val storefront: ShopifyStorefrontApi,
     private val objectMapper: ObjectMapper,
 ) : AddressRepository {
     override fun findById(customerAccessToken: String, id: String): Address {
@@ -23,7 +27,7 @@ class ShopifyAddressRepository(
 
     override fun findAll(customerAccessToken: String): List<Address> {
         val query = GetAddressesQuery(GetAddressesQuery.Variables(customerAccessToken))
-        val result = client.executeAsAdmin(query).data!!.customer!!.addresses.nodes
+        val result = storefront.execute(query).data!!.customer!!.addresses.nodes
         return result.map(::mapAddress)
     }
 
@@ -37,7 +41,7 @@ class ShopifyAddressRepository(
         province: String,
         zipcode: String,
     ): Address {
-        val result = client.executeAsAdmin(
+        val result = storefront.execute(
             CreateAddressMutation(
                 CreateAddressMutation.Variables(
                     customerAccessToken = customerAccessToken,
@@ -68,7 +72,7 @@ class ShopifyAddressRepository(
         province: String,
         zipcode: String,
     ): Address {
-        val result = client.executeAsAdmin(
+        val result = storefront.execute(
             UpdateAddressMutation(
                 UpdateAddressMutation.Variables(
                     customerAccessToken = customerAccessToken,
@@ -90,7 +94,7 @@ class ShopifyAddressRepository(
     }
 
     override fun deleteById(customerAccessToken: String, id: String) {
-        client.executeAsAdmin(
+        storefront.execute(
             DeleteAddressMutation(
                 DeleteAddressMutation.Variables(
                     customerAccessToken,

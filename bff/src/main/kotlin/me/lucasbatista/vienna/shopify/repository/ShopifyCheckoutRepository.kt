@@ -9,17 +9,17 @@ import me.lucasbatista.vienna.sdk.repository.AddressRepository
 import me.lucasbatista.vienna.sdk.repository.CartRepository
 import me.lucasbatista.vienna.sdk.repository.CheckoutRepository
 import me.lucasbatista.vienna.sdk.repository.CustomerRepository
-import me.lucasbatista.vienna.shopify.graphql.CreateCheckoutMutation
-import me.lucasbatista.vienna.shopify.graphql.ShopifyGraphQLClient
-import me.lucasbatista.vienna.shopify.graphql.UpdateCheckoutShippingLineMutation
-import me.lucasbatista.vienna.shopify.graphql.inputs.CheckoutLineItemInput
-import me.lucasbatista.vienna.shopify.graphql.inputs.MailingAddressInput
+import me.lucasbatista.vienna.shopify.graphql.ShopifyStorefrontApi
+import me.lucasbatista.vienna.shopify.storefront.graphql.CreateCheckoutMutation
+import me.lucasbatista.vienna.shopify.storefront.graphql.UpdateCheckoutShippingLineMutation
+import me.lucasbatista.vienna.shopify.storefront.graphql.inputs.CheckoutLineItemInput
+import me.lucasbatista.vienna.shopify.storefront.graphql.inputs.MailingAddressInput
 import org.springframework.stereotype.Repository
-import me.lucasbatista.vienna.shopify.graphql.createcheckoutmutation.Checkout as ShopifyCheckout
+import me.lucasbatista.vienna.shopify.storefront.graphql.createcheckoutmutation.Checkout as ShopifyCheckout
 
 @Repository
 class ShopifyCheckoutRepository(
-    private val client: ShopifyGraphQLClient,
+    private val storefront: ShopifyStorefrontApi,
     private val addressRepository: AddressRepository,
     private val cartRepository: CartRepository,
     private val customerRepository: CustomerRepository,
@@ -33,7 +33,7 @@ class ShopifyCheckoutRepository(
         val cart = cartRepository.findById(cartId)
         val customer = customerRepository.findByAccessToken(customerAccessToken)
         val shippingAddress = addressRepository.findById(customerAccessToken, shippingAddressId)
-        val result = client.executeAsAdmin(
+        val result = storefront.execute(
             CreateCheckoutMutation(
                 CreateCheckoutMutation.Variables(
                     customerEmail = customer.email,
@@ -66,7 +66,7 @@ class ShopifyCheckoutRepository(
                 shippingRateHandle = shippingRateId,
             ),
         )
-        val result = client.executeAsAdmin(query).data!!.checkoutShippingLineUpdate!!.checkout!!
+        val result = storefront.execute(query).data!!.checkoutShippingLineUpdate!!.checkout!!
         return mapCheckout(result)
     }
 

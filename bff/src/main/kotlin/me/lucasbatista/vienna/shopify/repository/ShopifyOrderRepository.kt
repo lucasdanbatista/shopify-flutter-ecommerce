@@ -5,24 +5,24 @@ import me.lucasbatista.vienna.api.util.fromBase64
 import me.lucasbatista.vienna.api.util.toBase64
 import me.lucasbatista.vienna.sdk.entity.*
 import me.lucasbatista.vienna.sdk.repository.OrderRepository
-import me.lucasbatista.vienna.shopify.graphql.GetOrderDetailsQuery
-import me.lucasbatista.vienna.shopify.graphql.GetOrdersQuery
-import me.lucasbatista.vienna.shopify.graphql.ShopifyGraphQLClient
-import me.lucasbatista.vienna.shopify.graphql.enums.OrderFinancialStatus
-import me.lucasbatista.vienna.shopify.graphql.enums.OrderFulfillmentStatus
+import me.lucasbatista.vienna.shopify.graphql.ShopifyStorefrontApi
+import me.lucasbatista.vienna.shopify.storefront.graphql.GetOrderDetailsQuery
+import me.lucasbatista.vienna.shopify.storefront.graphql.GetOrdersQuery
+import me.lucasbatista.vienna.shopify.storefront.graphql.enums.OrderFinancialStatus
+import me.lucasbatista.vienna.shopify.storefront.graphql.enums.OrderFulfillmentStatus
 import org.springframework.stereotype.Repository
 import java.net.URI
 import java.net.URL
-import me.lucasbatista.vienna.shopify.graphql.getordersquery.Order as ShopifyOrder
+import me.lucasbatista.vienna.shopify.storefront.graphql.getordersquery.Order as ShopifyOrder
 
 @Repository
 class ShopifyOrderRepository(
-    private val client: ShopifyGraphQLClient,
+    private val storefront: ShopifyStorefrontApi,
     private val objectMapper: ObjectMapper,
 ) : OrderRepository {
     override fun getOrders(customerAccessToken: String): List<Order> {
         val query = GetOrdersQuery(GetOrdersQuery.Variables(customerAccessToken))
-        val result = client.executeAsAdmin(query).data!!.customer!!.orders.nodes
+        val result = storefront.execute(query).data!!.customer!!.orders.nodes
         return result.map(::mapOrder)
     }
 
@@ -33,7 +33,7 @@ class ShopifyOrderRepository(
                 query = "id:${URI(id.fromBase64()).path.split("/").last()}",
             ),
         )
-        val result = client.executeAsAdmin(query).data!!.customer!!.orders.nodes.first()
+        val result = storefront.execute(query).data!!.customer!!.orders.nodes.first()
         return mapOrder(result).apply {
             shippingAddress = result.shippingAddress!!.let {
                 Address(

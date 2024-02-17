@@ -1,0 +1,5 @@
+schema:
+  - https://95bda6-3.myshopify.com/api/2024-01/graphql.json:
+      headers:
+        X-Shopify-Storefront-Access-Token: '${SHOPIFY_GRAPHQL_ACCESS_TOKEN_STOREFRONT}'
+documents: 'src/main/resources/shopify/storefront/*.graphql'

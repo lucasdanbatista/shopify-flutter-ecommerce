@@ -3,16 +3,16 @@ package me.lucasbatista.vienna.shopify.repository
 import me.lucasbatista.vienna.api.util.toBase64
 import me.lucasbatista.vienna.sdk.entity.Category
 import me.lucasbatista.vienna.sdk.repository.CategoryRepository
-import me.lucasbatista.vienna.shopify.graphql.GetCategoriesQuery
-import me.lucasbatista.vienna.shopify.graphql.ShopifyGraphQLClient
+import me.lucasbatista.vienna.shopify.storefront.graphql.GetCategoriesQuery
+import me.lucasbatista.vienna.shopify.graphql.ShopifyStorefrontApi
 import org.springframework.stereotype.Repository
 import java.net.URL
 
 @Repository
-class ShopifyCategoryRepository(private val client: ShopifyGraphQLClient) :
+class ShopifyCategoryRepository(private val storefront: ShopifyStorefrontApi) :
     CategoryRepository {
-    override fun findAll() = client
-        .executeAsAdmin(GetCategoriesQuery())
+    override fun findAll() = storefront
+        .execute(GetCategoriesQuery())
         .data!!.collections.nodes.map {
             Category(
                 id = it.id.toBase64(),

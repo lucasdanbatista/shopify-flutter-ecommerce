@@ -1,0 +1,11 @@
+query GetFileQuery($query: String!){
+    files(first: 1,query: $query) {
+        nodes {
+            preview {
+                image {
+                    url
+                }
+            }
+        }
+    }
+}

@@ -8,25 +8,25 @@ import me.lucasbatista.vienna.sdk.entity.Product
 import me.lucasbatista.vienna.sdk.entity.ProductOption
 import me.lucasbatista.vienna.sdk.entity.ProductVariant
 import me.lucasbatista.vienna.sdk.repository.ProductRepository
-import me.lucasbatista.vienna.shopify.graphql.GetProductByIdQuery
-import me.lucasbatista.vienna.shopify.graphql.GetProductsByCollectionIdQuery
-import me.lucasbatista.vienna.shopify.graphql.GetProductsQuery
-import me.lucasbatista.vienna.shopify.graphql.ShopifyGraphQLClient
+import me.lucasbatista.vienna.shopify.graphql.ShopifyStorefrontApi
+import me.lucasbatista.vienna.shopify.storefront.graphql.GetProductByIdQuery
+import me.lucasbatista.vienna.shopify.storefront.graphql.GetProductsByCollectionIdQuery
+import me.lucasbatista.vienna.shopify.storefront.graphql.GetProductsQuery
 import org.springframework.stereotype.Repository
 import java.net.URI
 import java.net.URL
-import me.lucasbatista.vienna.shopify.graphql.getproductbyidquery.Product as ShopifyProduct
+import me.lucasbatista.vienna.shopify.storefront.graphql.getproductbyidquery.Product as ShopifyProduct
 
 @Repository
 class ShopifyProductRepository(
-    private val client: ShopifyGraphQLClient,
+    private val storefront: ShopifyStorefrontApi,
     private val objectMapper: ObjectMapper,
 ) : ProductRepository {
     override fun findAllByCategoryId(id: String): List<Product> {
         val query = GetProductsByCollectionIdQuery(
             GetProductsByCollectionIdQuery.Variables(id.fromBase64()),
         )
-        val result = client.executeAsAdmin(query).data!!.collection!!.products
+        val result = storefront.execute(query).data!!.collection!!.products
         return result.nodes.map(::mapProduct)
     }
 
@@ -41,19 +41,19 @@ class ShopifyProductRepository(
             }
         }
         val graphqlQuery = GetProductsQuery(GetProductsQuery.Variables(query))
-        val result = client.executeAsAdmin(graphqlQuery).data!!.products.nodes
+        val result = storefront.execute(graphqlQuery).data!!.products.nodes
         return result.map(::mapProduct)
     }
 
     override fun findById(id: String): Product {
         val query = GetProductByIdQuery(GetProductByIdQuery.Variables(id.fromBase64()))
-        val result = client.executeAsAdmin(query).data!!.product!!
+        val result = storefront.execute(query).data!!.product!!
         return mapProduct(result)
     }
 
     override fun findProductsByTerm(term: String): List<Product> {
         val query = GetProductsQuery(GetProductsQuery.Variables(term))
-        val result = client.executeAsAdmin(query).data!!.products.nodes
+        val result = storefront.execute(query).data!!.products.nodes
         return result.map(::mapProduct)
     }
 

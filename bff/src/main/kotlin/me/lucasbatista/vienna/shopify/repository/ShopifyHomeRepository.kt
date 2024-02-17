@@ -5,19 +5,23 @@ import me.lucasbatista.vienna.sdk.entity.HomeBanner
 import me.lucasbatista.vienna.sdk.entity.HomeSection
 import me.lucasbatista.vienna.sdk.repository.HomeRepository
 import me.lucasbatista.vienna.sdk.repository.ProductRepository
-import me.lucasbatista.vienna.shopify.graphql.GetMetaObjectsByTypeQuery
-import me.lucasbatista.vienna.shopify.graphql.ShopifyGraphQLClient
+import me.lucasbatista.vienna.shopify.admin.graphql.GetFileQuery
+import me.lucasbatista.vienna.shopify.graphql.ShopifyAdminApi
+import me.lucasbatista.vienna.shopify.graphql.ShopifyStorefrontApi
+import me.lucasbatista.vienna.shopify.storefront.graphql.GetMetaObjectsByTypeQuery
 import org.springframework.stereotype.Repository
+import java.net.URI
 import java.net.URL
 
 @Repository
 class ShopifyHomeRepository(
-    private val client: ShopifyGraphQLClient,
+    private val storefront: ShopifyStorefrontApi,
+    private val admin: ShopifyAdminApi,
     private val productRepository: ProductRepository,
 ) : HomeRepository {
     override fun getBanners(): List<HomeBanner> {
         val query = GetMetaObjectsByTypeQuery(GetMetaObjectsByTypeQuery.Variables("home_banner"))
-        val result = client.executeAsAdmin(query).data!!.metaobjects.nodes
+        val result = storefront.execute(query).data!!.metaobjects.nodes
         return result.map { it ->
             val ids = it.fields
                 .first { it.key == "products" }.value!!
@@ -25,7 +29,20 @@ class ShopifyHomeRepository(
                 .map(::parseProductIds)
             HomeBanner(
                 title = it.fields.first { it.key == "title" }.value!!,
-                image = URL(it.fields.first { it.key == "image_url" }.value!!),
+                image = URL(
+                    admin.execute(
+                        GetFileQuery(
+                            GetFileQuery.Variables(
+                                "id:${
+                                    URI(it.fields.first { it.key == "image" }.value!!)
+                                        .path
+                                        .split("/")
+                                        .last()
+                                }",
+                            ),
+                        ),
+                    ).data!!.files.nodes.first().preview!!.image!!.url,
+                ),
                 productIds = ids,
                 position = it.fields.first { it.key == "position" }.value!!.toInt(),
             )
@@ -34,7 +51,7 @@ class ShopifyHomeRepository(
 
     override fun getSections(): List<HomeSection> {
         val query = GetMetaObjectsByTypeQuery(GetMetaObjectsByTypeQuery.Variables("home_section"))
-        val result = client.executeAsAdmin(query).data!!.metaobjects.nodes
+        val result = storefront.execute(query).data!!.metaobjects.nodes
         return result.map { it ->
             val ids = it.fields
                 .first { it.key == "products" }.value!!

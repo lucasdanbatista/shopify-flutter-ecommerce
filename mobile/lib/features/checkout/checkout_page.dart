@@ -17,11 +17,20 @@ class CheckoutPage extends StatefulWidget {
 
 class _CheckoutPageState extends State<CheckoutPage> {
   final webviewController = WebViewController();
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
+    webviewController.setBackgroundColor(Colors.white);
     webviewController.setJavaScriptMode(JavaScriptMode.unrestricted);
+    webviewController.setNavigationDelegate(
+      NavigationDelegate(
+        onProgress: (progress) {
+          if (progress == 100) setState(() => isLoading = false);
+        },
+      ),
+    );
     webviewController.loadRequest(widget.checkoutUrl);
   }
 
@@ -36,8 +45,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
         title: const Text('Fechar pedido'),
       ),
       body: SafeArea(
-        child: WebViewWidget(
-          controller: webviewController,
+        child: Visibility(
+          visible: isLoading,
+          replacement: WebViewWidget(
+            controller: webviewController,
+          ),
+          child: const Center(
+            child: CircularProgressIndicator(),
+          ),
         ),
       ),
     );

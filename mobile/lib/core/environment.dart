@@ -8,8 +8,6 @@ class DebugEnvironment implements Environment {
     const key = 'DEBUG_API_BASE_URL';
     return const bool.hasEnvironment(key)
         ? Uri.parse(const String.fromEnvironment(key))
-        : Uri.parse(
-            'http://staging.eba-vxcut3b6.sa-east-1.elasticbeanstalk.com',
-          );
+        : Uri.parse('https://api.staging.vienna.lucasbatista.me');
   }
 }

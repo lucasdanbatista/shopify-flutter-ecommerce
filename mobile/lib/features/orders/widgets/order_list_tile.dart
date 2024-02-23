@@ -97,7 +97,9 @@ class OrderListTile extends StatelessWidget {
                             .map(
                               (e) => Container(
                                 decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(Radius.circular(4)),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(4),
+                                  ),
                                   border: Border.all(
                                     color: Colors.grey.shade200,
                                     strokeAlign: BorderSide.strokeAlignOutside,
@@ -107,13 +109,18 @@ class OrderListTile extends StatelessWidget {
                                     ? Center(
                                         child: Text(
                                           '+${order.items.length - 3}',
-                                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium
+                                              ?.copyWith(
                                                 fontWeight: FontWeight.w700,
                                                 color: Colors.grey.shade600,
                                               ),
                                         ),
                                       )
-                                    : Image.network(e.productVariant.image.toString()),
+                                    : Image.network(
+                                        e.productVariant.image.toString(),
+                                      ),
                               ),
                             )
                             .toList(),
@@ -124,7 +131,7 @@ class OrderListTile extends StatelessWidget {
                 TextButton(
                   onPressed: () => context.pushRoute(
                     OrderDetailsRoute(
-                      orderId: order.id,
+                      order: order,
                     ),
                   ),
                   child: const Text('VER DETALHES'),

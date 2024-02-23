@@ -12,24 +12,11 @@ import org.springframework.web.bind.annotation.RestController
 class HomeController(private val homeRepository: HomeRepository) {
     @GetMapping("/banners")
     fun getBanners(): List<HomeBannerDTO> {
-        val result = homeRepository.getBanners()
-        return result.map {
-            HomeBannerDTO(
-                title = it.title,
-                image = it.image,
-                productIds = it.productIds,
-            )
-        }
+        return homeRepository.getBanners()
     }
 
     @GetMapping("/sections")
     fun getSections(): List<HomeSectionDTO> {
-        val result = homeRepository.getSections()
-        return result.map { it ->
-            HomeSectionDTO(
-                title = it.title,
-                products = it.products.map { ProductController.mapProduct(it) },
-            )
-        }
+        return homeRepository.getSections()
     }
 }

@@ -1,7 +1,5 @@
 package me.lucasbatista.vienna.sdk.dto
 
-import me.lucasbatista.vienna.sdk.entity.OrderStatus
-
 data class OrderDTO(
     var id: String? = null,
     var orderNumber: Int? = null,

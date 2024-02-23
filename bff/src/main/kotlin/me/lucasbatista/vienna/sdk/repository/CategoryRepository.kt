@@ -1,7 +1,7 @@
 package me.lucasbatista.vienna.sdk.repository
 
-import me.lucasbatista.vienna.sdk.entity.Category
+import me.lucasbatista.vienna.sdk.dto.CategoryDTO
 
 interface CategoryRepository {
-    fun findAll(): List<Category>
+    fun findAll(): List<CategoryDTO>
 }

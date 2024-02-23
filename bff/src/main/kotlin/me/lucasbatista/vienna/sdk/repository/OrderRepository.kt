@@ -1,9 +1,7 @@
 package me.lucasbatista.vienna.sdk.repository
 
-import me.lucasbatista.vienna.sdk.entity.Order
+import me.lucasbatista.vienna.sdk.dto.OrderDTO
 
 interface OrderRepository {
-    fun getOrders(customerAccessToken: String): List<Order>
-
-    fun getOrderBydId(customerAccessToken: String, id: String): Order
+    fun getOrders(customerAccessToken: String): List<OrderDTO>
 }

@@ -3,9 +3,9 @@ package me.lucasbatista.vienna.shopify.repository
 import com.fasterxml.jackson.databind.ObjectMapper
 import me.lucasbatista.vienna.api.util.fromBase64
 import me.lucasbatista.vienna.api.util.toBase64
-import me.lucasbatista.vienna.sdk.entity.Cart
-import me.lucasbatista.vienna.sdk.entity.CartLine
-import me.lucasbatista.vienna.sdk.entity.ProductVariant
+import me.lucasbatista.vienna.sdk.dto.CartDTO
+import me.lucasbatista.vienna.sdk.dto.CartLineDTO
+import me.lucasbatista.vienna.sdk.dto.ProductVariantDTO
 import me.lucasbatista.vienna.sdk.repository.CartRepository
 import me.lucasbatista.vienna.shopify.graphql.ShopifyStorefrontApi
 import me.lucasbatista.vienna.shopify.storefront.graphql.AddCartLineMutation
@@ -22,19 +22,19 @@ class ShopifyCartRepository(
     private val storefront: ShopifyStorefrontApi,
     private val objectMapper: ObjectMapper,
 ) : CartRepository {
-    override fun findById(id: String): Cart {
+    override fun findById(id: String): CartDTO {
         val query = GetCartByIdQuery(GetCartByIdQuery.Variables(id.fromBase64()))
         val result = storefront.execute(query).data!!.cart!!
         return mapCart(result)
     }
 
-    override fun create(customerAccessToken: String?): Cart {
+    override fun create(customerAccessToken: String?): CartDTO {
         val query = CreateCartMutation(CreateCartMutation.Variables(customerAccessToken))
         val result = storefront.execute(query).data!!.cartCreate!!.cart!!
-        return Cart(result.id.toBase64())
+        return CartDTO(result.id.toBase64())
     }
 
-    override fun addLine(cartId: String, productVariantId: String): Cart {
+    override fun addLine(cartId: String, productVariantId: String): CartDTO {
         val result = storefront.execute(
             AddCartLineMutation(
                 AddCartLineMutation.Variables(
@@ -46,7 +46,7 @@ class ShopifyCartRepository(
         return mapCart(result)
     }
 
-    override fun updateLine(cartId: String, cartLineId: String, quantity: Int): Cart {
+    override fun updateLine(cartId: String, cartLineId: String, quantity: Int): CartDTO {
         val result = storefront.execute(
             UpdateCartLineMutation(
                 UpdateCartLineMutation.Variables(
@@ -59,21 +59,21 @@ class ShopifyCartRepository(
         return mapCart(result)
     }
 
-    private fun mapCart(data: Any): Cart {
+    private fun mapCart(data: Any): CartDTO {
         val result = objectMapper.readValue(
             objectMapper.writeValueAsBytes(data),
             ShopifyCart::class.java,
         )
-        return Cart(
+        return CartDTO(
             id = result.id.toBase64(),
             checkoutUrl = URL(result.checkoutUrl),
             lines = result.lines.nodes.map {
                 val merchandise = it.merchandise as ShopifyProductVariant
-                CartLine(
+                CartLineDTO(
                     id = it.id.toBase64(),
                     quantity = it.quantity,
                     total = it.cost.totalAmount.amount.toDouble(),
-                    productVariant = ProductVariant(
+                    productVariant = ProductVariantDTO(
                         id = merchandise.id.toBase64(),
                         productId = merchandise.product.id.toBase64(),
                         originalPrice = merchandise.compareAtPrice!!.amount.toDouble(),

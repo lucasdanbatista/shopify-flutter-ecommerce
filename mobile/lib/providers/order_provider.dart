@@ -11,7 +11,4 @@ abstract class OrderProvider {
 
   @GET('')
   Future<List<OrderDTO>> getAll();
-
-  @GET('/{id}')
-  Future<OrderDTO> getById(@Path('id') String id);
 }

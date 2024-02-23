@@ -1,13 +1,13 @@
 package me.lucasbatista.vienna.sdk.repository
 
-import me.lucasbatista.vienna.sdk.entity.Product
+import me.lucasbatista.vienna.sdk.dto.ProductDTO
 
 interface ProductRepository {
-    fun findAllByCategoryId(id: String): List<Product>
+    fun findAllByCategoryId(id: String): List<ProductDTO>
 
-    fun findAllByIds(ids: List<String>): List<Product>
+    fun findAllByIds(ids: List<String>): List<ProductDTO>
 
-    fun findById(id: String): Product
+    fun findById(id: String): ProductDTO
 
-    fun findProductsByTerm(term: String): List<Product>
+    fun findProductsByTerm(term: String): List<ProductDTO>
 }

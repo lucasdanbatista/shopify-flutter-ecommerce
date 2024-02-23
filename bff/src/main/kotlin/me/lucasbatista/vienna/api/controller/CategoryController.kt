@@ -2,7 +2,6 @@ package me.lucasbatista.vienna.api.controller
 
 import me.lucasbatista.vienna.sdk.dto.CategoryDTO
 import me.lucasbatista.vienna.sdk.dto.ProductDTO
-import me.lucasbatista.vienna.sdk.dto.ProductVariantDTO
 import me.lucasbatista.vienna.sdk.repository.CategoryRepository
 import me.lucasbatista.vienna.sdk.repository.ProductRepository
 import org.springframework.web.bind.annotation.GetMapping
@@ -27,17 +26,12 @@ class CategoryController(
 
     @GetMapping("/{id}/products")
     fun getProductsByCategoryId(@PathVariable id: String) = productRepository
-        .findAllByCategoryId(id).map { it ->
+        .findAllByCategoryId(id).map {
             ProductDTO(
                 id = it.id,
                 title = it.title,
                 images = it.images,
-                variants = it.variants.map {
-                    ProductVariantDTO(
-                        originalPrice = it.originalPrice,
-                        sellingPrice = it.sellingPrice,
-                    )
-                },
+                variants = it.variants,
             )
         }
 }

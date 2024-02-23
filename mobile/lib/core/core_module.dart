@@ -7,7 +7,6 @@ import 'cart_manager.dart';
 import 'database_scheme.dart';
 import 'environment.dart';
 import 'module.dart';
-import 'repositories/address_repository.dart';
 import 'repositories/cart_repository.dart';
 import 'repositories/home_repository.dart';
 import 'repositories/order_repository.dart';
@@ -47,9 +46,6 @@ class CoreModule implements Module {
     );
     i.registerLazySingleton<OrderRepository>(
       () => DefaultOrderRepository(i.get(), i.get()),
-    );
-    i.registerLazySingleton<AddressRepository>(
-      () => DefaultAddressRepository(i.get(), i.get()),
     );
     final database = await openDatabase(
       DatabaseScheme.databaseName,

@@ -1,8 +1,8 @@
 package me.lucasbatista.vienna.shopify.repository
 
 import me.lucasbatista.vienna.api.util.toBase64
-import me.lucasbatista.vienna.sdk.entity.HomeBanner
-import me.lucasbatista.vienna.sdk.entity.HomeSection
+import me.lucasbatista.vienna.sdk.dto.HomeBannerDTO
+import me.lucasbatista.vienna.sdk.dto.HomeSectionDTO
 import me.lucasbatista.vienna.sdk.repository.HomeRepository
 import me.lucasbatista.vienna.sdk.repository.ProductRepository
 import me.lucasbatista.vienna.shopify.admin.graphql.GetFileQuery
@@ -19,7 +19,7 @@ class ShopifyHomeRepository(
     private val admin: ShopifyAdminApi,
     private val productRepository: ProductRepository,
 ) : HomeRepository {
-    override fun getBanners(): List<HomeBanner> {
+    override fun getBanners(): List<HomeBannerDTO> {
         val query = GetMetaObjectsByTypeQuery(GetMetaObjectsByTypeQuery.Variables("home_banner"))
         val result = storefront.execute(query).data!!.metaobjects.nodes
         return result.map { it ->
@@ -27,7 +27,7 @@ class ShopifyHomeRepository(
                 .first { it.key == "products" }.value!!
                 .split(",")
                 .map(::parseProductIds)
-            HomeBanner(
+            HomeBannerDTO(
                 title = it.fields.first { it.key == "title" }.value!!,
                 image = URL(
                     admin.execute(
@@ -49,7 +49,7 @@ class ShopifyHomeRepository(
         }.sortedBy { it.position }
     }
 
-    override fun getSections(): List<HomeSection> {
+    override fun getSections(): List<HomeSectionDTO> {
         val query = GetMetaObjectsByTypeQuery(GetMetaObjectsByTypeQuery.Variables("home_section"))
         val result = storefront.execute(query).data!!.metaobjects.nodes
         return result.map { it ->
@@ -57,7 +57,7 @@ class ShopifyHomeRepository(
                 .first { it.key == "products" }.value!!
                 .split(",")
                 .map(::parseProductIds)
-            HomeSection(
+            HomeSectionDTO(
                 title = it.fields.first { it.key == "title" }.value!!,
                 products = productRepository.findAllByIds(ids),
             )

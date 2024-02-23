@@ -1,10 +1,10 @@
 package me.lucasbatista.vienna.sdk.repository
 
-import me.lucasbatista.vienna.sdk.entity.HomeBanner
-import me.lucasbatista.vienna.sdk.entity.HomeSection
+import me.lucasbatista.vienna.sdk.dto.HomeBannerDTO
+import me.lucasbatista.vienna.sdk.dto.HomeSectionDTO
 
 interface HomeRepository {
-    fun getBanners(): List<HomeBanner>
+    fun getBanners(): List<HomeBannerDTO>
 
-    fun getSections(): List<HomeSection>
+    fun getSections(): List<HomeSectionDTO>
 }

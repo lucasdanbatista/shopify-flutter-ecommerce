@@ -1,4 +1,4 @@
-package me.lucasbatista.vienna.sdk.entity
+package me.lucasbatista.vienna.sdk.dto
 
 enum class OrderStatus {
     PAID,

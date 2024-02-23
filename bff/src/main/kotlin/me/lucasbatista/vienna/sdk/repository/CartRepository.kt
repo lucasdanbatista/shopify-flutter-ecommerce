@@ -1,13 +1,13 @@
 package me.lucasbatista.vienna.sdk.repository
 
-import me.lucasbatista.vienna.sdk.entity.Cart
+import me.lucasbatista.vienna.sdk.dto.CartDTO
 
 interface CartRepository {
-    fun findById(id: String): Cart
+    fun findById(id: String): CartDTO
 
-    fun create(customerAccessToken: String? = null): Cart
+    fun create(customerAccessToken: String? = null): CartDTO
 
-    fun addLine(cartId: String, productVariantId: String): Cart
+    fun addLine(cartId: String, productVariantId: String): CartDTO
 
-    fun updateLine(cartId: String, cartLineId: String, quantity: Int): Cart
+    fun updateLine(cartId: String, cartLineId: String, quantity: Int): CartDTO
 }

@@ -1,10 +1,7 @@
 package me.lucasbatista.vienna.api.controller
 
-import me.lucasbatista.vienna.sdk.dto.ProductDTO
-import me.lucasbatista.vienna.sdk.dto.ProductOptionDTO
-import me.lucasbatista.vienna.sdk.dto.ProductVariantDTO
 import me.lucasbatista.vienna.api.util.fromBase64
-import me.lucasbatista.vienna.sdk.entity.Product
+import me.lucasbatista.vienna.sdk.dto.ProductDTO
 import me.lucasbatista.vienna.sdk.repository.ProductRepository
 import org.springframework.web.bind.annotation.*
 
@@ -12,37 +9,17 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/v1/products")
 class ProductController(private val repository: ProductRepository) {
     @GetMapping("/{id}")
-    fun getProductById(@PathVariable id: String) = mapProduct(repository.findById(id))
+    fun getProductById(@PathVariable id: String): ProductDTO {
+        return repository.findById(id)
+    }
 
     @GetMapping
-    fun getProductsByIds(@RequestParam ids: List<String>) =
-        repository.findAllByIds(ids).map(::mapProduct)
+    fun getProductsByIds(@RequestParam ids: List<String>): List<ProductDTO> {
+        return repository.findAllByIds(ids)
+    }
 
     @GetMapping("/search")
-    fun getProductsByTerm(@RequestParam term: String) =
-        repository.findProductsByTerm(term.fromBase64()).map(::mapProduct)
-
-    companion object {
-        fun mapProduct(it: Product) = ProductDTO(
-            id = it.id,
-            title = it.title,
-            description = it.description,
-            images = it.images,
-            variants = it.variants.map {
-                ProductVariantDTO(
-                    id = it.id,
-                    image = it.image,
-                    originalPrice = it.originalPrice,
-                    sellingPrice = it.sellingPrice,
-                )
-            },
-            options = it.options.map {
-                ProductOptionDTO(
-                    id = it.id,
-                    name = it.name,
-                    values = it.values,
-                )
-            }
-        )
+    fun getProductsByTerm(@RequestParam term: String): List<ProductDTO> {
+        return repository.findProductsByTerm(term.fromBase64())
     }
 }

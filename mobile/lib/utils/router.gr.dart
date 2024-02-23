@@ -11,6 +11,7 @@
 import 'package:auto_route/auto_route.dart' as _i14;
 import 'package:flutter/material.dart' as _i15;
 import 'package:vienna/core/entities/home_banner.dart' as _i16;
+import 'package:vienna/core/entities/order.dart' as _i18;
 import 'package:vienna/core/entities/product_category.dart' as _i17;
 import 'package:vienna/features/banner_details/banner_details_page.dart' as _i1;
 import 'package:vienna/features/cart/cart_page.dart' as _i2;
@@ -91,7 +92,7 @@ abstract class $AppRouter extends _i14.RootStackRouter {
         routeData: routeData,
         child: _i7.OrderDetailsPage(
           key: args.key,
-          orderId: args.orderId,
+          order: args.order,
         ),
       );
     },
@@ -340,13 +341,13 @@ class HomeRouteArgs {
 class OrderDetailsRoute extends _i14.PageRouteInfo<OrderDetailsRouteArgs> {
   OrderDetailsRoute({
     _i15.Key? key,
-    required String orderId,
+    required _i18.Order order,
     List<_i14.PageRouteInfo>? children,
   }) : super(
           OrderDetailsRoute.name,
           args: OrderDetailsRouteArgs(
             key: key,
-            orderId: orderId,
+            order: order,
           ),
           initialChildren: children,
         );
@@ -360,16 +361,16 @@ class OrderDetailsRoute extends _i14.PageRouteInfo<OrderDetailsRouteArgs> {
 class OrderDetailsRouteArgs {
   const OrderDetailsRouteArgs({
     this.key,
-    required this.orderId,
+    required this.order,
   });
 
   final _i15.Key? key;
 
-  final String orderId;
+  final _i18.Order order;
 
   @override
   String toString() {
-    return 'OrderDetailsRouteArgs{key: $key, orderId: $orderId}';
+    return 'OrderDetailsRouteArgs{key: $key, order: $order}';
   }
 }
 

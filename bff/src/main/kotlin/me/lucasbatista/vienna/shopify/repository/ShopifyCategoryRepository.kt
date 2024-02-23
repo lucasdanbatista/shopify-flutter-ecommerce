@@ -5,12 +5,15 @@ import me.lucasbatista.vienna.sdk.dto.CategoryDTO
 import me.lucasbatista.vienna.sdk.repository.CategoryRepository
 import me.lucasbatista.vienna.shopify.graphql.ShopifyStorefrontApi
 import me.lucasbatista.vienna.shopify.storefront.graphql.GetCategoriesQuery
+import org.springframework.cache.annotation.CacheConfig
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Repository
 import java.net.URL
 
 @Repository
-class ShopifyCategoryRepository(private val storefront: ShopifyStorefrontApi) :
-    CategoryRepository {
+@CacheConfig(cacheNames = ["categories"])
+class ShopifyCategoryRepository(private val storefront: ShopifyStorefrontApi) : CategoryRepository {
+    @Cacheable
     override fun findAll() = storefront
         .execute(GetCategoriesQuery())
         .data!!.collections.nodes.map {

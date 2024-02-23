@@ -1,17 +1,19 @@
 package me.lucasbatista.vienna.api.controller
 
 import me.lucasbatista.vienna.api.util.AuthorizationHeaderUtil
+import me.lucasbatista.vienna.api.util.toResponseEntity
 import me.lucasbatista.vienna.sdk.dto.CartDTO
 import me.lucasbatista.vienna.sdk.dto.CartLineDTO
 import me.lucasbatista.vienna.sdk.repository.CartRepository
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/v1/carts")
 class CartController(private val cartRepository: CartRepository) {
     @GetMapping("/{id}")
-    fun getCartById(@PathVariable id: String): CartDTO {
-        return cartRepository.findById(id)
+    fun getCartById(@PathVariable id: String): ResponseEntity<CartDTO> {
+        return cartRepository.findById(id).toResponseEntity()
     }
 
     @PostMapping

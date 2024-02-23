@@ -12,16 +12,20 @@ import me.lucasbatista.vienna.shopify.graphql.ShopifyStorefrontApi
 import me.lucasbatista.vienna.shopify.storefront.graphql.GetProductByIdQuery
 import me.lucasbatista.vienna.shopify.storefront.graphql.GetProductsByCollectionIdQuery
 import me.lucasbatista.vienna.shopify.storefront.graphql.GetProductsQuery
+import org.springframework.cache.annotation.CacheConfig
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Repository
 import java.net.URI
 import java.net.URL
 import me.lucasbatista.vienna.shopify.storefront.graphql.getproductbyidquery.Product as ShopifyProduct
 
 @Repository
+@CacheConfig(cacheNames = ["products"])
 class ShopifyProductRepository(
     private val storefront: ShopifyStorefrontApi,
     private val objectMapper: ObjectMapper,
 ) : ProductRepository {
+    @Cacheable
     override fun findAllByCategoryId(id: String): List<ProductDTO> {
         val query = GetProductsByCollectionIdQuery(
             GetProductsByCollectionIdQuery.Variables(id.fromBase64()),
@@ -30,6 +34,7 @@ class ShopifyProductRepository(
         return result.nodes.map(::mapProduct)
     }
 
+    @Cacheable
     override fun findAllByIds(ids: List<String>): List<ProductDTO> {
         val decodedIds = ids.map { URI(it.fromBase64()).path.split("/").last() }
         if (decodedIds.isEmpty()) return listOf()
@@ -45,12 +50,14 @@ class ShopifyProductRepository(
         return result.map(::mapProduct)
     }
 
+    @Cacheable
     override fun findById(id: String): ProductDTO {
         val query = GetProductByIdQuery(GetProductByIdQuery.Variables(id.fromBase64()))
         val result = storefront.execute(query).data!!.product!!
         return mapProduct(result)
     }
 
+    @Cacheable
     override fun findProductsByTerm(term: String): List<ProductDTO> {
         val query = GetProductsQuery(GetProductsQuery.Variables(term))
         val result = storefront.execute(query).data!!.products.nodes

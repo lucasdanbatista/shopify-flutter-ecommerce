@@ -12,16 +12,20 @@ import me.lucasbatista.vienna.shopify.storefront.graphql.AddCartLineMutation
 import me.lucasbatista.vienna.shopify.storefront.graphql.CreateCartMutation
 import me.lucasbatista.vienna.shopify.storefront.graphql.GetCartByIdQuery
 import me.lucasbatista.vienna.shopify.storefront.graphql.UpdateCartLineMutation
+import org.springframework.cache.annotation.CacheConfig
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Repository
 import java.net.URL
 import me.lucasbatista.vienna.shopify.storefront.graphql.addcartlinemutation.Cart as ShopifyCart
 import me.lucasbatista.vienna.shopify.storefront.graphql.addcartlinemutation.ProductVariant as ShopifyProductVariant
 
 @Repository
+@CacheConfig(cacheNames = ["cart"])
 class ShopifyCartRepository(
     private val storefront: ShopifyStorefrontApi,
     private val objectMapper: ObjectMapper,
 ) : CartRepository {
+    @Cacheable
     override fun findById(id: String): CartDTO {
         val query = GetCartByIdQuery(GetCartByIdQuery.Variables(id.fromBase64()))
         val result = storefront.execute(query).data!!.cart!!

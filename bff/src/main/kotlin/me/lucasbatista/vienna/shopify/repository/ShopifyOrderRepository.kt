@@ -7,11 +7,15 @@ import me.lucasbatista.vienna.shopify.graphql.ShopifyStorefrontApi
 import me.lucasbatista.vienna.shopify.storefront.graphql.GetOrdersQuery
 import me.lucasbatista.vienna.shopify.storefront.graphql.enums.OrderFinancialStatus
 import me.lucasbatista.vienna.shopify.storefront.graphql.enums.OrderFulfillmentStatus
+import org.springframework.cache.annotation.CacheConfig
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Repository
 import java.net.URL
 
 @Repository
+@CacheConfig(cacheNames = ["orders"])
 class ShopifyOrderRepository(private val storefront: ShopifyStorefrontApi) : OrderRepository {
+    @Cacheable
     override fun getOrders(customerAccessToken: String): List<OrderDTO> {
         val query = GetOrdersQuery(GetOrdersQuery.Variables(customerAccessToken))
         val result = storefront.execute(query).data!!.customer!!.orders.nodes

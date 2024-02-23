@@ -20,7 +20,7 @@ class OrderFormatter {
   }
 
   String get shippingAddress =>
-      '${_order.shippingAddress.street}, ${_order.shippingAddress.buildingNumber}, ${_order.shippingAddress.neighborhood}. '
+      '${_order.shippingAddress.addressLine1}, ${_order.shippingAddress.addressLine2}. '
       '${_order.shippingAddress.city}, ${_order.shippingAddress.state}, '
       'CEP: ${_order.shippingAddress.zipcode}.';
 

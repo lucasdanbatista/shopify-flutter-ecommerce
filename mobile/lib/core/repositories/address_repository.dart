@@ -23,13 +23,13 @@ class DefaultAddressRepository implements AddressRepository {
   Future<Address> create(Address address) async {
     final response = await _provider.create(
       AddressDTO(
-        recipientName: address.recipientName,
-        street: address.street,
-        buildingNumber: address.buildingNumber,
-        neighborhood: address.neighborhood,
+        recipientFirstName: address.recipientFirstName,
+        recipientLastName: address.recipientLastName,
+        addressLine1: address.addressLine1,
+        addressLine2: address.addressLine2,
+        zipcode: address.zipcode,
         city: address.city,
         state: address.state,
-        zipcode: address.zipcode,
       ),
     );
     return _mapper.toEntity(response);
@@ -40,13 +40,13 @@ class DefaultAddressRepository implements AddressRepository {
     final response = await _provider.update(
       AddressDTO(
         id: address.id,
-        recipientName: address.recipientName,
-        street: address.street,
-        buildingNumber: address.buildingNumber,
-        neighborhood: address.neighborhood,
+        recipientFirstName: address.recipientFirstName,
+        recipientLastName: address.recipientLastName,
+        addressLine1: address.addressLine1,
+        addressLine2: address.addressLine2,
+        zipcode: address.zipcode,
         city: address.city,
         state: address.state,
-        zipcode: address.zipcode,
       ),
     );
     return _mapper.toEntity(response);

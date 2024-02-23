@@ -7,15 +7,13 @@ import jakarta.persistence.Id
 
 @Entity
 data class Address(
-    val recipientName: String,
+    val recipientFirstName: String,
 
-    val street: String,
+    val recipientLastName: String,
 
-    val neighborhood: String,
+    val addressLine1: String,
 
-    val buildingNumber: String,
-
-    val complement: String? = null,
+    val addressLine2: String,
 
     val city: String,
 

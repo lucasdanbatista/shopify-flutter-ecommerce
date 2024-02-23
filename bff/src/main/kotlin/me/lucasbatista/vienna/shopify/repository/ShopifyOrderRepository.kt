@@ -37,12 +37,12 @@ class ShopifyOrderRepository(
         return mapOrder(result).apply {
             shippingAddress = result.shippingAddress!!.let {
                 Address(
-                    city = it.city!!,
+                    recipientFirstName = it.firstName!!,
+                    recipientLastName = it.lastName!!,
+                    addressLine1 = it.address1!!.trim(),
+                    addressLine2 = it.address2!!.trim(),
                     zipcode = it.zip!!,
-                    street = it.address1!!.trim().split(",")[0],
-                    buildingNumber = it.address1!!.trim().split(",")[1],
-                    neighborhood = it.address2?.trim() ?: "",
-                    recipientName = "${it.firstName!!} ${it.lastName!!}",
+                    city = it.city!!,
                     state = it.province!!,
                     country = it.country!!,
                 ).apply {

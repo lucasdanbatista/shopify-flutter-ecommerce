@@ -5,27 +5,23 @@ part 'address_dto.g.dart';
 @JsonSerializable()
 class AddressDTO {
   String? id;
-  String? recipientName;
-  String? street;
-  String? buildingNumber;
-  String? neighborhood;
-  String? line1;
-  String? line2;
+  String? recipientFirstName;
+  String? recipientLastName;
+  String? addressLine1;
+  String? addressLine2;
+  String? zipcode;
   String? city;
   String? state;
-  String? zipcode;
 
   AddressDTO({
     this.id,
-    this.recipientName,
-    this.street,
-    this.buildingNumber,
-    this.neighborhood,
-    this.line1,
-    this.line2,
+    this.recipientFirstName,
+    this.recipientLastName,
+    this.addressLine1,
+    this.addressLine2,
+    this.zipcode,
     this.city,
     this.state,
-    this.zipcode,
   });
 
   factory AddressDTO.fromJson(Map<String, dynamic> json) =>
